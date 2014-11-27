@@ -94,5 +94,4 @@ bool Option::operator==(const Option& param) const {
     return this->name == param.name
         && this->code == param.code
         && this->price == param.price;
-
 }
