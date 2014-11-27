@@ -21,9 +21,7 @@ void Employee::checkPassword(const String& pass) const {
         }
     }
 
-    if(!foundInt || !foundLetter) {
-        throw InvalidPasswordException("Password should contain at least one digit and one letter");
-    }
+    throw InvalidPasswordException("Password should contain at least one digit and one letter");
 }
 
 int Employee::getId() const {

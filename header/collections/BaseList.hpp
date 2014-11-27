@@ -29,7 +29,7 @@ protected:
 public:
     BaseList();
     BaseList(const BaseList<T>&);
-    ~BaseList();
+    virtual ~BaseList();
 
     bool isEmpty() const;
     int size() const;

@@ -21,6 +21,9 @@ private:
     void checkPassword(const String&) const;
 
 public:
+    static const String SELLER;
+    static const String ADMINISTRATIVE;
+
     Employee(String surname = "", String firstname = "", int id = 0, String login = "", String function = "") :
         Person(firstname, surname), id(id), login(login), password(""), function(function) {}
 
@@ -37,9 +40,6 @@ public:
     void setFunction(const String& function);
 
     String toString() const;
-
-    static const String SELLER;
-    static const String ADMINISTRATIVE;
 
     friend istream& operator>>(istream&, Employee&);
     friend ostream& operator<<(ostream&, const Employee&);
