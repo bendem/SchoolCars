@@ -16,7 +16,6 @@ private:
     float price;
 
 public:
-
     Option(String = "", String = "", float = 0);
     Option(const Option&);
 

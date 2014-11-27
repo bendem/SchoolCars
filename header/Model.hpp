@@ -17,7 +17,6 @@ private:
     float baseCost;
 
 public:
-    //Model() : Model("", 0, false, 0) {}
     Model(const String& name = "", int power = 0, bool diesel = false, float baseCost = 0)
         : power(power), name(name), diesel(diesel), baseCost(baseCost) {}
     Model(const Model&);

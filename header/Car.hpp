@@ -20,8 +20,6 @@ private:
     Option *options[MAX_OPTION_COUNT];
 
 public:
-
-    //Car() : Car("", Model()) {}
     Car(String = "", Model = Model());
     Car(const Car&);
 

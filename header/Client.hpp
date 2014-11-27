@@ -14,7 +14,6 @@ private:
     String address;
 
 public:
-    //Client() : Client("", "", 0, "") {}
     Client(String surname = "", String firstname = "", int id = 0, String address = "") :
         Person(firstname, surname), id(id), address(address) {}
 
