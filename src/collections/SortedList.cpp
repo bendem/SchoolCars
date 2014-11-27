@@ -24,6 +24,22 @@ void SortedList<T>::add(const T& param) {
     ++this->nbElems;
 }
 
+template<class T>
+bool SortedList<T>::contains(const T& param) const {
+    ConstIterator<T> it(*this);
+    while(!it.end()) {
+        if((T) it == param) {
+            return true;
+        }
+        // Addition for sorted lists
+        if((T) it > param) {
+            return false;
+        }
+        ++it;
+    }
+    return false;
+}
+
 template class SortedList<int>;
 
 #include "Person.hpp"

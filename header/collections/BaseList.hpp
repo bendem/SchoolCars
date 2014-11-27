@@ -31,12 +31,12 @@ public:
     BaseList(const BaseList<T>&);
     ~BaseList();
 
-    virtual void add(const T&) = 0;
-
     bool isEmpty() const;
     int size() const;
     void remove(int);
     void clear();
+    virtual void add(const T&) = 0;
+    virtual bool contains(const T&) const;
 
     // Eww :(
     void display() const;

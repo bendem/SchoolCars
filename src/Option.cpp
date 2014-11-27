@@ -89,3 +89,10 @@ istream& operator>>(istream& is, Option& option) {
 ostream& operator<<(ostream& os, const Option& option) {
     return os << "Code: '" << option.code << "', Name: '" << option.name << "', Price: " << option.price;
 }
+
+bool Option::operator==(const Option& param) const {
+    return this->name == param.name
+        && this->code == param.code
+        && this->price == param.price;
+
+}

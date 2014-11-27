@@ -64,6 +64,17 @@ void BaseList<T>::clear() {
 }
 
 template<class T>
+bool BaseList<T>::contains(const T& param) const {
+    ConstIterator<T> it(*this);
+    while(!it.end()) {
+        if((T) it++ == param) {
+            return true;
+        }
+    }
+    return false;
+}
+
+template<class T>
 void BaseList<T>::display() const {
     ConstIterator<T> it(*this);
     while(!it.end()) {

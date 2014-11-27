@@ -40,6 +40,8 @@ public:
 
     Option& operator=(const Option&);
 
+    bool operator==(const Option&) const;
+
     friend ostream& operator<<(ostream&, const Option&);
     friend istream& operator>>(istream&, Option&);
 

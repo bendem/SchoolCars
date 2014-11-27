@@ -1,39 +1,25 @@
 #include <iostream>
 
-#include "utils/String.hpp"
+#include "collections/BaseList.hpp"
+#include "collections/List.hpp"
+#include "collections/SortedList.hpp"
 
 using namespace std;
 
 int main() {
-    String a("test");
-    cout << "one worked" << endl;
-    String b('a', 5);
-    cout << "the other worked" << endl;
-    cout << "'" << a << "' '" << b << "'" << endl;
-    cout << ((a + b + ' ') + 3) + " hello" << endl;
-    cout << "'" << a << "' '" << b << "'" << endl;
-    String c = b + -5 + a;
-    cout << c << endl;
-    cout << a.length() << b.length() << c.length();
-    c = "hey";
-    cout << c << endl;
+    BaseList<int>* list = new List<int>();
+    BaseList<int>* sortedList = new SortedList<int>();
 
-    cout << (String("a") == String("a") ? "true" : "false") << endl;
-    cout << (String("a") == String("b") ? "true" : "false") << endl;
+    list->add(1);
+    list->add(0);
+    sortedList->add(1);
+    sortedList->add(0);
 
-    cout << (String("a") < String("a") ? "true" : "false") << endl;
-    cout << (String("a") < String("b") ? "true" : "false") << endl;
+    list->display();
+    cout << endl << list->contains(-1) << list->contains(0) << list->contains(1) << list->contains(2) << endl;
 
-    cout << (String("a") > String("a") ? "true" : "false") << endl;
-    cout << (String("a") > String("b") ? "true" : "false") << endl;
-    cout << (String("c") > String("b") ? "true" : "false") << endl;
-
-    cout << String(String(String(String("hello")+1)+2)+3) << endl;
-
-    String d, e, f, g, h, i, j;
-    d = e = f= g = h = i = j = String("hello!");
-
-    cout << d << e << f << g << h << i << j << endl;
+    sortedList->display();
+    cout << endl << sortedList->contains(-1) << sortedList->contains(0) << sortedList->contains(1) << sortedList->contains(2) << endl;
 
     return 0;
 }

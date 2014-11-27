@@ -8,6 +8,7 @@ class SortedList : public List<T> {
 
 public:
     void add(const T&);
+    bool contains(const T&) const;
 
 };
 
