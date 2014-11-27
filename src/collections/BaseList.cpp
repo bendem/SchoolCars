@@ -1,0 +1,80 @@
+#include "collections/BaseList.hpp"
+
+template<class T>
+BaseList<T>::BaseList() {
+    this->first = NULL;
+    this->nbElems = 0;
+}
+
+template<class T>
+BaseList<T>::BaseList(const BaseList<T>& list) {
+    this->first = NULL;
+    this->nbElems = 0;
+
+    ConstIterator<T> it(list);
+    while(!it.end()) {
+        this->add((T) it++);
+    }
+}
+
+template<class T>
+BaseList<T>::~BaseList() {
+    this->clear();
+}
+
+template<class T>
+void BaseList<T>::add(T const& param) {}
+
+template<class T>
+bool BaseList<T>::isEmpty() const {
+    return this->nbElems == 0;
+}
+
+template<class T>
+int BaseList<T>::size() const {
+    return this->nbElems;
+}
+
+template<class T>
+void BaseList<T>::remove(int index) {
+    Sanity::truthness(index < nbElems && index >= 0, "Index must be lower than the list's size");
+
+    Iterator<T> it(*this);
+
+    int i = 0;
+    while(i < index) {
+        ++i;
+        it++;
+    }
+    it.remove();
+}
+
+template<class T>
+void BaseList<T>::clear() {
+    // TODO Use the iterator?
+    Node<T>* node = this->first;
+    Node<T>* prev;
+
+    while(node) {
+        prev = node;
+        node = node->next;
+        delete prev;
+    }
+    this->nbElems = 0;
+}
+
+template<class T>
+void BaseList<T>::display() const {
+    ConstIterator<T> it(*this);
+    while(!it.end()) {
+        cout << (T) it++ << endl;
+    }
+}
+
+template class BaseList<int>;
+
+#include "Option.hpp"
+template class BaseList<Option>;
+
+#include "Person.hpp"
+template class BaseList<Person>;
