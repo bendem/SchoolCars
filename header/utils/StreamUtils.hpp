@@ -1,6 +1,7 @@
 #ifndef STREAMUTILS_HPP
 #define STREAMUTILS_HPP
 
+#include <ctime>
 #include <iostream>
 #include "utils/String.hpp"
 
@@ -22,6 +23,10 @@ public:
     static float  readFloat(istream&);
 
 };
+
+
+ostream& time(ostream&);
+
 
 #endif
 

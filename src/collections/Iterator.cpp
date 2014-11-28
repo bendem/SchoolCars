@@ -87,3 +87,7 @@ template class Iterator<Person>;
 
 #include "Employee.hpp"
 template class Iterator<Employee>;
+
+#include "Application.hpp"
+#include "menu/MenuEntry.hpp"
+template class Iterator< MenuEntry<Application> >;

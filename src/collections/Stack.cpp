@@ -2,9 +2,7 @@
 
 template<class T>
 void Stack<T>::add(T const& param) {
-    Node<T>* tmp = new Node<T>;
-    tmp->value = T(param);
-    tmp->next = this->first;
+    Node<T>* tmp = new Node<T>(param, this->first);
     this->first = tmp;
     ++this->nbElems;
 }

@@ -17,6 +17,17 @@ String::String(char const chr, int size) {
     this->str[size] = END_OF_STRING;
 }
 
+String::String(const String& str, int size) {
+    this->stringSize = size * str.length();
+    this->reallocate(this->stringSize + 1, true);
+    for (int i = 0; i < size; ++i) {
+        for (int j = 0; j < str.length(); ++j) {
+            this->str[i * str.length() + j] = str[j];
+        }
+    }
+    this->str[this->stringSize] = END_OF_STRING;
+}
+
 String::String(char const *chars) {
     this->stringSize = strlen(chars);
     this->reallocate(this->stringSize + 1, true);

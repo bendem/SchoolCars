@@ -60,3 +60,11 @@ float StreamUtils::readFloat(istream& is) {
     is.read((char*) &f, sizeof(int));
     return f;
 }
+
+ostream& time(ostream& os) {
+    time_t rawtime;
+    char buff[11];
+    time(&rawtime);
+    strftime(buff, sizeof(buff), "[%H:%M:%S]", localtime(&rawtime));
+    return os << buff << " ";
+}

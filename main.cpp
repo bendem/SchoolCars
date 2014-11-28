@@ -1,25 +1,84 @@
+#include <exception>
+#include <fstream>
 #include <iostream>
 
-#include "collections/BaseList.hpp"
-#include "collections/List.hpp"
-#include "collections/SortedList.hpp"
+#include "Application.hpp"
+#include "utils/FileUtils.hpp"
+#include "utils/StreamUtils.hpp"
 
 using namespace std;
 
+#define USERFILE "userlist.dat"
+#define APPLCATIONLOGS "application.log"
+
 int main() {
-    BaseList<int>* list = new List<int>();
-    BaseList<int>* sortedList = new SortedList<int>();
+    fstream x(APPLCATIONLOGS, ios::out | ios::trunc);
+    streambuf* old = cerr.rdbuf(x.rdbuf());
+    cerr << time << "Output redirected to " << APPLCATIONLOGS << endl;
 
-    list->add(1);
-    list->add(0);
-    sortedList->add(1);
-    sortedList->add(0);
+    Application app;
 
-    list->display();
-    cout << endl << list->contains(-1) << list->contains(0) << list->contains(1) << list->contains(2) << endl;
+    cerr << time << "Creating admin menu" << endl;
+    // Preparing menus
+    Menu<Application> adminMenu("Menu Admin");
+    adminMenu
+        .addEntry("0", "Changer de mot de passe", &Application::dummy)
+        .addEntry("-", "Gestion des utilisateurs", NULL)
+        .addEntry("1", "Changer de mot de passe", &Application::dummy)
+        .addEntry("-", "Afficher la liste des utilisateurs", NULL)
+        .addEntry("2", "Afficher les infos d'un utilisateur", &Application::dummy)
+        .addEntry("3", "Creer un nouvel utilisateur", &Application::dummy)
+        .addEntry("4", "Reinitialiser le mot de passe d'un utilisateur", &Application::dummy)
+        .addEntry("-", "Gestion des contrats", NULL)
+        .addEntry("5", "Afficher tous les contrats", &Application::dummy)
+        .addEntry("6", "Afficher les details d'un contrat", &Application::dummy)
+        .addEntry("7", "Afficher les contrats et le chiffre d'affaire d'un vendeur", &Application::dummy)
+        .addEntry("Q", "Quitter l'application", &Application::dummy)
+    .display();
 
-    sortedList->display();
-    cout << endl << sortedList->contains(-1) << sortedList->contains(0) << sortedList->contains(1) << sortedList->contains(2) << endl;
+    cerr << time << "Creating seller menu" << endl;
+    Menu<Application> sellerMenu("Menu Vendeur");
+    sellerMenu
+        .addEntry("0",  "Changer de mot de passe", &Application::dummy)
+        .addEntry("-",  "Gerer les clients", NULL)
+        .addEntry("1",  "Ajouter un nouveau client", &Application::dummy)
+        .addEntry("2",  "Supprimer un client", &Application::dummy)
+        .addEntry("3",  "Afficher la liste des clients", &Application::dummy)
+        .addEntry("-",  "Gerer les projets de voiture", NULL)
+        .addEntry("4",  "Afficher la liste des modeles", &Application::dummy)
+        .addEntry("5",  "Afficher la liste des options", &Application::dummy)
+        .addEntry("6",  "Nouvelle Voiture", &Application::dummy)
+        .addEntry("7",  "Charger une voiture", &Application::dummy)
+        .addEntry("8",  "Afficher la voiture en cours", &Application::dummy)
+        .addEntry("9",  "Ajouter une option à la voiture en cours", &Application::dummy)
+        .addEntry("10", "Retirer une option à la voiture en cours", &Application::dummy)
+        .addEntry("11", "Appliquer une ristourne à une option de la voiture en cours", &Application::dummy)
+        .addEntry("12", "Enregistrer la voiture en cours", &Application::dummy)
+        .addEntry("-",  "Gerer les projets de voiture", NULL)
+        .addEntry("13", "Nouveau contrat", &Application::dummy)
+        .addEntry("14", "Afficher tous mes contrats", &Application::dummy)
+        .addEntry("15", "Afficher un contrat et le prix de vente définitif", &Application::dummy)
+        .addEntry("16", "Modifier un contrat", &Application::dummy)
+        .addEntry("Q",  "Quitter l'application", &Application::dummy)
+    .display();
+
+    cerr << time << "Application starting" << endl;
+    if(FileUtils::exists(USERFILE)) {
+        cerr << time << "Loading existing users" << endl;
+        app.loadUsers(USERFILE);
+    } else {
+        cerr << time << "Creating default users" << endl;
+        app.defaultUsers();
+    }
+
+    cerr << time << "Application loaded, starting user interaction" << endl;
+    // TODO The application
+
+    cerr << time << "Application closing, saving users" << endl;
+    app.saveUsers(USERFILE);
+
+    cerr << time << "Restoring cerr output" << endl;
+    cerr.rdbuf(old);
 
     return 0;
 }

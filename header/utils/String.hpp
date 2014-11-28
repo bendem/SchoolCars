@@ -25,6 +25,7 @@ private:
 public:
     String();
     String(const char, int);
+    String(const String&, int);
     String(const char*);
     String(const string&);
     String(const String&);
