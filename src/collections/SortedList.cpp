@@ -2,8 +2,7 @@
 
 template<class T>
 void SortedList<T>::add(const T& param) {
-    Node<T>* newNode = new Node<T>();
-    newNode->value = T(param);
+    Node<T>* newNode = new Node<T>(param, NULL);
 
     if(!this->first || this->first->value >= param) {
         newNode->next = this->first;

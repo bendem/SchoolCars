@@ -3,9 +3,7 @@
 template<class T>
 void List<T>::add(const T& para) {
     // Preparing new node
-    Node<T>* tmp = new Node<T>;
-    tmp->next = NULL;
-    tmp->value = T(para);
+    Node<T>* tmp = new Node<T>(para, NULL);
 
     if(!this->first) {
         // Adding first
@@ -28,12 +26,13 @@ T List<T>::get(int index) const {
 
     ConstIterator<T> it(*this);
     int i = 0;
-    T ret;
     while (i < index) {
         ++i;
-        ret = it++;
+        if(i == index) {
+            return it;
+        }
+        it++;
     }
-    return ret;
 }
 
 template class List<int>;

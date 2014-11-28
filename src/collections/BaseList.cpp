@@ -23,7 +23,7 @@ BaseList<T>::~BaseList() {
 }
 
 template<class T>
-void BaseList<T>::add(T const& param) {}
+void BaseList<T>::add(const T& param) {}
 
 template<class T>
 bool BaseList<T>::isEmpty() const {

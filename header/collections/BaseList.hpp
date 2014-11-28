@@ -8,8 +8,9 @@ using namespace std;
 
 template<class T>
 struct Node {
+    Node(const T& value, Node<T>* next) : value(value), next(next) {}
     T value;
-    Node* next;
+    Node<T>* next;
 };
 
 template<class T> class BaseList;

@@ -59,15 +59,10 @@ void Essai1()
 
   cout << "On insere 3,-2,5,-1,0 et -8..." << endl;
   liste.add(3);
-    liste.display(); cout << endl;
   liste.add(-2);
-    liste.display(); cout << endl;
   liste.add(5);
-    liste.display(); cout << endl;
   liste.add(-1);
-    liste.display(); cout << endl;
   liste.add(0);
-    liste.display(); cout << endl;
   liste.add(-8);
   liste.display();                                       // --> (-8 -2 -1 0 3 5)
   cout << "La liste contient " << liste.size() << " elements." << endl;
