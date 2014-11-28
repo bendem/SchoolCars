@@ -4,9 +4,10 @@
 #include <fstream>
 #include <sstream>
 
+#include "Person.hpp"
 #include "exceptions/InvalidFunctionException.hpp"
 #include "exceptions/InvalidPasswordException.hpp"
-#include "Person.hpp"
+#include "utils/StreamUtils.hpp"
 #include "utils/String.hpp"
 
 using namespace std;
@@ -22,8 +23,8 @@ private:
     void checkPassword(const String&) const;
 
 public:
-    static const String SELLER;
-    static const String ADMINISTRATIVE;
+    const static String SELLER;
+    const static String ADMINISTRATIVE;
 
     Employee(String surname = "", String firstname = "", int id = 0, String login = "", String function = "") :
         Person(firstname, surname), id(id), login(login), password(""), function(function) {}

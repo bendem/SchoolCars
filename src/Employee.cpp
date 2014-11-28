@@ -1,4 +1,3 @@
-#include <utils/StreamUtils.hpp>
 #include "Employee.hpp"
 
 const String Employee::SELLER = "Vendeur";
