@@ -89,3 +89,6 @@ template class BaseList<Option>;
 
 #include "Person.hpp"
 template class BaseList<Person>;
+
+#include "Employee.hpp"
+template class BaseList<Employee>;

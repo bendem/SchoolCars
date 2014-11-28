@@ -55,3 +55,6 @@ template class ConstIterator<Option>;
 
 #include "Person.hpp"
 template class ConstIterator<Person>;
+
+#include "Employee.hpp"
+template class ConstIterator<Employee>;

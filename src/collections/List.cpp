@@ -43,3 +43,6 @@ template class List<Option>;
 
 #include "Person.hpp"
 template class List<Person>;
+
+#include "Employee.hpp"
+template class List<Employee>;

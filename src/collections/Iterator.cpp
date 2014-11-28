@@ -84,3 +84,6 @@ template class Iterator<Option>;
 
 #include "Person.hpp"
 template class Iterator<Person>;
+
+#include "Employee.hpp"
+template class Iterator<Employee>;

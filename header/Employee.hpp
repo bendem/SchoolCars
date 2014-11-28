@@ -1,6 +1,7 @@
 #ifndef EMPLOYEE_HPP
 #define EMPLOYEE_HPP
 
+#include <fstream>
 #include <sstream>
 
 #include "exceptions/InvalidFunctionException.hpp"
@@ -26,6 +27,7 @@ public:
 
     Employee(String surname = "", String firstname = "", int id = 0, String login = "", String function = "") :
         Person(firstname, surname), id(id), login(login), password(""), function(function) {}
+    Employee(const Employee&);
 
     int getId() const;
     void setId(int id);
@@ -39,7 +41,12 @@ public:
     const String& getFunction() const;
     void setFunction(const String& function);
 
+    void save(ofstream&) const;
+    void load(ifstream&);
+
     String toString() const;
+
+    Employee& operator=(const Employee&);
 
     friend istream& operator>>(istream&, Employee&);
     friend ostream& operator<<(ostream&, const Employee&);

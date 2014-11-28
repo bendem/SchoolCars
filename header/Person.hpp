@@ -2,7 +2,9 @@
 #define PERSON_HPP
 
 #include <iostream>
+#include <fstream>
 
+#include "utils/StreamUtils.hpp"
 #include "utils/String.hpp"
 
 using namespace std;
@@ -15,6 +17,7 @@ private:
 
 public:
     Person(const String& surname = "", const String& firstname = "") : surname(surname), firstname(firstname) {}
+    Person(const Person&);
 
     const String& getFirstname() const;
     void setFirstname(const String& firstname);
@@ -22,8 +25,13 @@ public:
     const String& getSurname() const;
     void setSurname(const String& surname);
 
+    void save(ofstream&) const;
+    void load(ifstream&);
+
     void display() const;
     virtual String toString() const;
+
+    Person& operator=(const Person&);
 
     bool operator>(const Person&) const;
     bool operator<(const Person&) const;

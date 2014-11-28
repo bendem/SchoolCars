@@ -1,7 +1,15 @@
+#include <utils/StreamUtils.hpp>
 #include "Employee.hpp"
 
 const String Employee::SELLER = "Vendeur";
 const String Employee::ADMINISTRATIVE = "Administratif";
+
+Employee::Employee(const Employee& param) : Person(param) {
+    this->id = param.id;
+    this->login = param.login;
+    this->password = param.password;
+    this->function = param.function;
+}
 
 void Employee::checkPassword(const String& pass) const {
     if(pass.length() < 8) {
@@ -61,13 +69,38 @@ void Employee::setFunction(const String& function) {
     }
 }
 
+void Employee::save(ofstream& os) const {
+    StreamUtils::write(os, this->id);
+    StreamUtils::write(os, this->login);
+    StreamUtils::write(os, this->password);
+    StreamUtils::write(os, this->function);
+    Person::save(os);
+}
+
+void Employee::load(ifstream& is) {
+    this->id = StreamUtils::readInt(is);
+    this->login = StreamUtils::readString(is);
+    this->password = StreamUtils::readString(is);
+    this->function = StreamUtils::readString(is);
+    Person::load(is);
+}
+
 String Employee::toString() const {
     stringstream s;
     s << "Employee{id: " << this->id
-        << ", login: " << this->login
-        << ", password: '" << String('*', this->password.length()) << "'"
+        << ", login: '" << this->login
+        << "', password: '" << String('*', this->password.length()) << "'"
         << ", " << Person::toString() << "}";
     return s.str();
+}
+
+Employee& Employee::operator=(const Employee& param) {
+    this->id = param.id;
+    this->login = param.login;
+    this->password = param.password;
+    this->function = param.function;
+    Person::operator=(param);
+    return *this;
 }
 
 istream& operator>>(istream& is, Employee& param) {
