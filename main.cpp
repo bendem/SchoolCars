@@ -78,6 +78,7 @@ int main() {
     cout << endl << endl << "> Welcome " << app.getCurrentUser().getFirstname() << "!" << endl;
 
     while(!app.shouldQuit()) {
+        cout << endl << endl << endl << endl << endl << endl << endl << endl << endl;
         if(app.getCurrentUser().getFunction() == Employee::ADMINISTRATIVE) {
             adminMenu.display();
             adminMenu.choose(app);
@@ -85,6 +86,9 @@ int main() {
             sellerMenu.display();
             sellerMenu.choose(app);
         }
+        cout << endl << "> Press a <ENTER> to continue";
+        cin.get();
+        cin.ignore();
     }
     /* =================================================
      *            THE APPLICATION ENDS HERE

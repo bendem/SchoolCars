@@ -122,7 +122,10 @@ void Application::changePassword() {
     while(!it.end()) {
         if((&it).getLogin() == this->currentUser->getLogin()) {
             (&it).setPassword(password);
+            cout << "> Password changed" << endl;
+            return;
         }
+        ++it;
     }
 }
 
