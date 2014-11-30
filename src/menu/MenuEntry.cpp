@@ -1,7 +1,7 @@
 #include "menu/MenuEntry.hpp"
 
 template<class T>
-MenuEntry<T>::MenuEntry(const String& id, const String& text, bool(T::*method)(void)) {
+MenuEntry<T>::MenuEntry(const String& id, const String& text, void(T::*method)(void)) {
     this->id = id;
     this->text = text;
     this->method = method;
@@ -26,8 +26,8 @@ String MenuEntry<T>::toString() const {
 }
 
 template<class T>
-bool MenuEntry<T>::callMethod(T& param) const {
-    return MethodPointerUtils::callObjectMethod<bool, T>(&param, method);
+void MenuEntry<T>::callMethod(T& param) const {
+    MethodPointerUtils::callObjectMethod<void, T>(&param, method);
 }
 
 template<class T>

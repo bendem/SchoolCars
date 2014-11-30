@@ -27,7 +27,7 @@ Menu<T>& Menu<T>::addEntry(const MenuEntry<T>& entry) {
 }
 
 template<class T>
-Menu<T>& Menu<T>::addEntry(const String& id, const String& text, bool(T::*method)(void)) {
+Menu<T>& Menu<T>::addEntry(const String& id, const String& text, void(T::*method)(void)) {
     this->entries->add(MenuEntry<T>(id, text, method));
     return *this;
 }
@@ -53,6 +53,25 @@ void Menu<T>::display() const {
         ++it;
     }
     cout << endl;
+}
+
+template<class T>
+void Menu<T>::choose(T& object) const {
+    String choice;
+
+    cout << "    Your choice: ";
+    cin >> choice;
+
+    Iterator< MenuEntry<T> > it(*this->entries);
+    while(!it.end()) {
+        if(&it == choice) {
+            (&it).callMethod(object);
+            return;
+        }
+        ++it;
+    }
+    cout << "> Invalid choice, try again :(" << endl << endl;
+    this->choose(object);
 }
 
 #include "Application.hpp"

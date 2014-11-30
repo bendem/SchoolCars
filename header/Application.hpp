@@ -16,6 +16,7 @@ class Application {
 private:
     SortedList<Employee>* users;
     Employee* currentUser;
+    bool quitFlag;
 
 public:
     Application();
@@ -28,7 +29,13 @@ public:
     void logout();
     bool isUserLoggedin() const;
     Employee& getCurrentUser() const;
-    bool dummy() { cout << "dummy" << endl; return true; };
+    bool shouldQuit() const;
+
+    // Menu actions
+    void dummy() { cout << "dummy" << endl; };
+    void changePassword();
+    void displayUserSummary();
+    void quit();
 
 };
 

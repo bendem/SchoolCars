@@ -22,10 +22,9 @@ int main() {
     // Preparing menus
     Menu<Application> adminMenu("Menu Admin");
     adminMenu
-        .addEntry("0", "Changer de mot de passe", &Application::dummy)
+        .addEntry("0", "Changer de mot de passe", &Application::changePassword)
         .addEntry("-", "Gestion des utilisateurs", NULL)
-        .addEntry("1", "Changer de mot de passe", &Application::dummy)
-        .addEntry("-", "Afficher la liste des utilisateurs", NULL)
+        .addEntry("1", "Afficher la liste des utilisateurs", &Application::displayUserSummary)
         .addEntry("2", "Afficher les infos d'un utilisateur", &Application::dummy)
         .addEntry("3", "Creer un nouvel utilisateur", &Application::dummy)
         .addEntry("4", "Reinitialiser le mot de passe d'un utilisateur", &Application::dummy)
@@ -33,12 +32,12 @@ int main() {
         .addEntry("5", "Afficher tous les contrats", &Application::dummy)
         .addEntry("6", "Afficher les details d'un contrat", &Application::dummy)
         .addEntry("7", "Afficher les contrats et le chiffre d'affaire d'un vendeur", &Application::dummy)
-        .addEntry("Q", "Quitter l'application", &Application::dummy);
+        .addEntry("Q", "Quitter l'application", &Application::quit);
 
     cerr << time << "Creating seller menu" << endl;
     Menu<Application> sellerMenu("Menu Vendeur");
     sellerMenu
-        .addEntry("0",  "Changer de mot de passe", &Application::dummy)
+        .addEntry("0",  "Changer de mot de passe", &Application::changePassword)
         .addEntry("-",  "Gerer les clients", NULL)
         .addEntry("1",  "Ajouter un nouveau client", &Application::dummy)
         .addEntry("2",  "Supprimer un client", &Application::dummy)
@@ -58,7 +57,7 @@ int main() {
         .addEntry("14", "Afficher tous mes contrats", &Application::dummy)
         .addEntry("15", "Afficher un contrat et le prix de vente definitif", &Application::dummy)
         .addEntry("16", "Modifier un contrat", &Application::dummy)
-        .addEntry("Q",  "Quitter l'application", &Application::dummy);
+        .addEntry("Q",  "Quitter l'application", &Application::quit);
 
     cerr << time << "Application starting" << endl;
     if(FileUtils::exists(USERFILE)) {
@@ -69,12 +68,27 @@ int main() {
         app.defaultUsers();
     }
 
+    /* =================================================
+     *            THE APPLICATION STARTS HERE
+     * ================================================= */
     cerr << time << "Application loaded, starting user interaction" << endl;
     while(!app.login()) {
-        cout << "Bad login, try again..." << endl << endl;
+        cout << endl << "> Bad login, try again..." << endl << endl;
     }
-    cout << "Welcome " << app.getCurrentUser().getFirstname() << " " << app.getCurrentUser().getSurname() << "!" << endl;
-    // TODO The application
+    cout << endl << endl << "> Welcome " << app.getCurrentUser().getFirstname() << "!" << endl;
+
+    while(!app.shouldQuit()) {
+        if(app.getCurrentUser().getFunction() == Employee::ADMINISTRATIVE) {
+            adminMenu.display();
+            adminMenu.choose(app);
+        } else {
+            sellerMenu.display();
+            sellerMenu.choose(app);
+        }
+    }
+    /* =================================================
+     *            THE APPLICATION ENDS HERE
+     * ================================================= */
 
     cerr << time << "Application closing, saving users" << endl;
     app.saveUsers(USERFILE);

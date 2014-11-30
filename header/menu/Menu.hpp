@@ -19,8 +19,9 @@ public:
     ~Menu();
 
     Menu<T>& addEntry(const MenuEntry<T>&);
-    Menu<T>& addEntry(const String&, const String&, bool(T::*)(void));
+    Menu<T>& addEntry(const String&, const String&, void(T::*)(void));
     void display() const;
+    void choose(T&) const;
 
 };
 

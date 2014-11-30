@@ -3,6 +3,7 @@
 Application::Application() {
     this->users = NULL;
     this->currentUser = NULL;
+    this->quitFlag = false;
 }
 
 Application::~Application() {
@@ -33,7 +34,7 @@ void Application::defaultUsers() {
     Sanity::truthness(this->users == NULL, "Can't create default users, some already exist");
 
     this->users = new SortedList<Employee>();
-    Employee e("admin", "admin", 0, "admin", Employee::ADMINISTRATIVE);
+    Employee e("Placeholder", "Administrateur", 0, "admin", Employee::ADMINISTRATIVE);
     e.setPassword("admin000");
     this->users->add(e);
 }
@@ -61,7 +62,7 @@ bool Application::login() {
     cout << "    Entrez votre mot de passe: ";
     cin >> password;
 
-    cerr << time << "Looking for " << username << endl;
+    cerr << time << "Looking for '" << username << "'" << endl;
 
     ConstIterator<Employee> it(*this->users);
     while(!it.end()) {
@@ -100,4 +101,39 @@ bool Application::isUserLoggedin() const {
 
 Employee& Application::getCurrentUser() const {
     return *this->currentUser;
+}
+
+bool Application::shouldQuit() const {
+    return this->quitFlag;
+}
+
+void Application::changePassword() {
+    String password;
+    cout << "Type your new password: ";
+    cin >> password;
+    try {
+        this->currentUser->setPassword(password);
+    } catch(InvalidPasswordException e) {
+        cout << e.getMessage() << endl;
+        return;
+    }
+
+    Iterator<Employee> it(*this->users);
+    while(!it.end()) {
+        if((&it).getLogin() == this->currentUser->getLogin()) {
+            (&it).setPassword(password);
+        }
+    }
+}
+
+void Application::displayUserSummary() {
+    ConstIterator<Employee> it(*this->users);
+    while(!it.end()) {
+        cout << &it << endl;
+        ++it;
+    }
+}
+
+void Application::quit() {
+    this->quitFlag = true;
 }

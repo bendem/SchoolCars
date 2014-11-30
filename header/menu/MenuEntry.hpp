@@ -12,14 +12,14 @@ class MenuEntry {
 private:
     String id;
     String text;
-    bool(T::*method)(void);
+    void(T::*method)(void);
 
 public:
-    MenuEntry(const String&, const String&, bool(T::*)(void));
+    MenuEntry(const String&, const String&, void(T::*)(void));
     MenuEntry(const MenuEntry&);
 
     String toString() const;
-    bool callMethod(T&) const;
+    void callMethod(T&) const;
 
     bool operator==(const MenuEntry&) const;
     bool operator==(const String&) const;
