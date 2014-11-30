@@ -29,8 +29,7 @@ OUT_DIRS:=$(SRC_DIRS:$(HDR)%=$(OUT)%)
 .PHONY: build clean debug mkdir
 .SILENT:
 
-# build: $(OUT)/Test1 $(OUT)/Test2a $(OUT)/Test2b $(OUT)/Test2c $(OUT)/Test3a $(OUT)/Test3b $(OUT)/Test3c $(OUT)/Test3d $(OUT)/Test4 $(OUT)/Test5 $(OUT)/Test6a
-build: $(OUT)/Test3a
+build: $(OUT)/main
 
 $(OUT)/main: main.cpp $(OBJ)
 	echo Compiling $@...
