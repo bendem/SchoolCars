@@ -24,7 +24,7 @@ public:
     void loadUsers(const String&);
     void defaultUsers();
     void saveUsers(const String&) const;
-    void login();
+    bool login();
     void logout();
     bool isUserLoggedin() const;
     Employee& getCurrentUser() const;

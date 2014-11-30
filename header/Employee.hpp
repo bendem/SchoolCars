@@ -49,6 +49,13 @@ public:
 
     Employee& operator=(const Employee&);
 
+    bool operator>(const Employee&) const;
+    bool operator<(const Employee&) const;
+    bool operator<=(const Employee&) const;
+    bool operator>=(const Employee&) const;
+    bool operator==(const Employee&) const;
+    bool operator!=(const Employee&) const;
+
     friend istream& operator>>(istream&, Employee&);
     friend ostream& operator<<(ostream&, const Employee&);
 

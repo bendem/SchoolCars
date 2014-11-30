@@ -51,8 +51,42 @@ void Application::saveUsers(const String& userfile) const {
     }
 }
 
-void Application::login() {
+bool Application::login() {
+    cout << "    ========================" << endl;
+    cout << "    =        Login         =" << endl;
+    cout << "    ========================" << endl << endl;
+    cout << "    Entrez votre nom d'utilisateur: ";
+    String username, password;
+    cin >> username;
+    cout << "    Entrez votre mot de passe: ";
+    cin >> password;
 
+    cerr << time << "Looking for " << username << endl;
+
+    ConstIterator<Employee> it(*this->users);
+    while(!it.end()) {
+        if((&it).getLogin() == username) {
+            // Password not set
+            if((&it).getPassword().length() == 0) {
+                cerr << time << "Found user without password, logging in and asking password" << endl;
+                this->currentUser = new Employee(&it);
+                // TODO Ask for password
+                return true;
+            }
+            // Correct password
+            if((&it).getPassword() == password) {
+                cerr << time << "Found correct user, logging in" << endl;
+                this->currentUser = new Employee(&it);
+                return true;
+            }
+
+            cerr << time << "Found user (" << (&it).getLogin() << ") with wrong password" << endl;
+            return false;
+        }
+        ++it;
+    }
+    cerr << time << "User not found" << endl;
+    return false;
 }
 
 void Application::logout() {

@@ -33,8 +33,7 @@ int main() {
         .addEntry("5", "Afficher tous les contrats", &Application::dummy)
         .addEntry("6", "Afficher les details d'un contrat", &Application::dummy)
         .addEntry("7", "Afficher les contrats et le chiffre d'affaire d'un vendeur", &Application::dummy)
-        .addEntry("Q", "Quitter l'application", &Application::dummy)
-    .display();
+        .addEntry("Q", "Quitter l'application", &Application::dummy);
 
     cerr << time << "Creating seller menu" << endl;
     Menu<Application> sellerMenu("Menu Vendeur");
@@ -57,10 +56,9 @@ int main() {
         .addEntry("-",  "Gerer les projets de voiture", NULL)
         .addEntry("13", "Nouveau contrat", &Application::dummy)
         .addEntry("14", "Afficher tous mes contrats", &Application::dummy)
-        .addEntry("15", "Afficher un contrat et le prix de vente définitif", &Application::dummy)
+        .addEntry("15", "Afficher un contrat et le prix de vente definitif", &Application::dummy)
         .addEntry("16", "Modifier un contrat", &Application::dummy)
-        .addEntry("Q",  "Quitter l'application", &Application::dummy)
-    .display();
+        .addEntry("Q",  "Quitter l'application", &Application::dummy);
 
     cerr << time << "Application starting" << endl;
     if(FileUtils::exists(USERFILE)) {
@@ -72,6 +70,10 @@ int main() {
     }
 
     cerr << time << "Application loaded, starting user interaction" << endl;
+    while(!app.login()) {
+        cout << "Bad login, try again..." << endl << endl;
+    }
+    cout << "Welcome " << app.getCurrentUser().getFirstname() << " " << app.getCurrentUser().getSurname() << "!" << endl;
     // TODO The application
 
     cerr << time << "Application closing, saving users" << endl;

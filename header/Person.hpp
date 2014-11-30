@@ -25,8 +25,8 @@ public:
     const String& getSurname() const;
     void setSurname(const String& surname);
 
-    void save(ofstream&) const;
-    void load(ifstream&);
+    virtual void save(ofstream&) const;
+    virtual void load(ifstream&);
 
     void display() const;
     virtual String toString() const;

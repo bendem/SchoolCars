@@ -20,8 +20,7 @@ public:
     ConstIterator<T>& operator++();
     ConstIterator<T> operator++(int);
     operator T();
-
-//    ConstIterator<T>& operator=(const ConstIterator<T>&);
+    const T& operator &() const;
 
 };
 

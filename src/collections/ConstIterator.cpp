@@ -41,12 +41,10 @@ ConstIterator<T>::operator T() {
     return this->current->value;
 }
 
-//template<class T>
-//ConstIterator<T>& ConstIterator<T>::operator=(const ConstIterator<T>& param) {
-//    this->list = param.list;
-//    this->current = param.current;
-//    return *this;
-//}
+template<class T>
+const T& ConstIterator<T>::operator&() const {
+    return this->current->value;
+}
 
 template class ConstIterator<int>;
 

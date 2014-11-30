@@ -102,6 +102,25 @@ Employee& Employee::operator=(const Employee& param) {
     return *this;
 }
 
+bool Employee::operator>(const Employee& param) const {
+    return this->id > param.id;
+}
+bool Employee::operator<(const Employee& param) const {
+    return this->id < param.id;
+}
+bool Employee::operator<=(const Employee& param) const {
+    return this->id <= param.id;
+}
+bool Employee::operator>=(const Employee& param) const {
+    return this->id >= param.id;
+}
+bool Employee::operator==(const Employee& param) const {
+    return this->id == param.id;
+}
+bool Employee::operator!=(const Employee& param) const {
+    return this->id != param.id;
+}
+
 istream& operator>>(istream& is, Employee& param) {
     return is >> param.id >> param.login >> param.password >> param.function >> (Person&) param;
 }
