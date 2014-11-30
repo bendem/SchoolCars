@@ -181,18 +181,42 @@ String String::operator+(const String& param) const {
 }
 
 bool String::operator==(const String& param) const {
+    if(this->stringSize == 0 && param.stringSize) {
+        return true;
+    }
+    if(this->stringSize == 0 ^ param.stringSize == 0) {
+        return false;
+    }
     return strcmp(this->str, param.str) == 0;
 }
 
 bool String::operator!=(const String& param) const {
+    if(this->stringSize == 0 && param.stringSize) {
+        return true;
+    }
+    if(this->stringSize == 0 ^ param.stringSize == 0) {
+        return false;
+    }
     return strcmp(this->str, param.str) != 0;
 }
 
 bool String::operator>(const String& param) const {
+    if(this->stringSize == 0 && param.stringSize) {
+        return true;
+    }
+    if(this->stringSize == 0 ^ param.stringSize == 0) {
+        return false;
+    }
     return strcmp(this->str, param.str) > 0;
 }
 
 bool String::operator<(const String& param) const {
+    if(this->stringSize == 0 && param.stringSize) {
+        return true;
+    }
+    if(this->stringSize == 0 ^ param.stringSize == 0) {
+        return false;
+    }
     return strcmp(this->str, param.str) < 0;
 }
 
