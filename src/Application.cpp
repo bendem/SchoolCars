@@ -3,6 +3,7 @@
 Application::Application() {
     this->users = NULL;
     this->currentUser = NULL;
+    this->currentCar = NULL;
     this->quitFlag = false;
 }
 
@@ -109,6 +110,14 @@ bool Application::isUserLoggedin() const {
 
 Employee& Application::getCurrentUser() const {
     return *this->currentUser;
+}
+
+bool Application::isThereACarAtTheMomemnt() const {
+    return this->currentCar != NULL;
+}
+
+Car& Application::getCurrentCar() const {
+    return *this->currentCar;
 }
 
 bool Application::shouldQuit() const {

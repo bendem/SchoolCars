@@ -3,6 +3,7 @@
 
 #include <fstream>
 
+#include "Car.hpp"
 #include "Employee.hpp"
 #include "collections/SortedList.hpp"
 #include "menu/Menu.hpp"
@@ -16,6 +17,7 @@ class Application {
 private:
     SortedList<Employee>* users;
     Employee* currentUser;
+    Car* currentCar;
     bool quitFlag;
 
 public:
@@ -29,6 +31,8 @@ public:
     void logout();
     bool isUserLoggedin() const;
     Employee& getCurrentUser() const;
+    bool isThereACarAtTheMomemnt() const ;
+    Car& getCurrentCar() const;
     bool shouldQuit() const;
 
     // Menu actions
