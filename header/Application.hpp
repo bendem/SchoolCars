@@ -39,14 +39,19 @@ public:
     Car& getCurrentCar() const;
     bool shouldQuit() const;
 
-    // Menu actions
+    // common menu actions
     void dummy() { cout << "dummy" << endl; };
     void changePassword();
+    void quit();
+
+    // Admin menu actions
     void displayUserSummary();
     void displayUser();
     void createUser();
     void resetPassword();
-    void quit();
+
+    // Seller menu actions
+    void createClient();
 
 };
 

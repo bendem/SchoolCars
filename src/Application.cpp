@@ -161,6 +161,10 @@ void Application::changePassword() {
     }
 }
 
+void Application::quit() {
+    this->quitFlag = true;
+}
+
 void Application::displayUserSummary() {
     ConstIterator<Employee> it(*this->users);
     while(!it.end()) {
@@ -256,6 +260,26 @@ void Application::resetPassword() {
     cout << " > User not found :(" << endl;
 }
 
-void Application::quit() {
-    this->quitFlag = true;
+void Application::createClient() {
+    String id, address, firstname, surname;
+    int iId;
+    cout << endl << "    = Creating new client =" << endl;
+    while(true) {
+        cout << "    Enter client id: ";
+        cin >> id;
+        try {
+            iId = id.toInt();
+        } catch (invalid_argument e) {
+            cout << " > Invalid number given" << endl;
+            continue;
+        }
+        break;
+    }
+    cout << "    Enter client address: ";
+    cin >> address;
+    cout << "    Enter client firstname: ";
+    cin >> firstname;
+    cout << "    Enter client surname";
+    cin >> surname;
+    this->clients->add(Client(surname, firstname, iId, address));
 }

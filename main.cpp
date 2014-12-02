@@ -40,7 +40,7 @@ int main() {
     sellerMenu
         .addEntry("0",  "Changer de mot de passe", &Application::changePassword)
         .addEntry("-",  "Gerer les clients", NULL)
-        .addEntry("1",  "Ajouter un nouveau client", &Application::dummy)
+        .addEntry("1",  "Ajouter un nouveau client", &Application::createClient)
         .addEntry("2",  "Supprimer un client", &Application::dummy)
         .addEntry("3",  "Afficher la liste des clients", &Application::dummy)
         .addEntry("-",  "Gerer les projets de voiture", NULL)
