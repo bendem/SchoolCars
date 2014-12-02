@@ -49,7 +49,7 @@ void Menu<T>::display() const {
 
     ConstIterator< MenuEntry<T> > it(*this->entries);
     while(!it.end()) {
-        cout << (MenuEntry<T>) it << endl;
+        cout << &it << endl;
         ++it;
     }
     cout << endl;

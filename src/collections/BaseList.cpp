@@ -51,7 +51,6 @@ void BaseList<T>::remove(int index) {
 
 template<class T>
 void BaseList<T>::clear() {
-    // TODO Use the iterator?
     Node<T>* node = this->first;
     Node<T>* prev;
 
