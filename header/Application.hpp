@@ -35,6 +35,9 @@ public:
     void dummy() { cout << "dummy" << endl; };
     void changePassword();
     void displayUserSummary();
+    void displayUser();
+    void createUser();
+    void resetPassword();
     void quit();
 
 };

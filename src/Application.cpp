@@ -68,7 +68,18 @@ bool Application::login() {
             if((&it).getPassword().length() == 0) {
                 cerr << time << "Found user without password, logging in and asking password" << endl;
                 this->currentUser = &(&it);
-                // TODO Ask for password
+                String newPassword;
+                while(1) {
+                    cout << "    404 password not found, enter a new one: ";
+                    cin >> newPassword;
+                    try {
+                        this->currentUser->setPassword(newPassword);
+                    } catch(InvalidPasswordException e) {
+                        e.display();
+                        continue;
+                    }
+                    break;
+                }
                 return true;
             }
             // Correct password
@@ -106,7 +117,7 @@ bool Application::shouldQuit() const {
 
 void Application::changePassword() {
     String password;
-    cout << "Type your new password: ";
+    cout << "    Type your new password: ";
     cin >> password;
     try {
         this->currentUser->setPassword(password);
@@ -122,6 +133,93 @@ void Application::displayUserSummary() {
         cout << &it << endl;
         ++it;
     }
+}
+
+void Application::displayUser() {
+    String username;
+    cout << "    Enter the login of the user you're looking for: ";
+    cin >> username;
+    if(username.length() == 0) {
+        cout << " > Bad username" << endl;
+        return;
+    }
+
+    ConstIterator<Employee> it(*this->users);
+    while(!it.end()) {
+        if((&it).getLogin() == username) {
+            cout << endl << "    = " << username << " =" << endl
+                << "    Id: \t" << (&it).getId() << endl
+                << "    Login: \t" << (&it).getLogin() << endl
+                << "    Password: \t" << String("*", (&it).getPassword().length()) << endl
+                << "    Function: \t" << (&it).getFunction() << endl
+                << "    Firstname: \t" << (&it).getFirstname() << endl
+                << "    Surname: \t" << (&it).getSurname() << endl;
+            return;
+        }
+        ++it;
+    }
+    cout << " > User not found :(" << endl;
+}
+
+void Application::createUser() {
+    String surname, firstname, login, id, func;
+    int iId, iFunc;
+
+    cout << endl << "    = Creating new user =" << endl;
+    cout << "    User login: ";
+    cin >> login;
+    cout << "    User firstname: ";
+    cin >> firstname;
+    cout << "    User surname: ";
+    cin >> surname;
+
+    while(1) {
+        cout << "    User id: ";
+        cin >> id;
+        try {
+            iId = id.toInt();
+        } catch (invalid_argument e) {
+            cout << " > You didn't enter a valid int ._." << endl;
+            continue;
+        }
+        break;
+    }
+
+    while(1) {
+        cout << "    Function (1 = " << Employee::ADMINISTRATIVE << ", something else = " << Employee::SELLER << "): ";
+        cin >> func;
+        try {
+            iFunc = func.toInt();
+        } catch (invalid_argument e) {
+            cout << " > You didn't enter a valid int ._." << endl;
+            continue;
+        }
+        break;
+    }
+
+    this->users->add(Employee(surname, firstname, iId, login, iFunc == 1 ? Employee::ADMINISTRATIVE : Employee::SELLER));
+    cout << " > User successfuly added" << endl;
+}
+
+void Application::resetPassword() {
+    String username;
+    cout << "    Enter the login of the user you want to reset the pwd for: ";
+    cin >> username;
+    if(username.length() == 0) {
+        cout << " > Bad username" << endl;
+        return;
+    }
+
+    Iterator<Employee> it(*this->users);
+    while(!it.end()) {
+        if((&it).getLogin() == username) {
+            (&it).resetPassword();
+            cout << " > Password reset for " << username << endl;
+            return;
+        }
+        ++it;
+    }
+    cout << " > User not found :(" << endl;
 }
 
 void Application::quit() {

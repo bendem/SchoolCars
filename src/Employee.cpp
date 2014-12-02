@@ -56,6 +56,10 @@ void Employee::setPassword(const String& password) {
     this->password = password;
 }
 
+void Employee::resetPassword() {
+    this->password = "";
+}
+
 const String& Employee::getFunction() const {
     return this->function;
 }

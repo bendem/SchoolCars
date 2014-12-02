@@ -38,6 +38,7 @@ public:
 
     const String& getPassword() const;
     void setPassword(const String& password);
+    void resetPassword();
 
     const String& getFunction() const;
     void setFunction(const String& function);
