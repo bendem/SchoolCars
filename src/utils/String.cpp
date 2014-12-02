@@ -124,6 +124,37 @@ char& String::operator[](int i) {
     return this->str[i];
 }
 
+int String::toInt() const {
+    if(this->length() == 0) {
+        throw invalid_argument("Empty string");
+    }
+
+    bool negate = this->str[0] == '-';
+    char* s = this->str;
+
+    if(*s == '+' || *s == '-') {
+        ++s;
+    }
+
+    if(*s == '\0') {
+        throw invalid_argument("Sign character only");
+    }
+
+    int result = 0;
+    while(*s) {
+        if(*s < '0' || *s > '9') {
+            throw invalid_argument("The String is not an integer");
+        }
+        result = result * 10  + (*s - '0');
+        ++s;
+    }
+    return negate ? -result : result;
+}
+
+float String::toFloat() const {
+    return 0.0; // TODO
+}
+
 String String::operator+(const char *append) const {
     int totalSize = strlen(append) + this->stringSize;
     String tmp;

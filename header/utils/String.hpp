@@ -41,6 +41,8 @@ public:
     // Casts
     operator string() const { return string(this->str); }
     operator const char*() const { return this->str; }
+    int toInt() const;
+    float toFloat() const;
 
     // Appending
     String operator+(const char*) const;
