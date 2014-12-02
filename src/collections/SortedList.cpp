@@ -46,3 +46,6 @@ template class SortedList<Person>;
 
 #include "Employee.hpp"
 template class SortedList<Employee>;
+
+#include "Client.hpp"
+template class SortedList<Client>;

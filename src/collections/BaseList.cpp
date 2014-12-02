@@ -95,3 +95,6 @@ template class BaseList<Employee>;
 #include "Application.hpp"
 #include "menu/MenuEntry.hpp"
 template class BaseList< MenuEntry<Application> >;
+
+#include "Client.hpp"
+template class BaseList<Client>;

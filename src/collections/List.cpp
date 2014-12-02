@@ -49,3 +49,6 @@ template class List<Employee>;
 #include "Application.hpp"
 #include "menu/MenuEntry.hpp"
 template class List< MenuEntry<Application> >;
+
+#include "Client.hpp"
+template class List<Client>;

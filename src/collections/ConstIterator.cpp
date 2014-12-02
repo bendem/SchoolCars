@@ -60,3 +60,6 @@ template class ConstIterator<Employee>;
 #include "Application.hpp"
 #include "menu/MenuEntry.hpp"
 template class ConstIterator< MenuEntry<Application> >;
+
+#include "Client.hpp"
+template class ConstIterator<Client>;

@@ -2,6 +2,7 @@
 
 Application::Application() {
     this->users = NULL;
+    this->clients = new SortedList<Client>();
     this->currentUser = NULL;
     this->currentCar = NULL;
     this->quitFlag = false;
@@ -47,6 +48,30 @@ void Application::saveUsers(const String& userfile) const {
     ConstIterator<Employee> it(*this->users);
     while(!it.end()) {
         ((Employee) it++).save(os);
+    }
+}
+
+void Application::loadClients(const String& clientfile) {
+    ifstream is(clientfile, ios::in);
+    int count = StreamUtils::readInt(is);
+
+    Client c;
+    for (int i = 0; i < count; ++i) {
+        c.load(is);
+        this->clients->add(c);
+    }
+}
+
+void Application::saveClients(const String& clientfile) const {
+    if(!this->clients) {
+        return;
+    }
+    ofstream os(clientfile, ios::out | ios::trunc);
+    StreamUtils::write(os, this->clients->size());
+
+    ConstIterator<Client> it(*this->clients);
+    while(!it.end()) {
+        ((Client) it++).save(os);
     }
 }
 

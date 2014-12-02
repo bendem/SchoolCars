@@ -9,6 +9,7 @@
 using namespace std;
 
 #define USERFILE "data/userlist.dat"
+#define CLIENTFILE "data/clients.dat"
 #define APPLCATIONLOGS "application.log"
 
 int main() {
@@ -68,6 +69,11 @@ int main() {
         app.defaultUsers();
     }
 
+    if(FileUtils::exists(CLIENTFILE)) {
+        cerr << time << "Loading client file" << endl;
+        app.loadClients(CLIENTFILE);
+    }
+
     /* =================================================
      *            THE APPLICATION STARTS HERE
      * ================================================= */
@@ -94,8 +100,12 @@ int main() {
      *            THE APPLICATION ENDS HERE
      * ================================================= */
 
-    cerr << time << "Application closing, saving users" << endl;
+    cerr << time << "Application closing" << endl;
+    cerr << time << "Saving users" << endl;
     app.saveUsers(USERFILE);
+
+    cerr << time << "Saving clients" << endl;
+    app.saveClients(CLIENTFILE);
 
     cerr << time << "Restoring cerr output" << endl;
     cerr.rdbuf(old);
