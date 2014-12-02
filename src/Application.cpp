@@ -69,7 +69,7 @@ bool Application::login() {
                 cerr << time << "Found user without password, logging in and asking password" << endl;
                 this->currentUser = &(&it);
                 String newPassword;
-                while(1) {
+                while(true) {
                     cout << "    404 password not found, enter a new one: ";
                     cin >> newPassword;
                     try {
@@ -173,7 +173,7 @@ void Application::createUser() {
     cout << "    User surname: ";
     cin >> surname;
 
-    while(1) {
+    while(true) {
         cout << "    User id: ";
         cin >> id;
         try {
@@ -185,7 +185,7 @@ void Application::createUser() {
         break;
     }
 
-    while(1) {
+    while(true) {
         cout << "    Function (1 = " << Employee::ADMINISTRATIVE << ", something else = " << Employee::SELLER << "): ";
         cin >> func;
         try {
