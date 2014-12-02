@@ -8,7 +8,7 @@
 
 using namespace std;
 
-#define USERFILE "userlist.dat"
+#define USERFILE "data/userlist.dat"
 #define APPLCATIONLOGS "application.log"
 
 int main() {

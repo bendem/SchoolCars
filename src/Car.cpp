@@ -64,7 +64,7 @@ void Car::setModel(const Model& model) {
 }
 
 void Car::save() const {
-    ofstream os(this->name + ".car", ios::out);
+    ofstream os(String("data/") + this->name + ".car", ios::out);
 
     StreamUtils::write(os, this->name);
     this->model.save(os);
