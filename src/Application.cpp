@@ -10,9 +10,6 @@ Application::~Application() {
     if(this->users) {
         delete this->users;
     }
-    if(this->currentUser) {
-        delete this->currentUser;
-    }
 }
 
 void Application::loadUsers(const String& userfile) {
@@ -64,20 +61,20 @@ bool Application::login() {
 
     cerr << time << "Looking for '" << username << "'" << endl;
 
-    ConstIterator<Employee> it(*this->users);
+    Iterator<Employee> it(*this->users);
     while(!it.end()) {
         if((&it).getLogin() == username) {
             // Password not set
             if((&it).getPassword().length() == 0) {
                 cerr << time << "Found user without password, logging in and asking password" << endl;
-                this->currentUser = new Employee(&it);
+                this->currentUser = &(&it);
                 // TODO Ask for password
                 return true;
             }
             // Correct password
             if((&it).getPassword() == password) {
                 cerr << time << "Found correct user, logging in" << endl;
-                this->currentUser = new Employee(&it);
+                this->currentUser = &(&it);
                 return true;
             }
 
@@ -116,16 +113,6 @@ void Application::changePassword() {
     } catch(InvalidPasswordException e) {
         cout << e.getMessage() << endl;
         return;
-    }
-
-    Iterator<Employee> it(*this->users);
-    while(!it.end()) {
-        if((&it).getLogin() == this->currentUser->getLogin()) {
-            (&it).setPassword(password);
-            cout << "> Password changed" << endl;
-            return;
-        }
-        ++it;
     }
 }
 
