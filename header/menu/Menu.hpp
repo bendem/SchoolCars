@@ -9,7 +9,7 @@ template<class T>
 class Menu {
 
 private:
-    const static int WIDTH;
+    int width;
     String title;
     List< MenuEntry<T> >* entries;
 
