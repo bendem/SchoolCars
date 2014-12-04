@@ -165,7 +165,7 @@ void Application::quit() {
     this->quitFlag = true;
 }
 
-void Application::displayUserSummary() {
+void Application::displayUsers() {
     ConstIterator<Employee> it(*this->users);
     while(!it.end()) {
         cout << &it << endl;
@@ -260,6 +260,18 @@ void Application::resetPassword() {
     cout << " > User not found :(" << endl;
 }
 
+void Application::displayContracts() {
+    // TODO
+}
+
+void Application::displayContract() {
+    // TODO
+}
+
+void Application::displaySellerContracts() {
+    // TODO
+}
+
 void Application::createClient() {
     String id, address, firstname, surname;
     int iId;
@@ -282,4 +294,60 @@ void Application::createClient() {
     cout << "    Enter client surname";
     cin >> surname;
     this->clients->add(Client(surname, firstname, iId, address));
+}
+
+void Application::removeClient() {
+    //TODO
+}
+
+void Application::displayClients() {
+    //TODO
+}
+
+void Application::displayModels() {
+    //TODO
+}
+
+void Application::displayOptions() {
+    //TODO
+}
+
+void Application::createCar() {
+    //TODO
+}
+
+void Application::loadCar() {
+    //TODO
+}
+
+void Application::displayCurrentCar() {
+    //TODO
+}
+
+void Application::addOptionToCurrentCar() {
+    //TODO
+}
+
+void Application::removeOptionFromCurrentCar() {
+    //TODO
+}
+
+void Application::applyDiscountToCurrentCar() {
+    //TODO
+}
+
+void Application::saveCurrentCar() {
+    //TODO
+}
+
+void Application::newContract() {
+    //TODO
+}
+
+void Application::displayContractsForCurrentUser() {
+    //TODO
+}
+
+void Application::modifyContract() {
+    //TODO
 }

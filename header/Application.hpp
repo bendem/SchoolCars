@@ -45,13 +45,30 @@ public:
     void quit();
 
     // Admin menu actions
-    void displayUserSummary();
+    void displayUsers();
     void displayUser();
     void createUser();
     void resetPassword();
+    void displayContracts();
+    void displayContract(); // Duplicated in seller menu?
+    void displaySellerContracts();
 
     // Seller menu actions
     void createClient();
+    void removeClient();
+    void displayClients();
+    void displayModels();
+    void displayOptions();
+    void createCar();
+    void loadCar();
+    void displayCurrentCar();
+    void addOptionToCurrentCar();
+    void removeOptionFromCurrentCar();
+    void applyDiscountToCurrentCar();
+    void saveCurrentCar();
+    void newContract();
+    void displayContractsForCurrentUser();
+    void modifyContract();
 
 };
 
