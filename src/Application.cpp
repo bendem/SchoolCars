@@ -95,7 +95,11 @@ void Application::loadModels(const String& file) {
     while(is.peek() != EOF) {
         l = StreamUtils::readCSVLine(is, 4);
         ConstIterator<String> it(l);
-        this->models->add(Model((String) it++, ((String) it++).toInt(), ((String) it++).toBool(), ((String) it).toFloat()));
+        String name(&it++);
+        int power = (&it++).toInt();
+        bool diesel = (&it++).toBool();
+        float baseCost = (&it).toFloat();
+        this->models->add(Model(name, power, diesel, baseCost));
     }
     cerr << time << this->models->size() << " models loaded" << endl;
 }
@@ -109,35 +113,13 @@ void Application::loadOptions(const String& file) {
 
     cerr << time << "Loading options from " << file << endl;
     StreamUtils::skipLine(is); // Validate file format?
-    while(is.peek()) {
+    while(is.peek() != EOF) {
         l = StreamUtils::readCSVLine(is, 3);
-        l.display();
         ConstIterator<String> it(l);
-        //Option o((String) it, (String) (++it), ((String) (++it)).toInt());
-        //this->options->add(o);
-
-        cout << "---" << endl;
-        it.reset();
-        while(!it.end()) {
-            cout << it << " " << ((String) it).length() << endl;
-            ++it;
-        }
-        cout << "---" << endl;
-        it.reset();
-        while(!it.end()) {
-            cout << it << endl;
-            it++;
-        }
-        cout << "---" << endl;
-        it.reset();
-        while(!it.end()) {
-            cout << ++it << endl;
-        }
-        cout << "---" << endl;
-        it.reset();
-        while(!it.end()) {
-            cout << it++ << endl;
-        }
+        String code = it++;
+        String name = it++;
+        int price = (&it).toInt();
+        this->options->add(Option(code, name, price));
     }
     cerr << time << this->options->size() << " options loaded" << endl;
 }

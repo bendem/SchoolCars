@@ -79,7 +79,7 @@ int main() {
     Sanity::truthness(FileUtils::exists(OPTIONS_FILE), "Option file not found");
     app.loadOptions(OPTIONS_FILE);
     Sanity::truthness(FileUtils::exists(MODELS_FILE), "Model file not found");
-    app.loadOptions(MODELS_FILE);
+    app.loadModels(MODELS_FILE);
 
     /* =================================================
      *            THE APPLICATION STARTS HERE

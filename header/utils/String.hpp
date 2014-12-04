@@ -32,6 +32,8 @@ public:
     ~String();
 
     int length() const;
+    void toUpper();
+    void toLower();
 
     String& operator=(const String&);
     String& operator=(const char*);

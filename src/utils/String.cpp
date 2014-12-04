@@ -130,6 +130,17 @@ void String::copy(char* dest, const char* source, int start, int end) {
 int String::length() const {
     return this->stringSize;
 }
+void String::toUpper() {
+    for (int i = 0; i < this->stringSize; ++i) {
+        this->str[i] = toupper(this->str[i]);
+    }
+}
+
+void String::toLower() {
+    for (int i = 0; i < this->stringSize; ++i) {
+        this->str[i] = tolower(this->str[i]);
+    }
+}
 
 String& String::operator=(const String& param) {
     this->stringSize = param.stringSize;
@@ -184,7 +195,9 @@ float String::toFloat() const {
 }
 
 bool String::toBool() const {
-    return *this != (String) "false" && *this != (String) "0";
+    String tmp(*this);
+    tmp.toLower();
+    return tmp != (String) "false" && tmp != (String) "0" && tmp != "n" && tmp != "faux";
 }
 
 String String::operator+(const char *append) const {
