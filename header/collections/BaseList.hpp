@@ -40,6 +40,8 @@ public:
     virtual void add(const T&) = 0;
     virtual bool contains(const T&) const;
 
+    BaseList<T>& operator=(const BaseList<T>&);
+
     // Eww :(
     void display() const;
 

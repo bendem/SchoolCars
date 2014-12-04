@@ -23,7 +23,7 @@ BaseList<T>::~BaseList() {
 }
 
 template<class T>
-void BaseList<T>::add(const T& param) {}
+void BaseList<T>::add(const T& param) { throw logic_error("That method is abstract"); }
 
 template<class T>
 bool BaseList<T>::isEmpty() const {
@@ -79,6 +79,16 @@ bool BaseList<T>::contains(const T& param) const {
         }
     }
     return false;
+}
+
+template<class T>
+BaseList<T>& BaseList<T>::operator=(const BaseList<T>& param) {
+    this->clear();
+    ConstIterator<T> it(param);
+    while(!it.end()) {
+        this->add((T) it++);
+    }
+    return *this;
 }
 
 template<class T>
