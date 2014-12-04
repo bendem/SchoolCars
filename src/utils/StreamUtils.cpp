@@ -30,7 +30,7 @@ String StreamUtils::readString(istream& is) {
     is.read((char*) &n, sizeof(int));
 
     // Create a buffer of the needed size
-    char buff[n];
+    char buff[n+1];
     is.read(buff, n);
     buff[n] = '\0';
 
