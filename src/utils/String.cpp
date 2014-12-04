@@ -9,6 +9,13 @@ String::String() {
 }
 
 String::String(char const chr, int size) {
+    if(size == 0) {
+        this->str = NULL;
+        this->arraySize = 0;
+        this->stringSize = 0;
+        return;
+    }
+
     this->stringSize = size;
     this->reallocate(size + 1, true);
     for(int i = 0; i < size; ++i) {
@@ -18,6 +25,13 @@ String::String(char const chr, int size) {
 }
 
 String::String(const String& str, int size) {
+    if(str.length() == 0) {
+        this->str = NULL;
+        this->arraySize = 0;
+        this->stringSize = 0;
+        return;
+    }
+
     this->stringSize = size * str.length();
     this->reallocate(this->stringSize + 1, true);
     for (int i = 0; i < size; ++i) {
@@ -30,11 +44,25 @@ String::String(const String& str, int size) {
 
 String::String(char const *chars) {
     this->stringSize = strlen(chars);
+
+    if(this->stringSize == 0) {
+        this->str = NULL;
+        this->arraySize = 0;
+        return;
+    }
+
     this->reallocate(this->stringSize + 1, true);
     copy(this->str, chars, this->stringSize);
 }
 
 String::String(const string& str) {
+    if(str.length() == 0) {
+        this->str = NULL;
+        this->arraySize = 0;
+        this->stringSize = 0;
+        return;
+    }
+
     this->stringSize = str.length();
     this->reallocate(str.length() + 1, true);
     copy(this->str, str.c_str(), str.length());
