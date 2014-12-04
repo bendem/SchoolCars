@@ -251,7 +251,8 @@ void Application::displayUser() {
 
 void Application::createUser() {
     String surname, firstname, login, id, func;
-    int iId, iFunc;
+    int iId;
+    bool bFunc;
 
     cout << endl << "    = Creating new user =" << endl;
     cout << "    User login: ";
@@ -274,10 +275,10 @@ void Application::createUser() {
     }
 
     while(true) {
-        cout << "    Function (1 = " << Employee::ADMINISTRATIVE << ", something else = " << Employee::SELLER << "): ";
+        cout << "    Function (is " << Employee::ADMINISTRATIVE << "?): ";
         cin >> func;
         try {
-            iFunc = func.toInt();
+            bFunc = func.toBool();
         } catch (invalid_argument e) {
             cout << " > You didn't enter a valid int ._." << endl;
             continue;
@@ -285,7 +286,7 @@ void Application::createUser() {
         break;
     }
 
-    this->users->add(Employee(surname, firstname, iId, login, iFunc == 1 ? Employee::ADMINISTRATIVE : Employee::SELLER));
+    this->users->add(Employee(surname, firstname, iId, login, bFunc ? Employee::ADMINISTRATIVE : Employee::SELLER));
     cout << " > User successfuly added" << endl;
 }
 
