@@ -36,6 +36,7 @@ public:
     int size() const;
     void remove(int);
     void clear();
+    void addAll(const BaseList&);
     virtual void add(const T&) = 0;
     virtual bool contains(const T&) const;
 

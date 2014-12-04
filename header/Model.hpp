@@ -36,6 +36,10 @@ public:
     float getBaseCost() const;
     void setBaseCost(float baseCost);
 
+    Model& operator=(const Model&);
+
+    bool operator==(const Model&);
+
     void save(ofstream&) const;
     void load(ifstream&);
 

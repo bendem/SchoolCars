@@ -3,6 +3,7 @@
 
 #include <ctime>
 #include <iostream>
+#include "collections/List.hpp"
 #include "utils/String.hpp"
 
 using namespace std;
@@ -21,6 +22,9 @@ public:
     static int    readInt(istream&);
     static char   readChar(istream&);
     static float  readFloat(istream&);
+
+    static List<String> readCSVLine(istream&, int);
+    static void skipLine(istream&);
 
 };
 

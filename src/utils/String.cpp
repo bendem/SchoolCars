@@ -155,6 +155,10 @@ float String::toFloat() const {
     return 0.0; // TODO
 }
 
+bool String::toBool() const {
+    return *this != (String) "false" && *this != (String) "0";
+}
+
 String String::operator+(const char *append) const {
     int totalSize = strlen(append) + this->stringSize;
     String tmp;

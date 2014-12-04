@@ -21,7 +21,7 @@ void ConstIterator<T>::reset() {
 
 template<class T>
 ConstIterator<T>& ConstIterator<T>::operator++() {
-    Sanity::nullness(this->current, "Outside of the ConstIterator");
+    Sanity::nullness(this->current, "Outside of the list");
 
     this->current = this->current->next;
     return *this;
@@ -29,7 +29,7 @@ ConstIterator<T>& ConstIterator<T>::operator++() {
 
 template<class T>
 ConstIterator<T> ConstIterator<T>::operator++(int) {
-    Sanity::nullness(this->current, "Outside of the ConstIterator");
+    Sanity::nullness(this->current, "Outside of the list");
 
     ConstIterator<T> tmp(*this);
     this->current = this->current->next;
@@ -63,3 +63,9 @@ template class ConstIterator< MenuEntry<Application> >;
 
 #include "Client.hpp"
 template class ConstIterator<Client>;
+
+#include "utils/String.hpp"
+template class ConstIterator<String>;
+
+#include "Model.hpp"
+template class ConstIterator<Model>;

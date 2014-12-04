@@ -52,3 +52,9 @@ template class List< MenuEntry<Application> >;
 
 #include "Client.hpp"
 template class List<Client>;
+
+#include "utils/String.hpp"
+template class List<String>;
+
+#include "Model.hpp"
+template class List<Model>;

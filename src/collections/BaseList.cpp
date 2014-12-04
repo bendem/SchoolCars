@@ -63,6 +63,14 @@ void BaseList<T>::clear() {
 }
 
 template<class T>
+void BaseList<T>::addAll(const BaseList& toAdd) {
+    ConstIterator<T> it(toAdd);
+    while(!it.end()) {
+        this->add(&it);
+    }
+}
+
+template<class T>
 bool BaseList<T>::contains(const T& param) const {
     ConstIterator<T> it(*this);
     while(!it.end()) {
@@ -98,3 +106,9 @@ template class BaseList< MenuEntry<Application> >;
 
 #include "Client.hpp"
 template class BaseList<Client>;
+
+#include "utils/String.hpp"
+template class BaseList<String>;
+
+#include "Model.hpp"
+template class BaseList<Model>;

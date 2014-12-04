@@ -3,6 +3,8 @@
 Application::Application() {
     this->users = NULL;
     this->clients = new SortedList<Client>();
+    this->models = NULL;
+    this->options = NULL;
     this->currentUser = NULL;
     this->currentCar = NULL;
     this->quitFlag = false;
@@ -11,6 +13,12 @@ Application::Application() {
 Application::~Application() {
     if(this->users) {
         delete this->users;
+    }
+    if(this->models) {
+        delete this->models;
+    }
+    if(this->options) {
+        delete this->options;
     }
 }
 
@@ -74,6 +82,66 @@ void Application::saveClients(const String& clientfile) const {
         ((Client) it++).save(os);
     }
 }
+
+void Application::loadModels(const String& file) {
+    Sanity::truthness(this->models == NULL, "Models are already loaded");
+
+    this->models = new List<Model>();
+    ifstream is(file, ios::in);
+    List<String> l;
+
+    cerr << time << "Loading models from " << file << endl;
+    StreamUtils::skipLine(is); // Validate file format?
+    while(is.peek() != EOF) {
+        l = StreamUtils::readCSVLine(is, 4);
+        ConstIterator<String> it(l);
+        this->models->add(Model((String) it++, ((String) it++).toInt(), ((String) it++).toBool(), ((String) it).toFloat()));
+    }
+    cerr << time << this->models->size() << " models loaded" << endl;
+}
+
+void Application::loadOptions(const String& file) {
+    Sanity::truthness(this->models == NULL, "Options are already loaded");
+
+    this->options = new List<Option>();
+    ifstream is(file, ios::in);
+    List<String> l;
+
+    cerr << time << "Loading options from " << file << endl;
+    StreamUtils::skipLine(is); // Validate file format?
+    while(is.peek()) {
+        l = StreamUtils::readCSVLine(is, 3);
+        l.display();
+        ConstIterator<String> it(l);
+        //Option o((String) it, (String) (++it), ((String) (++it)).toInt());
+        //this->options->add(o);
+
+        cout << "---" << endl;
+        it.reset();
+        while(!it.end()) {
+            cout << it << " " << ((String) it).length() << endl;
+            ++it;
+        }
+        cout << "---" << endl;
+        it.reset();
+        while(!it.end()) {
+            cout << it << endl;
+            it++;
+        }
+        cout << "---" << endl;
+        it.reset();
+        while(!it.end()) {
+            cout << ++it << endl;
+        }
+        cout << "---" << endl;
+        it.reset();
+        while(!it.end()) {
+            cout << it++ << endl;
+        }
+    }
+    cerr << time << this->options->size() << " options loaded" << endl;
+}
+
 
 bool Application::login() {
     cout << "    ========================" << endl;

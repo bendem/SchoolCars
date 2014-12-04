@@ -61,6 +61,24 @@ float StreamUtils::readFloat(istream& is) {
     return f;
 }
 
+List<String> StreamUtils::readCSVLine(istream& is, int elemCount) {
+    string line;
+    List<String> l;
+    while(--elemCount > 0) {
+        getline(is, line, ';'); // Bleh :( don't like *S*tring...
+        l.add(line);
+    }
+
+    getline(is, line, is.widen('\n'));
+    l.add(line);
+
+    return l;
+}
+
+void StreamUtils::skipLine(istream& is) {
+    is.ignore(1000, is.widen('\n')); // Should use numeric limit, but, oh well...
+}
+
 ostream& time(ostream& os) {
     time_t rawtime;
     char buff[11];

@@ -43,6 +43,18 @@ void Model::setPower(int power) {
     this->power = power;
 }
 
+Model& Model::operator=(const Model& param) {
+    this->name = param.name;
+    this->power = param.power;
+    this->diesel = param.diesel;
+    this->baseCost = param.baseCost;
+    return *this;
+}
+
+bool Model::operator==(const Model& param) {
+    return this->name == param.name;
+}
+
 void Model::save(ofstream& os) const {
     StreamUtils::write(os, this->name);
     StreamUtils::write(os, this->power);

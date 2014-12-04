@@ -43,6 +43,7 @@ public:
     operator const char*() const { return this->str; }
     int toInt() const;
     float toFloat() const;
+    bool toBool() const;
 
     // Appending
     String operator+(const char*) const;

@@ -8,14 +8,16 @@
 
 using namespace std;
 
-#define USERFILE "data/userlist.dat"
-#define CLIENTFILE "data/clients.dat"
-#define APPLCATIONLOGS "application.log"
+#define USER_FILE "data/userlist.dat"
+#define CLIENT_FILE "data/clients.dat"
+#define OPTIONS_FILE "data/Options.csv"
+#define MODELS_FILE "data/Modeles.csv"
+#define APPLCATION_LOGS "application.log"
 
 int main() {
-    fstream x(APPLCATIONLOGS, ios::out | ios::trunc);
+    fstream x(APPLCATION_LOGS, ios::out | ios::trunc);
     streambuf* old = cerr.rdbuf(x.rdbuf());
-    cerr << time << "Output redirected to " << APPLCATIONLOGS << endl;
+    cerr << time << "Output redirected to " << APPLCATION_LOGS << endl;
 
     Application app;
 
@@ -61,18 +63,23 @@ int main() {
         .addEntry("Q",  "Quitter l'application", &Application::quit);
 
     cerr << time << "Application starting" << endl;
-    if(FileUtils::exists(USERFILE)) {
+    if(FileUtils::exists(USER_FILE)) {
         cerr << time << "Loading existing users" << endl;
-        app.loadUsers(USERFILE);
+        app.loadUsers(USER_FILE);
     } else {
         cerr << time << "Creating default users" << endl;
         app.defaultUsers();
     }
 
-    if(FileUtils::exists(CLIENTFILE)) {
+    if(FileUtils::exists(CLIENT_FILE)) {
         cerr << time << "Loading client file" << endl;
-        app.loadClients(CLIENTFILE);
+        app.loadClients(CLIENT_FILE);
     }
+
+    Sanity::truthness(FileUtils::exists(OPTIONS_FILE), "Option file not found");
+    app.loadOptions(OPTIONS_FILE);
+    Sanity::truthness(FileUtils::exists(MODELS_FILE), "Model file not found");
+    app.loadOptions(MODELS_FILE);
 
     /* =================================================
      *            THE APPLICATION STARTS HERE
@@ -102,10 +109,10 @@ int main() {
 
     cerr << time << "Application closing" << endl;
     cerr << time << "Saving users" << endl;
-    app.saveUsers(USERFILE);
+    app.saveUsers(USER_FILE);
 
     cerr << time << "Saving clients" << endl;
-    app.saveClients(CLIENTFILE);
+    app.saveClients(CLIENT_FILE);
 
     cerr << time << "Restoring cerr output" << endl;
     cerr.rdbuf(old);

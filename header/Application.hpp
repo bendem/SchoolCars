@@ -6,6 +6,9 @@
 #include "Car.hpp"
 #include "Client.hpp"
 #include "Employee.hpp"
+#include "Model.hpp"
+#include "Option.hpp"
+#include "collections/List.hpp"
 #include "collections/SortedList.hpp"
 #include "menu/Menu.hpp"
 #include "menu/MenuEntry.hpp"
@@ -18,6 +21,8 @@ class Application {
 private:
     SortedList<Employee>* users;
     SortedList<Client>* clients;
+    List<Option>* options;
+    List<Model>* models;
     Employee* currentUser;
     Car* currentCar;
     bool quitFlag;
@@ -31,6 +36,8 @@ public:
     void saveUsers(const String&) const;
     void loadClients(const String&);
     void saveClients(const String&) const;
+    void loadModels(const String&);
+    void loadOptions(const String&);
     bool login();
     void logout();
     bool isUserLoggedin() const;

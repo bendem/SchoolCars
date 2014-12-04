@@ -94,3 +94,9 @@ template class Iterator< MenuEntry<Application> >;
 
 #include "Client.hpp"
 template class Iterator<Client>;
+
+#include "utils/String.hpp"
+template class Iterator<String>;
+
+#include "Model.hpp"
+template class Iterator<Model>;
