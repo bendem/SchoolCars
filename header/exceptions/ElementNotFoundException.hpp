@@ -7,10 +7,7 @@ class ElementNotFoundException : public Exception {
 
 public:
     ElementNotFoundException() : Exception("") {}
-    ElementNotFoundException(const String& message) : Exception(message, NULL) {}
-    ElementNotFoundException(Exception* exception) : Exception("", exception) {}
-
-    ElementNotFoundException(const String& message, Exception *cause) : Exception(message, cause) {}
+    ElementNotFoundException(const String& message) : Exception(message) {}
 
 };
 

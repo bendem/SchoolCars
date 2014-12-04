@@ -7,10 +7,7 @@ class InvalidFunctionException : public Exception {
 
 public:
     InvalidFunctionException() : Exception("") {}
-    InvalidFunctionException(const String& message) : Exception(message, NULL) {}
-    InvalidFunctionException(Exception* exception) : Exception("", exception) {}
-
-    InvalidFunctionException(const String& message, Exception *cause) : Exception(message, cause) {}
+    InvalidFunctionException(const String& message) : Exception(message) {}
 
 };
 

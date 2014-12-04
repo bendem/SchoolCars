@@ -7,10 +7,7 @@ class InvalidPasswordException : public Exception {
 
 public:
     InvalidPasswordException() : Exception("") {}
-    InvalidPasswordException(const String& message) : Exception(message, NULL) {}
-    InvalidPasswordException(Exception* exception) : Exception("", exception) {}
-
-    InvalidPasswordException(const String& message, Exception *cause) : Exception(message, cause) {}
+    InvalidPasswordException(const String& message) : Exception(message) {}
 
 };
 

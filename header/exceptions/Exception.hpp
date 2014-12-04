@@ -1,22 +1,23 @@
 #ifndef EXCEPTION_HPP
 #define EXCEPTION_HPP
 
+#include <exception>
 #include <iostream>
+
 #include "utils/String.hpp"
 
 using namespace std;
 
-class Exception {
+class Exception : public exception {
 protected:
     String message;
     const Exception* cause;
 public:
-    Exception(const String& = "", Exception* = NULL);
+    Exception(const String& = "");
     Exception(const Exception&);
-    virtual ~Exception();
+    ~Exception() throw() {}
 
-    String getMessage() const;
-    const Exception& getCause() const;
+    const char* what() const throw();
     virtual void display() const;
 
 };

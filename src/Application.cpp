@@ -224,7 +224,7 @@ void Application::changePassword() {
     try {
         this->currentUser->setPassword(password);
     } catch(InvalidPasswordException e) {
-        cout << e.getMessage() << endl;
+        cout << e.what() << endl;
         return;
     }
 }
