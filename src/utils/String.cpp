@@ -116,15 +116,15 @@ void String::reallocate(int size, bool constructing) {
     this->arraySize = size;
 }
 
-void String::copy(char *string1, char const *string2, int end) {
-    copy(string1, string2, 0, end);
+void String::copy(char* dest, const char* source, int end) {
+    copy(dest, source, 0, end);
 }
 
-void String::copy(char *string1, char const *string2, int start, int end) {
+void String::copy(char* dest, const char* source, int start, int end) {
     for(int i = 0, j = start; j < end; ++i, ++j) {
-        string1[j] = string2[i];
+        dest[j] = source[i];
     }
-    string1[end] = END_OF_STRING;
+    dest[end] = END_OF_STRING;
 }
 
 int String::length() const {
