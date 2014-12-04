@@ -11,10 +11,7 @@ BaseList<T>::BaseList(const BaseList<T>& list) {
     this->first = NULL;
     this->nbElems = 0;
 
-    ConstIterator<T> it(list);
-    while(!it.end()) {
-        this->add((T) it++);
-    }
+    this->addAll(list);
 }
 
 template<class T>
@@ -59,6 +56,7 @@ void BaseList<T>::clear() {
         node = node->next;
         delete prev;
     }
+    this->first = NULL;
     this->nbElems = 0;
 }
 
@@ -66,7 +64,7 @@ template<class T>
 void BaseList<T>::addAll(const BaseList& toAdd) {
     ConstIterator<T> it(toAdd);
     while(!it.end()) {
-        this->add(&it);
+        this->add(&it++);
     }
 }
 
@@ -84,10 +82,7 @@ bool BaseList<T>::contains(const T& param) const {
 template<class T>
 BaseList<T>& BaseList<T>::operator=(const BaseList<T>& param) {
     this->clear();
-    ConstIterator<T> it(param);
-    while(!it.end()) {
-        this->add((T) it++);
-    }
+    this->addAll(param);
     return *this;
 }
 
