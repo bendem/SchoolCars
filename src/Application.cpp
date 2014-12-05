@@ -274,16 +274,21 @@ void Application::createUser() {
         break;
     }
 
-    while(true) {
-        cout << "    Function (is " << Employee::ADMINISTRATIVE << "?): ";
-        cin >> func;
-        try {
-            bFunc = func.toBool();
-        } catch (invalid_argument e) {
-            cout << " > You didn't enter a valid int ._." << endl;
-            continue;
+    cout << "    Function (is " << Employee::ADMINISTRATIVE << "?): ";
+    cin >> func;
+    bFunc = func.toBool();
+
+    ConstIterator<Employee> it(*this->users);
+    while(!it.end()) {
+        if((&it).getId() == iId) {
+            cout << " > There is already a user with the id " << iId << endl;
+            return;
         }
-        break;
+        if((&it).getLogin() == login) {
+            cout << " > There is already a user with the username " << login << endl;
+            return;
+        }
+        ++it;
     }
 
     this->users->add(Employee(surname, firstname, iId, login, bFunc ? Employee::ADMINISTRATIVE : Employee::SELLER));
@@ -344,6 +349,13 @@ void Application::createClient() {
     cin >> firstname;
     cout << "    Enter client surname";
     cin >> surname;
+    ConstIterator<Client> it(*this->clients);
+    while(!it.end()) {
+        if((&it).getId() == iId) {
+            cout << " > There is already a client with the id " << iId << endl;
+            return;
+        }
+    }
     this->clients->add(Client(surname, firstname, iId, address));
 }
 
@@ -352,15 +364,54 @@ void Application::removeClient() {
 }
 
 void Application::displayClients() {
-    //TODO
+    if(!this->clients) {
+        cout << " > Clients not loaded" << endl;
+        return;
+    }
+
+    if(this->clients->size() == 0) {
+        cout << " > No clients yet" << endl;
+        return;
+    }
+
+    ConstIterator<Client> it(*this->clients);
+    while(!it.end()) {
+        cout << "    " << &(it++) << endl;
+    }
 }
 
 void Application::displayModels() {
-    //TODO
+    if(!this->models) {
+        cout << " > Models not loaded" << endl;
+        return;
+    }
+
+    if(this->models->size() == 0) {
+        cout << " > No models yet" << endl;
+        return;
+    }
+
+    ConstIterator<Model> it(*this->models);
+    while(!it.end()) {
+        cout << "    " << &(it++) << endl;
+    }
 }
 
 void Application::displayOptions() {
-    //TODO
+    if(!this->options) {
+        cout << " > Options not loaded" << endl;
+        return;
+    }
+
+    if(this->options->size() == 0) {
+        cout << " > No options yet" << endl;
+        return;
+    }
+
+    ConstIterator<Option> it(*this->options);
+    while(!it.end()) {
+        cout << "    " << &(it++) << endl;
+    }
 }
 
 void Application::createCar() {
@@ -372,7 +423,11 @@ void Application::loadCar() {
 }
 
 void Application::displayCurrentCar() {
-    //TODO
+    if(!this->currentCar) {
+        cout << " > No car currently loaded" << endl;
+        return;
+    }
+    cout << "    " << *this->currentCar << endl;
 }
 
 void Application::addOptionToCurrentCar() {

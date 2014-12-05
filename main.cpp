@@ -86,9 +86,9 @@ int main() {
      * ================================================= */
     cerr << time << "Application loaded, starting user interaction" << endl;
     while(!app.login()) {
-        cout << endl << "> Bad login, try again..." << endl << endl;
+        cout << endl << " > Bad login, try again..." << endl << endl;
     }
-    cout << endl << endl << "> Welcome " << app.getCurrentUser().getFirstname() << "!" << endl;
+    cout << endl << endl << " > Welcome " << app.getCurrentUser().getFirstname() << "!" << endl;
 
     while(!app.shouldQuit()) {
         cout << endl << endl << endl << endl << endl << endl << endl << endl << endl;
@@ -99,7 +99,7 @@ int main() {
             sellerMenu.display();
             sellerMenu.choose(app);
         }
-        cout << endl << "> Press a <ENTER> to continue";
+        cout << endl << " > Press a <ENTER> to continue";
         cin.get();
         cin.ignore();
     }
