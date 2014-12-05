@@ -27,7 +27,7 @@ String MenuEntry<T>::toString() const {
 
 template<class T>
 void MenuEntry<T>::callMethod(T& param) const {
-    MethodPointerUtils::callObjectMethod<void, T>(&param, method);
+    (param.*this->method)();
 }
 
 template<class T>

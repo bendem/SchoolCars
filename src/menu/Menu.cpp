@@ -63,6 +63,7 @@ void Menu<T>::choose(T& object) const {
     Iterator< MenuEntry<T> > it(*this->entries);
     while(!it.end()) {
         if(&it == choice && (&it).hasMethod()) {
+            cout << endl;
             (&it).callMethod(object);
             return;
         }

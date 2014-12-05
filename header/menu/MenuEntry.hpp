@@ -3,7 +3,6 @@
 
 #include <sstream>
 
-#include "utils/MethodPointerUtils.hpp"
 #include "utils/String.hpp"
 
 template<class T>
