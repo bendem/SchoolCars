@@ -197,7 +197,12 @@ float String::toFloat() const {
 bool String::toBool() const {
     String tmp(*this);
     tmp.toLower();
-    return tmp != (String) "false" && tmp != (String) "0" && tmp != "n" && tmp != "faux";
+    return tmp != (String) "false"
+        && tmp != (String) "faux"
+        && tmp != (String) "0"
+        && tmp != (String) "n"
+        && tmp != (String) "no"
+        ;
 }
 
 String String::operator+(const char *append) const {
@@ -304,7 +309,10 @@ bool String::operator<=(const String& param) const {
 }
 
 ostream& operator<<(ostream& os, const String& str) {
-    return os << (const char*) str;
+    if(str.length() > 0) {
+        os << (const char*) str;
+    }
+    return os;
 }
 
 istream& operator>>(istream& is, String& str) {
