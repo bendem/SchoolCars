@@ -55,8 +55,7 @@ ifeq ($(OS),Windows_NT)
 	mkdir $(OUT)
 	xcopy /T $(HDR) $(OUT)
 else
-	mkdir $(OUT)
-	mkdir -p $(OUT_DIRS)
+	python fix_files.py
 endif
 
 debug:
