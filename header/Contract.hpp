@@ -1,8 +1,12 @@
 #ifndef CONTRACT_HPP
 #define CONTRACT_HPP
 
+#include <iostream>
+
 #include "Car.hpp"
 #include "utils/Date.hpp"
+
+using namespace std;
 
 class Contract {
 
@@ -16,6 +20,7 @@ private:
 
 public:
     Contract(int, int, int, const Date&, Car*, float = 0);
+    ~Contract();
 
     int getId() const;
     int getSellerId() const;
@@ -24,6 +29,9 @@ public:
     Date& getDate();
     Car* getCar() const;
     float getDiscount() const;
+
+    void save(ostream&) const;
+    void load(istream&);
 
 };
 
