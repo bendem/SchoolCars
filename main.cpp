@@ -81,6 +81,8 @@ int main() {
     Sanity::truthness(FileUtils::exists(MODELS_FILE), "Model file not found");
     app.loadModels(MODELS_FILE);
 
+    // TODO Load contracts
+
     /* =================================================
      *            THE APPLICATION STARTS HERE
      * ================================================= */

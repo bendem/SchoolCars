@@ -68,6 +68,55 @@ Date& Date::operator=(const Date& param) {
     return *this;
 }
 
+bool Date::operator==(const Date& param) const {
+    return this->day == param.day
+        && this->month == param.month
+        && this->year == param.year;
+}
+
+bool Date::operator!=(const Date& param) const {
+    return this->day != param.day
+        || this->month != param.month
+        || this->year != param.year;
+}
+
+bool Date::operator>(const Date& param) const {
+    if(this->year > param.year) {
+        return true;
+    }
+    if(this->year == param.year) {
+        if(this->month > param.month) {
+            return true;
+        }
+        if(this->month == param.month) {
+            return this->day > param.day;
+        }
+    }
+    return false;
+}
+
+bool Date::operator<(const Date& param) const {
+    if(this->year < param.year) {
+        return true;
+    }
+    if(this->year == param.year) {
+        if(this->month < param.month) {
+            return true;
+        }
+        if(this->month == param.month) {
+            return this->day < param.day;
+        }
+    }
+    return false;
+}
+
+bool Date::operator>=(const Date& param) const {
+    return *this > param || *this == param;
+}
+
+bool Date::operator<=(const Date& param) const {
+    return *this < param || *this == param;
+}
 
 void Date::save(ostream& os) const {
     StreamUtils::write(os, this->day);
@@ -78,4 +127,13 @@ void Date::load(istream& is) {
     this->day = StreamUtils::readInt(is);
     this->month = StreamUtils::readInt(is);
     this->year = StreamUtils::readInt(is);
+}
+
+ostream& operator<<(ostream& os, const Date& param) {
+    return os
+        << "Date{"
+        << "day=" << param.day
+        << ", month=" << param.month
+        << ", year=" << param.year
+        << "}";
 }

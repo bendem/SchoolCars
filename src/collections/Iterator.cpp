@@ -100,3 +100,6 @@ template class Iterator<String>;
 
 #include "Model.hpp"
 template class Iterator<Model>;
+
+#include "Contract.hpp"
+template class Iterator<Contract>;

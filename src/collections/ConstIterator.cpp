@@ -69,3 +69,6 @@ template class ConstIterator<String>;
 
 #include "Model.hpp"
 template class ConstIterator<Model>;
+
+#include "Contract.hpp"
+template class ConstIterator<Contract>;

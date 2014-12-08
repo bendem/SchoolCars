@@ -5,6 +5,7 @@
 
 #include "Car.hpp"
 #include "Client.hpp"
+#include "Contract.hpp"
 #include "Employee.hpp"
 #include "Model.hpp"
 #include "Option.hpp"
@@ -23,6 +24,7 @@ private:
     SortedList<Client>* clients;
     List<Option>* options;
     List<Model>* models;
+    SortedList<Contract>* contracts;
     Employee* currentUser;
     Car* currentCar;
     bool quitFlag;

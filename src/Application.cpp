@@ -3,8 +3,9 @@
 Application::Application() {
     this->users = NULL;
     this->clients = new SortedList<Client>();
-    this->models = NULL;
     this->options = NULL;
+    this->models = NULL;
+    this->contracts = new SortedList<Contract>();
     this->currentUser = NULL;
     this->currentCar = NULL;
     this->quitFlag = false;
@@ -14,11 +15,24 @@ Application::~Application() {
     if(this->users) {
         delete this->users;
     }
-    if(this->models) {
-        delete this->models;
+    if(this->clients) {
+        delete this->clients;
     }
     if(this->options) {
         delete this->options;
+    }
+    if(this->models) {
+        delete this->models;
+    }
+    if(this->contracts) {
+        delete this->contracts;
+    }
+    // Points directly inside this->users, has already been deleted
+    // if(this->currentUser) {
+    //     delete this->currentUser;
+    // }
+    if(this->currentCar) {
+        delete this->currentCar;
     }
 }
 
@@ -216,10 +230,13 @@ void Application::quit() {
 }
 
 void Application::displayUsers() {
+    if(this->users->size() == 0) {
+        cout << " > No users" << endl;
+        return;
+    }
     ConstIterator<Employee> it(*this->users);
     while(!it.end()) {
-        cout << &it << endl;
-        ++it;
+        cout << it++ << endl;
     }
 }
 
@@ -317,7 +334,15 @@ void Application::resetPassword() {
 }
 
 void Application::displayContracts() {
-    // TODO
+    if(this->contracts->size() == 0) {
+        cout << " > No contracts" << endl;
+        return;
+    }
+
+    ConstIterator<Contract> it(*this->contracts);
+    while(!it.end()) {
+        cout << it++ << endl;
+    }
 }
 
 void Application::displayContract() {
@@ -364,13 +389,8 @@ void Application::removeClient() {
 }
 
 void Application::displayClients() {
-    if(!this->clients) {
-        cout << " > Clients not loaded" << endl;
-        return;
-    }
-
     if(this->clients->size() == 0) {
-        cout << " > No clients yet" << endl;
+        cout << " > No clients" << endl;
         return;
     }
 

@@ -30,8 +30,17 @@ public:
     Car* getCar() const;
     float getDiscount() const;
 
+    bool operator==(const Contract&) const;
+    bool operator!=(const Contract&) const;
+    bool operator>(const Contract&) const;
+    bool operator<(const Contract&) const;
+    bool operator>=(const Contract&) const;
+    bool operator<=(const Contract&) const;
+
     void save(ostream&) const;
     void load(istream&);
+
+    friend ostream& operator<<(ostream&, const Contract&);
 
 };
 

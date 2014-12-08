@@ -37,6 +37,30 @@ float Contract::getDiscount() const {
     return this->discount;
 }
 
+bool Contract::operator==(const Contract& param) const {
+    return this->date == param.date;
+}
+
+bool Contract::operator!=(const Contract& param) const {
+    return this->date != param.date;
+}
+
+bool Contract::operator>(const Contract& param) const {
+    return this->date > param.date;
+}
+
+bool Contract::operator<(const Contract& param) const {
+    return this->date < param.date;
+}
+
+bool Contract::operator>=(const Contract& param) const {
+    return this->date >= param.date;
+}
+
+bool Contract::operator<=(const Contract& param) const {
+    return this->date <= param.date;
+}
+
 void Contract::save(ostream& os) const {
     StreamUtils::write(os, this->id);
     StreamUtils::write(os, this->sellerId);
@@ -58,4 +82,16 @@ void Contract::load(istream& is) {
     this->car = new Car();
     this->car->load(carName);
     this->discount = StreamUtils::readFloat(is);
+}
+
+ostream& operator<<(ostream& os, const Contract& param) {
+    return os
+        << "Contract{"
+        << "id=" << param.id
+        << ", sellerId=" << param.sellerId
+        << ", clientId=" << param.clientId
+        << ", date='" << param.date << "'"
+        << ", car=" << *param.car
+        << ", discount=" << param.discount
+        << "}";
 }

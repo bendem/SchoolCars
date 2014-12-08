@@ -117,3 +117,6 @@ template class BaseList<String>;
 
 #include "Model.hpp"
 template class BaseList<Model>;
+
+#include "Contract.hpp"
+template class BaseList<Contract>;

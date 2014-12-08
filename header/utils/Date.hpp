@@ -34,8 +34,17 @@ public:
 
     Date& operator=(const Date&);
 
+    bool operator==(const Date&) const;
+    bool operator!=(const Date&) const;
+    bool operator>(const Date&) const;
+    bool operator<(const Date&) const;
+    bool operator>=(const Date&) const;
+    bool operator<=(const Date&) const;
+
     void save(ostream&) const;
     void load(istream&);
+
+    friend ostream& operator<<(ostream&, const Date&);
 
 };
 

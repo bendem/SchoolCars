@@ -58,3 +58,6 @@ template class List<String>;
 
 #include "Model.hpp"
 template class List<Model>;
+
+#include "Contract.hpp"
+template class List<Contract>;
