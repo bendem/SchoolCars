@@ -540,9 +540,10 @@ void Application::displayOptions() {
         return;
     }
 
+    int i = 0;
     ConstIterator<Option> it(*this->options);
     while(!it.end()) {
-        cout << "    " << &(it++) << endl;
+        cout << "    " << i++ << ". " << &(it++) << endl;
     }
 }
 
@@ -623,7 +624,24 @@ void Application::addOptionToCurrentCar() {
         return;
     }
 
-    //TODO
+    String input;
+    int id;
+    cout << "    Enter the id of the option to add: ";
+    cin >> input;
+    try {
+        id = input.toInt();
+    } catch(invalid_argument e) {
+        cout << " > " << e << endl;
+        return;
+    }
+
+    if(this->options->size() >= id) {
+        cout << " > Option not found, id too high" << endl; // *smokes*
+        return;
+    }
+
+    *this->currentCar + this->options->get(id);
+    cout << " > Option added to the current car" << endl;
 }
 
 void Application::removeOptionFromCurrentCar() {
