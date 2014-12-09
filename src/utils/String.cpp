@@ -165,7 +165,7 @@ char& String::operator[](int i) {
 
 int String::toInt() const {
     if(this->length() == 0) {
-        throw invalid_argument("Empty string");
+        throw invalid_argument("empty string");
     }
 
     bool negate = this->str[0] == '-';
@@ -176,13 +176,13 @@ int String::toInt() const {
     }
 
     if(*s == '\0') {
-        throw invalid_argument("Sign character only");
+        throw invalid_argument("sign character only");
     }
 
     int result = 0;
     while(*s) {
         if(*s < '0' || *s > '9') {
-            throw invalid_argument("The String is not an integer");
+            throw invalid_argument("the String is not an integer");
         }
         result = result * 10  + (*s - '0');
         ++s;
@@ -191,7 +191,54 @@ int String::toInt() const {
 }
 
 float String::toFloat() const {
-    return 0.0; // TODO
+    if(this->length() == 0) {
+        throw invalid_argument("empty String");
+    }
+
+    float result = 0;
+    bool dec = false;
+    int decCount = 0;
+    bool niggative = this->str[0] == '-';
+    char* s = this->str;
+
+    if(*s == '+' || *s == '-') {
+        ++s;
+    }
+
+    if(*s == '\0') {
+        throw invalid_argument("sign character only");
+    }
+
+    while(*s) {
+        if(*s == '.') {
+            if(dec) {
+                throw invalid_argument("multiple points");
+            }
+            dec = true;
+            ++s;
+            continue;
+        }
+
+        if(*s < '0' || *s > '9') {
+            throw invalid_argument("the String is not an integer");
+        }
+
+        if(dec) {
+            ++decCount;
+        }
+        result = result * 10  + (*s - '0');
+        ++s;
+    }
+
+    if(niggative) {
+        result = -result;
+    }
+
+    if(decCount == 0) {
+        return result;
+    }
+
+    return result / pow(10, decCount);
 }
 
 bool String::toBool() const {

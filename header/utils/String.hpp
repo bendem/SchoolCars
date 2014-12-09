@@ -1,6 +1,7 @@
 #ifndef STRING_HPP
 #define STRING_HPP
 
+#include <cmath>
 #include <cstdio>
 #include <cstring>
 #include <iostream>
