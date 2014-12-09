@@ -29,7 +29,9 @@ public:
     const Date& getDate() const;
     Date& getDate();
     Car* getCar() const;
+    void setCar(Car*);
     float getDiscount() const;
+    void setDiscount(float);
 
     bool operator==(const Contract&) const;
     bool operator!=(const Contract&) const;

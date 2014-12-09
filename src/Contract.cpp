@@ -37,8 +37,19 @@ Car* Contract::getCar() const {
     return this->car;
 }
 
+void Contract::setCar(Car* car) {
+    if(this->car) {
+        delete this->car;
+    }
+    this->car = new Car(*car);
+}
+
 float Contract::getDiscount() const {
     return this->discount;
+}
+
+void Contract::setDiscount(float discount) {
+    this->discount = discount;
 }
 
 bool Contract::operator==(const Contract& param) const {

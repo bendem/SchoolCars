@@ -772,5 +772,78 @@ void Application::displayContractsForCurrentUser() {
 }
 
 void Application::modifyContract() {
-    //TODO
+    String input;
+    int id;
+
+    while(true) {
+        cout << "    Enter the id of the contract you want to modify: ";
+        cin >> input;
+        try {
+            id = input.toInt();
+        } catch (invalid_argument e) {
+            cout << e.what() << endl;
+            continue;
+        }
+        break;
+    }
+
+    Contract* contract = NULL;
+    Iterator<Contract> it(*this->contracts);
+    while(!it.end()) {
+        if((&it).getId() == id) {
+            contract = &(&it);
+        }
+    }
+
+    if(!contract) {
+        cout << " > Contract not found" << endl;
+        return;
+    }
+
+    int choice;
+    while(true) {
+        cout << "    What do you want to modify? (1=discount, 2=car, 0=done) ";
+        cin >> input;
+
+        try {
+            choice = input.toInt();
+        } catch(invalid_argument e) {
+            cout << " > Invalid choice" << endl;
+            continue;
+        }
+
+        switch(choice) {
+            case 0:
+                return;
+            case 1:
+                cout << "    Enter the new discount";
+                cin >> input;
+                float discount;
+                try {
+                    discount = input.toFloat();
+                } catch(invalid_argument e) {
+                    cout << " > " << e.what() << endl;
+                    continue;
+                }
+                contract->setDiscount(discount);
+                break;
+            case 2:
+                cout << "    Enter the name of the new car project: ";
+                cin >> input;
+                if(this->currentCar->getName() == input) {
+                    contract->setCar(this->currentCar);
+                } else {
+                    Car* car = new Car();
+                    try {
+                        car->load(String("data/") + input + ".car");
+                    } catch(AssertionException e) {
+                        cout << e.what() << endl;
+                        continue;
+                    }
+                    contract->setCar(car);
+                }
+            default:
+                cout << " > Invalid choice" << endl;
+        }
+    }
 }
