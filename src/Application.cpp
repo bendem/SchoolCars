@@ -341,12 +341,31 @@ void Application::displayContracts() {
 
     ConstIterator<Contract> it(*this->contracts);
     while(!it.end()) {
-        cout << it++ << endl;
+        cout << "    " << it++ << endl;
     }
 }
 
 void Application::displayContract() {
-    // TODO
+    String input;
+    int id;
+    cout << "    Enter the id of the contract: ";
+    cin >> input;
+    try {
+        id = input.toInt();
+    } catch(invalid_argument e) {
+        cout << " > Not a valid integer" << endl;
+        return;
+    }
+
+    ConstIterator<Contract> it(*this->contracts);
+    while(!it.end()) {
+        if((&it).getId() == id) {
+            cout << "    " << it << endl;
+            return;
+        }
+        ++it;
+    }
+    cout << " > id not found" << endl;
 }
 
 void Application::displaySellerContracts() {
