@@ -1,15 +1,18 @@
 #ifndef MENU_HPP
 #define MENU_HPP
 
+#include <sstream>
+
 #include "collections/List.hpp"
 #include "menu/MenuEntry.hpp"
 #include "utils/String.hpp"
+
+using namespace std;
 
 template<class T>
 class Menu {
 
 private:
-    int width;
     String title;
     List< MenuEntry<T> >* entries;
 
