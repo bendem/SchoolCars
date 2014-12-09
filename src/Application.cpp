@@ -540,7 +540,6 @@ void Application::displayOptions() {
         return;
     }
 
-    int i = 0;
     ConstIterator<Option> it(*this->options);
     while(!it.end()) {
         cout << "    " << it++ << endl;
