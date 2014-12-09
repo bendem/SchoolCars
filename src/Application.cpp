@@ -8,6 +8,7 @@ Application::Application() {
     this->contracts = new SortedList<Contract>();
     this->currentUser = NULL;
     this->currentCar = NULL;
+    this->carDirty = false;
     this->quitFlag = false;
 }
 
@@ -481,9 +482,10 @@ void Application::displayModels() {
         return;
     }
 
+    int i = 0;
     ConstIterator<Model> it(*this->models);
     while(!it.end()) {
-        cout << "    " << &(it++) << endl;
+        cout << "    " << i++ << ". " << &(it++) << endl;
     }
 }
 
@@ -505,11 +507,66 @@ void Application::displayOptions() {
 }
 
 void Application::createCar() {
-    //TODO
+    if(this->currentCar) {
+        if(this->carDirty) {
+            String input;
+            cout << "    There was changes to the current car, would you like to save them? ";
+            cin >> input;
+            if(input.toBool()) {
+                this->saveCurrentCar();
+            }
+        }
+        delete this->currentCar;
+    }
+
+    String carName;
+    String modelInput;
+    int modelId;
+
+    cout << "    Enter the car project name: ";
+    cin >> carName;
+
+    while(true) {
+        cout << "    Enter the model id: ";
+        cin >> modelInput;
+        try {
+            modelId = modelInput.toInt();
+        } catch(invalid_argument e) {
+            cout << " > " << e.what() << endl;
+            continue;
+        }
+        break;
+    }
+
+    if(modelId >= this->models->size()) {
+        cout << " > Model not found";
+        return;
+    }
+
+    this->currentCar = new Car(carName, this->models->get(modelId));
+    this->carDirty = true;
+    cout << " > Car created and loaded" << endl;
 }
 
 void Application::loadCar() {
-    //TODO
+    if(this->currentCar) {
+        if(this->carDirty) {
+            String input;
+            cout << "    There was changes to the current car, would you like to save them? ";
+            cin >> input;
+            if(input.toBool()) {
+                this->saveCurrentCar();
+            }
+        }
+    } else {
+        this->currentCar = new Car();
+    }
+
+    String input;
+    cout << "    Enter the name of the project to load: ";
+    cin >> input;
+    this->currentCar->load(input);
+    cout << " > Car loaded" << endl;
 }
 
 void Application::displayCurrentCar() {
@@ -521,19 +578,40 @@ void Application::displayCurrentCar() {
 }
 
 void Application::addOptionToCurrentCar() {
+    if(!this->currentCar) {
+        cout << " > No car currently loaded" << endl;
+        return;
+    }
+
     //TODO
 }
 
 void Application::removeOptionFromCurrentCar() {
+    if(!this->currentCar) {
+        cout << " > No car currently loaded" << endl;
+        return;
+    }
+
     //TODO
 }
 
 void Application::applyDiscountToCurrentCar() {
+    if(!this->currentCar) {
+        cout << " > No car currently loaded" << endl;
+        return;
+    }
+
     //TODO
 }
 
 void Application::saveCurrentCar() {
-    //TODO
+    if(!this->currentCar) {
+        cout << " > No car to save" << endl;
+        return;
+    }
+    this->currentCar->save();
+    cout << " > Car saved" << endl;
+    this->carDirty = false;
 }
 
 void Application::newContract() {

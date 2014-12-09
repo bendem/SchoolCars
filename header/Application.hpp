@@ -27,6 +27,7 @@ private:
     SortedList<Contract>* contracts;
     Employee* currentUser;
     Car* currentCar;
+    bool carDirty;
     bool quitFlag;
 
 public:
