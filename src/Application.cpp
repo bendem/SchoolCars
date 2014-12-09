@@ -428,7 +428,34 @@ void Application::createClient() {
 }
 
 void Application::removeClient() {
-    //TODO
+    String input;
+    int id;
+    cout << "    Enter the id of the client to remove: ";
+    cin >> input;
+    try {
+        id = input.toInt();
+    } catch(invalid_argument e) {
+        cout << " > " << e.what() << endl;
+        return;
+    }
+
+    ConstIterator<Contract> contractIt(*this->contracts);
+    while (!contractIt.end()) {
+        if ((&contractIt).getClientId() == id) {
+            cout << " > Client is involved in a contract and can't be removed" << endl;
+            return;
+        }
+    }
+
+    Iterator<Client> clientIt(*this->clients);
+    while(!clientIt.end()) {
+        if((&clientIt).getId() == id) {
+            clientIt.remove();
+            cout << " > Client removed" << endl;
+            return;
+        }
+    }
+    cout << " > Client not found" << endl;
 }
 
 void Application::displayClients() {
