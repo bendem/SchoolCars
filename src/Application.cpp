@@ -394,7 +394,47 @@ void Application::displayContract() {
 }
 
 void Application::displaySellerContracts() {
-    // TODO
+    String input;
+    int id;
+    cout << "    Enter the seller id: ";
+    cin >> input;
+    try {
+        id = input.toInt();
+    } catch(invalid_argument e) {
+        cout << " > " << e.what() << endl;
+        return;
+    }
+
+    bool found = false;
+    ConstIterator<Employee> it(*this->users);
+    while(!it.end()) {
+        if((&it).getId() == id) {
+            if((&it).getFunction() == Employee::ADMINISTRATIVE) {
+                cout << " > This employee is not a seller" << endl;
+                return;
+            }
+            found = true;
+            break;
+        }
+    }
+
+    if(!found) {
+        cout << " > There is no seller with this id" << endl;
+        return;
+    }
+
+    bool stuffWasDisplayed = false;
+    ConstIterator<Contract> contractIt(*this->contracts);
+    while(!contractIt.end()) {
+        if((&contractIt).getSellerId() == id) {
+            cout << "    " << contractIt << endl;
+            stuffWasDisplayed = true;
+        }
+    }
+
+    if(!stuffWasDisplayed) {
+        cout << " > No contracts for this seller" << endl;
+    }
 }
 
 void Application::createClient() {
