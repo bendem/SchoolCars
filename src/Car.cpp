@@ -17,13 +17,29 @@ void Car::display() const {
 }
 
 void Car::addOption(const Option& option) {
+    int added = -1;
+    bool fail = false;
     for(int i = 0; i < MAX_OPTION_COUNT; ++i) {
-        if(!this->options[i]) {
+        if(added == -1 && !this->options[i]) {
             this->options[i] = new Option(option);
-            return;
+            added = i;
+            continue;
+        }
+        if(this->options[i] && this->options[i]->getCode() == option.getCode()) {
+            fail = true;
+            break;
         }
     }
-    throw NotEnoughSpaceException();
+
+    if(added == -1 && !fail) {
+        throw NotEnoughSpaceException();
+    }
+
+    if(added != -1 && fail) {
+        delete this->options[added];
+        this->options[added] = NULL;
+        throw AssertionException();
+    }
 }
 
 void Car::removeOption(const String& option) {

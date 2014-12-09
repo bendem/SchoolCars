@@ -607,6 +607,7 @@ void Application::loadCar() {
     cout << "    Enter the name of the project to load: ";
     cin >> input;
     this->currentCar->load(input);
+    this->carDirty = false;
     cout << " > Car loaded" << endl;
 }
 
@@ -640,7 +641,17 @@ void Application::addOptionToCurrentCar() {
         return;
     }
 
-    this->currentCar->addOption(this->options->get(id));
+    try {
+        this->currentCar->addOption(this->options->get(id));
+    } catch(NotEnoughSpaceException e) {
+        cout << " > Too much options on this car" << endl;
+        return;
+    } catch(AssertionException e) {
+        cout << " > This car already has this option" << endl;
+        return;
+    }
+
+    this->carDirty = true;
     cout << " > Option added to the current car" << endl;
 }
 
@@ -673,6 +684,7 @@ void Application::removeOptionFromCurrentCar() {
         return;
     }
     cout << " > Option removed from the current car" << endl;
+    this->carDirty = true;
 }
 
 void Application::applyDiscountToCurrentCar() {
