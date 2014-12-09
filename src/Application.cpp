@@ -525,7 +525,7 @@ void Application::displayModels() {
     int i = 0;
     ConstIterator<Model> it(*this->models);
     while(!it.end()) {
-        cout << "    " << i++ << ". " << &(it++) << endl;
+        cout << "    " << i++ << ". " << it++ << endl;
     }
 }
 
@@ -543,7 +543,7 @@ void Application::displayOptions() {
     int i = 0;
     ConstIterator<Option> it(*this->options);
     while(!it.end()) {
-        cout << "    " << i++ << ". " << &(it++) << endl;
+        cout << "    " << it++ << endl;
     }
 }
 
@@ -626,33 +626,29 @@ void Application::addOptionToCurrentCar() {
     }
 
     String input;
-    int id;
-    cout << "    Enter the id of the option to add: ";
+    cout << "    Enter the code of the option to add: ";
     cin >> input;
-    try {
-        id = input.toInt();
-    } catch(invalid_argument e) {
-        cout << " > " << e.what() << endl;
-        return;
+
+    ConstIterator<Option> it(*this->options);
+    while(!it.end()) {
+        if((&it).getCode() == input) {
+            try {
+                this->currentCar->addOption(&it);
+            } catch(NotEnoughSpaceException e) {
+                cout << " > Too much options on this car" << endl;
+                return;
+            } catch(AssertionException e) {
+                cout << " > This car already has this option" << endl;
+                return;
+            }
+
+            this->carDirty = true;
+            cout << " > Option added to the current car" << endl;
+            return;
+        }
     }
 
-    if(this->options->size() >= id) {
-        cout << " > Option not found, id too high" << endl; // *smokes*
-        return;
-    }
-
-    try {
-        this->currentCar->addOption(this->options->get(id));
-    } catch(NotEnoughSpaceException e) {
-        cout << " > Too much options on this car" << endl;
-        return;
-    } catch(AssertionException e) {
-        cout << " > This car already has this option" << endl;
-        return;
-    }
-
-    this->carDirty = true;
-    cout << " > Option added to the current car" << endl;
+    cout << " > Option not found" << endl;
 }
 
 void Application::removeOptionFromCurrentCar() {
@@ -662,25 +658,13 @@ void Application::removeOptionFromCurrentCar() {
     }
 
     String input;
-    int id;
-    cout << "    Enter the id of the option to remove: ";
+    cout << "    Enter the code of the option to remove: ";
     cin >> input;
-    try {
-        id = input.toInt();
-    } catch(invalid_argument e) {
-        cout << " > " << e.what() << endl;
-        return;
-    }
-
-    if(this->options->size() >= id) {
-        cout << " > Option not found, id too high" << endl; // *smokes*
-        return;
-    }
 
     try {
-        this->currentCar->removeOption(this->options->get(id).getCode());
+        this->currentCar->removeOption(input);
     } catch(ElementNotFoundException e) {
-        cout << " > current car doesn't have this option" << endl;
+        cout << " > Current car doesn't have this option" << endl;
         return;
     }
     cout << " > Option removed from the current car" << endl;
@@ -694,23 +678,11 @@ void Application::applyDiscountToCurrentCar() {
     }
 
     String input;
-    int id;
-    cout << "    Enter the id of the option: ";
+    cout << "    Enter the code of the option: ";
     cin >> input;
-    try {
-        id = input.toInt();
-    } catch(invalid_argument e) {
-        cout << " > " << e.what() << endl;
-        return;
-    }
-
-    if(this->options->size() >= id) {
-        cout << " > Option id too high" << endl;
-        return;
-    }
 
     try {
-        --this->currentCar->getOption(this->options->get(id).getCode());
+        --this->currentCar->getOption(input);
     } catch(ElementNotFoundException e) {
         cout << " > The car doesn't have this option" << endl;
         return;
