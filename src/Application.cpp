@@ -640,7 +640,7 @@ void Application::addOptionToCurrentCar() {
         return;
     }
 
-    *this->currentCar + this->options->get(id);
+    this->currentCar->addOption(this->options->get(id));
     cout << " > Option added to the current car" << endl;
 }
 
@@ -650,7 +650,29 @@ void Application::removeOptionFromCurrentCar() {
         return;
     }
 
-    //TODO
+    String input;
+    int id;
+    cout << "    Enter the id of the option to remove: ";
+    cin >> input;
+    try {
+        id = input.toInt();
+    } catch(invalid_argument e) {
+        cout << " > " << e << endl;
+        return;
+    }
+
+    if(this->options->size() >= id) {
+        cout << " > Option not found, id too high" << endl; // *smokes*
+        return;
+    }
+
+    try {
+        this->currentCar->removeOption(this->options->get(id).getCode());
+    } catch(ElementNotFoundException e) {
+        cout << " > current car doesn't have this option" << endl;
+        return;
+    }
+    cout << " > Option removed from the current car" << endl;
 }
 
 void Application::applyDiscountToCurrentCar() {
