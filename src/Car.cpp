@@ -115,6 +115,8 @@ void Car::save() const {
 }
 
 void Car::load(const String& filename) {
+    Sanity::truthness(FileUtils::exists(filename), "Can't load car, no corresponding file");
+
     ifstream is(filename, ios::in);
     this->name = StreamUtils::readString(is);
     this->model.load(is);

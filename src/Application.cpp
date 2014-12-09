@@ -701,11 +701,74 @@ void Application::saveCurrentCar() {
 }
 
 void Application::newContract() {
-    //TODO
+    String carName, input;
+    int contractId, clientId;
+
+    while(true) {
+        cout << "    Enter the id of the contract: ";
+        cin >> input;
+        try {
+            contractId = input.toInt();
+        } catch (invalid_argument e) {
+            cout << e.what() << endl;
+            continue;
+        }
+        break;
+    }
+
+    ConstIterator<Contract> it(*this->contracts);
+    while(!it.end()) {
+        if((&it).getId() == contractId) {
+            cout << " > A contract already exists with this id" << endl;
+            return;
+        }
+    }
+
+    while(true) {
+        cout << "    Enter the client id: ";
+        cin >> input;
+        try {
+            clientId = input.toInt();
+        } catch (invalid_argument e) {
+            cout << e.what() << endl;
+            continue;
+        }
+        break;
+    }
+
+    cout << "    Enter the name of the car project: ";
+    cin >> carName;
+
+    Car* car;
+    if(this->currentCar && this->currentCar->getName() == carName) {
+        car = this->currentCar;
+    } else {
+        car = new Car();
+        try {
+            car->load(String("data/") + carName + ".car");
+        } catch(AssertionException e) {
+            cout << e.what() << endl;
+            return;
+        }
+    }
+
+    this->contracts->add(Contract(contractId, this->currentUser->getId(), clientId, Date(), car));
+    cout << " > Contract added" << endl;
 }
 
 void Application::displayContractsForCurrentUser() {
-    //TODO
+    bool displayedStuff = false;
+    ConstIterator<Contract> it(*this->contracts);
+    while(!it.end()) {
+        if((&it).getSellerId() == this->currentUser->getId()) {
+            cout << "    " << it << endl;
+            displayedStuff = true;
+        }
+        ++it;
+    }
+    if(!displayedStuff) {
+        cout << " > No contract made by the current user" << endl;
+    }
 }
 
 void Application::modifyContract() {
