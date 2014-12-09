@@ -9,9 +9,10 @@
 using namespace std;
 
 class Exception : public exception {
+
 protected:
     String message;
-    const Exception* cause;
+
 public:
     Exception(const String& = "");
     Exception(const Exception&);
