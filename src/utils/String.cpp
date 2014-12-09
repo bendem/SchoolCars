@@ -249,6 +249,9 @@ bool String::toBool() const {
         && tmp != (String) "0"
         && tmp != (String) "n"
         && tmp != (String) "no"
+        && tmp != (String) "non"
+        && tmp != (String) "nein"
+        && tmp != (String) "wrong"
         ;
 }
 
