@@ -20,7 +20,7 @@ private:
     Option *options[MAX_OPTION_COUNT];
 
 public:
-    Car(String = "", Model = Model());
+    Car(String = "", const Model& = Model());
     Car(const Car&);
 
     void display() const;

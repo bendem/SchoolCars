@@ -1,6 +1,6 @@
 #include "Car.hpp"
 
-Car::Car(String name, Model model) : name(name), model(model) {
+Car::Car(String name, const Model& model) : name(name), model(model) {
     for(int i = 0; i < MAX_OPTION_COUNT; ++i) {
         options[i] = NULL;
     }
@@ -8,7 +8,7 @@ Car::Car(String name, Model model) : name(name), model(model) {
 
 Car::Car(Car const& param) : name(param.name), model(param.model) {
     for(int i = 0; i < MAX_OPTION_COUNT; ++i) {
-        this->options[i] = param.options[i] ? new Option(*param.options[i]) : NULL;
+        this->options[i] = param.options[i] ? new Option(*param.options[i]) : (Option*) NULL;
     }
 }
 
@@ -111,7 +111,7 @@ Car& Car::operator=(const Car& param) {
         if(this->options[i]) {
             delete this->options[i];
         }
-        this->options[i] = param.options[i] ? new Option(*param.options[i]) : NULL;
+        this->options[i] = param.options[i] ? new Option(*param.options[i]) : (Option*) NULL;
     }
 
     return *this;
