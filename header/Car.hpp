@@ -27,6 +27,7 @@ public:
 
     void addOption(const Option&);
     void removeOption(const String&);
+    Option& getOption(const String&);
 
     float getPrice() const;
 

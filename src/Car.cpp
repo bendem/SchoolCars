@@ -53,6 +53,15 @@ void Car::removeOption(const String& option) {
     throw ElementNotFoundException(option + " was not found");
 }
 
+Option& Car::getOption(const String& code) {
+    for (int i = 0; i < MAX_OPTION_COUNT; ++i) {
+        if(this->options[i] && this->options[i]->getCode() == code) {
+            return *this->options[i];
+        }
+    }
+    throw ElementNotFoundException();
+}
+
 float Car::getPrice() const {
     float price = 0;
     for(int i = 0; i < MAX_OPTION_COUNT; ++i) {

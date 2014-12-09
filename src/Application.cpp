@@ -632,7 +632,7 @@ void Application::addOptionToCurrentCar() {
     try {
         id = input.toInt();
     } catch(invalid_argument e) {
-        cout << " > " << e << endl;
+        cout << " > " << e.what() << endl;
         return;
     }
 
@@ -668,7 +668,7 @@ void Application::removeOptionFromCurrentCar() {
     try {
         id = input.toInt();
     } catch(invalid_argument e) {
-        cout << " > " << e << endl;
+        cout << " > " << e.what() << endl;
         return;
     }
 
@@ -693,7 +693,30 @@ void Application::applyDiscountToCurrentCar() {
         return;
     }
 
-    //TODO
+    String input;
+    int id;
+    cout << "    Enter the id of the option: ";
+    cin >> input;
+    try {
+        id = input.toInt();
+    } catch(invalid_argument e) {
+        cout << " > " << e.what() << endl;
+        return;
+    }
+
+    if(this->options->size() >= id) {
+        cout << " > Option id too high" << endl;
+        return;
+    }
+
+    try {
+        --this->currentCar->getOption(this->options->get(id).getCode());
+    } catch(ElementNotFoundException e) {
+        cout << " > The car doesn't have this option" << endl;
+        return;
+    }
+    cout << " > Discount applied" << endl;
+    this->carDirty = true;
 }
 
 void Application::saveCurrentCar() {
