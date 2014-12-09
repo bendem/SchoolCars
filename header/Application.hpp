@@ -38,6 +38,8 @@ public:
     void saveUsers(const String&) const;
     void loadClients(const String&);
     void saveClients(const String&) const;
+    void loadContracts(const String&);
+    void saveContracts(const String&) const;
     void loadModels(const String&);
     void loadOptions(const String&);
     bool login();

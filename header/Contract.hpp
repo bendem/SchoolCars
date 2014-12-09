@@ -19,6 +19,7 @@ private:
     float discount;
 
 public:
+    Contract();
     Contract(int, int, int, const Date&, Car*, float = 0);
     ~Contract();
 

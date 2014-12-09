@@ -97,6 +97,30 @@ void Application::saveClients(const String& clientfile) const {
     }
 }
 
+void Application::loadContracts(const String& file) {
+    ifstream is(file, ios::in);
+    int count = StreamUtils::readInt(is);
+
+    Contract c;
+    for (int i = 0; i < count; ++i) {
+        c.load(is);
+        this->contracts->add(c);
+    }
+}
+
+void Application::saveContracts(const String& file) const {
+    if(!this->contracts) {
+        return;
+    }
+    ofstream os(file, ios::out | ios::trunc);
+    StreamUtils::write(os, this->contracts->size());
+
+    ConstIterator<Contract> it(*this->contracts);
+    while(!it.end()) {
+        ((Contract) it++).save(os);
+    }
+}
+
 void Application::loadModels(const String& file) {
     Sanity::truthness(this->models == NULL, "Models are already loaded");
 

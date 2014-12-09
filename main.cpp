@@ -12,6 +12,7 @@ using namespace std;
 #define CLIENT_FILE "data/clients.dat"
 #define OPTIONS_FILE "data/Options.csv"
 #define MODELS_FILE "data/Modeles.csv"
+#define CONTRACTS_FILE "data/contracts.dat"
 #define APPLCATION_LOGS "application.log"
 
 int main() {
@@ -76,6 +77,11 @@ int main() {
         app.loadClients(CLIENT_FILE);
     }
 
+    if(FileUtils::exists(CONTRACTS_FILE)) {
+        cerr << time << "Loading contract file" << endl;
+        app.loadContracts(CONTRACTS_FILE);
+    }
+
     Sanity::truthness(FileUtils::exists(OPTIONS_FILE), "Option file not found");
     app.loadOptions(OPTIONS_FILE);
     Sanity::truthness(FileUtils::exists(MODELS_FILE), "Model file not found");
@@ -115,6 +121,9 @@ int main() {
 
     cerr << time << "Saving clients" << endl;
     app.saveClients(CLIENT_FILE);
+
+    cerr << time << "Saving contracts" << endl;
+    app.saveContracts(CONTRACTS_FILE);
 
     cerr << time << "Restoring cerr output" << endl;
     cerr.rdbuf(old);

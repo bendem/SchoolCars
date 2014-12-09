@@ -2,6 +2,14 @@
 
 const int Date::MONTHES[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
+Date::Date() {
+    time_t t = time(0);
+    struct tm* now = localtime(&t);
+    this->day = now->tm_mday;
+    this->month = now->tm_mon + 1;
+    this->year = now->tm_year + 1900;
+}
+
 Date::Date(int day, int month, int year) {
     Sanity::truthness(Date::validate(day, month, year), "Invalid date");
 

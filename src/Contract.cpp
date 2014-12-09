@@ -1,5 +1,9 @@
 #include "Contract.hpp"
 
+Contract::Contract() {
+    this->car = NULL;
+}
+
 Contract::Contract(int id, int sellerId, int clientId, const Date& date, Car* car, float discount)
     : id(id), sellerId(sellerId), clientId(clientId), date(date), car(new Car(*car)), discount(discount) {}
 

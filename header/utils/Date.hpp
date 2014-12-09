@@ -1,6 +1,7 @@
 #ifndef DATE_HPP
 #define DATE_HPP
 
+#include <ctime>
 #include <iostream>
 
 #include "utils/Sanity.hpp"
@@ -21,6 +22,7 @@ private:
     int year;
 
 public:
+    Date();
     Date(int, int, int);
     Date(const Date&);
     ~Date() {}
