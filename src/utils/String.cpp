@@ -34,8 +34,8 @@ String::String(const String& str, int size) {
 
     this->stringSize = size * str.length();
     this->reallocate(this->stringSize + 1, true);
-    for (int i = 0; i < size; ++i) {
-        for (int j = 0; j < str.length(); ++j) {
+    for(int i = 0; i < size; ++i) {
+        for(int j = 0; j < str.length(); ++j) {
             this->str[i * str.length() + j] = str[j];
         }
     }
@@ -131,13 +131,13 @@ int String::length() const {
     return this->stringSize;
 }
 void String::toUpper() {
-    for (int i = 0; i < this->stringSize; ++i) {
+    for(int i = 0; i < this->stringSize; ++i) {
         this->str[i] = toupper(this->str[i]);
     }
 }
 
 void String::toLower() {
-    for (int i = 0; i < this->stringSize; ++i) {
+    for(int i = 0; i < this->stringSize; ++i) {
         this->str[i] = tolower(this->str[i]);
     }
 }

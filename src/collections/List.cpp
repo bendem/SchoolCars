@@ -26,7 +26,7 @@ T List<T>::get(int index) const {
 
     ConstIterator<T> it(*this);
     int i = 0;
-    while (i < index) {
+    while(i < index) {
         ++i;
         if(i == index) {
             return it;

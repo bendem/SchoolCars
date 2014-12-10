@@ -54,7 +54,7 @@ void Car::removeOption(const String& option) {
 }
 
 Option& Car::getOption(const String& code) {
-    for (int i = 0; i < MAX_OPTION_COUNT; ++i) {
+    for(int i = 0; i < MAX_OPTION_COUNT; ++i) {
         if(this->options[i] && this->options[i]->getCode() == code) {
             return *this->options[i];
         }

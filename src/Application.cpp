@@ -46,7 +46,7 @@ void Application::loadUsers(const String& userfile) {
     int count = StreamUtils::readInt(is);
 
     Employee e;
-    for (int i = 0; i < count; ++i) {
+    for(int i = 0; i < count; ++i) {
         e.load(is);
         this->users->add(e);
     }
@@ -79,7 +79,7 @@ void Application::loadClients(const String& clientfile) {
     int count = StreamUtils::readInt(is);
 
     Client c;
-    for (int i = 0; i < count; ++i) {
+    for(int i = 0; i < count; ++i) {
         c.load(is);
         this->clients->add(c);
     }
@@ -103,7 +103,7 @@ void Application::loadContracts(const String& file) {
     int count = StreamUtils::readInt(is);
 
     Contract c;
-    for (int i = 0; i < count; ++i) {
+    for(int i = 0; i < count; ++i) {
         c.load(is);
         this->contracts->add(c);
     }
@@ -287,7 +287,7 @@ void Application::createUser() {
         cin >> id;
         try {
             iId = id.toInt();
-        } catch (invalid_argument e) {
+        } catch(invalid_argument e) {
             cout << " > You didn't enter a valid int ._." << endl;
             continue;
         }
@@ -407,7 +407,7 @@ void Application::createClient() {
         cin >> id;
         try {
             iId = id.toInt();
-        } catch (invalid_argument e) {
+        } catch(invalid_argument e) {
             cout << " > Invalid number given" << endl;
             continue;
         }
@@ -663,7 +663,7 @@ void Application::newContract() {
         cin >> input;
         try {
             contractId = input.toInt();
-        } catch (invalid_argument e) {
+        } catch(invalid_argument e) {
             cout << e.what() << endl;
             continue;
         }
@@ -680,7 +680,7 @@ void Application::newContract() {
         cin >> input;
         try {
             clientId = input.toInt();
-        } catch (invalid_argument e) {
+        } catch(invalid_argument e) {
             cout << e.what() << endl;
             continue;
         }
@@ -731,7 +731,7 @@ void Application::modifyContract() {
         cin >> input;
         try {
             id = input.toInt();
-        } catch (invalid_argument e) {
+        } catch(invalid_argument e) {
             cout << e.what() << endl;
             continue;
         }
