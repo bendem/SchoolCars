@@ -48,15 +48,10 @@ public:
     void loadModels(const String&);
     void loadOptions(const String&);
     bool login();
-    void logout();
-    bool isUserLoggedin() const;
     Employee& getCurrentUser() const;
-    bool isThereACarAtTheMomemnt() const ;
-    Car& getCurrentCar() const;
     bool shouldQuit() const;
 
     // common menu actions
-    void dummy() { cout << "dummy" << endl; };
     void changePassword();
     void quit();
 

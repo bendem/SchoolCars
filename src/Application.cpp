@@ -211,25 +211,8 @@ bool Application::login() {
     }
 }
 
-void Application::logout() {
-    delete this->currentUser;
-    this->currentUser = NULL;
-}
-
-bool Application::isUserLoggedin() const {
-    return this->currentUser != NULL;
-}
-
 Employee& Application::getCurrentUser() const {
     return *this->currentUser;
-}
-
-bool Application::isThereACarAtTheMomemnt() const {
-    return this->currentCar != NULL;
-}
-
-Car& Application::getCurrentCar() const {
-    return *this->currentCar;
 }
 
 bool Application::shouldQuit() const {
