@@ -176,41 +176,39 @@ bool Application::login() {
 
     cerr << time << "Looking for '" << username << "'" << endl;
 
-    Iterator<Employee> it(*this->users);
-    while(!it.end()) {
-        if((&it).getLogin() == username) {
-            // Password not set
-            if((&it).getPassword().length() == 0) {
-                cerr << time << "Found user without password, logging in and asking password" << endl;
-                this->currentUser = &(&it);
-                String newPassword;
-                while(true) {
-                    cout << "    404 password not found, enter a new one: ";
-                    cin >> newPassword;
-                    try {
-                        this->currentUser->setPassword(newPassword);
-                    } catch(InvalidPasswordException e) {
-                        e.display();
-                        continue;
-                    }
-                    break;
+    Optional<Employee> optEmployee = this->users->getFirstMatching(LoginPredicate(username));
+    if(optEmployee.hasValue()) {
+        // Password not set
+        if(optEmployee.get().getPassword().length() == 0) {
+            cerr << time << "Found user without password, logging in and asking password" << endl;
+            this->currentUser = &optEmployee.get();
+            String newPassword;
+            while(true) {
+                cout << "    404 password not found, enter a new one: ";
+                cin >> newPassword;
+                try {
+                    this->currentUser->setPassword(newPassword);
+                } catch(InvalidPasswordException e) {
+                    e.display();
+                    continue;
                 }
-                return true;
+                break;
             }
-            // Correct password
-            if((&it).getPassword() == password) {
-                cerr << time << "Found correct user, logging in" << endl;
-                this->currentUser = &(&it);
-                return true;
-            }
-
-            cerr << time << "Found user (" << (&it).getLogin() << ") with wrong password" << endl;
-            return false;
+            return true;
         }
-        ++it;
+        // Correct password
+        if(optEmployee.get().getPassword() == password) {
+            cerr << time << "Found correct user, logging in" << endl;
+            this->currentUser = &optEmployee.get();
+            return true;
+        }
+
+        cerr << time << "Found user (" << optEmployee.get().getLogin() << ") with wrong password" << endl;
+        return false;
+    } else {
+        cerr << time << "User not found" << endl;
+        return false;
     }
-    cerr << time << "User not found" << endl;
-    return false;
 }
 
 void Application::logout() {
@@ -274,21 +272,18 @@ void Application::displayUser() {
         return;
     }
 
-    ConstIterator<Employee> it(*this->users);
-    while(!it.end()) {
-        if((&it).getLogin() == username) {
-            cout << endl << "    = " << username << " =" << endl
-                << "    Id: \t" << (&it).getId() << endl
-                << "    Login: \t" << (&it).getLogin() << endl
-                << "    Password: \t" << String("*", (&it).getPassword().length()) << endl
-                << "    Function: \t" << (&it).getFunction() << endl
-                << "    Firstname: \t" << (&it).getFirstname() << endl
-                << "    Surname: \t" << (&it).getSurname() << endl;
-            return;
-        }
-        ++it;
+    Optional<Employee> opt = this->users->getFirstMatching(LoginPredicate(username));
+    if(opt.hasValue()) {
+        cout << endl << "    = " << username << " =" << endl
+            << "    Id: \t" << opt.get().getId() << endl
+            << "    Login: \t" << opt.get().getLogin() << endl
+            << "    Password: \t" << String("*", opt.get().getPassword().length()) << endl
+            << "    Function: \t" << opt.get().getFunction() << endl
+            << "    Firstname: \t" << opt.get().getFirstname() << endl
+            << "    Surname: \t" << opt.get().getSurname() << endl;
+    } else {
+        cout << " > User not found :(" << endl;
     }
-    cout << " > User not found :(" << endl;
 }
 
 void Application::createUser() {
@@ -320,17 +315,14 @@ void Application::createUser() {
     cin >> func;
     bFunc = func.toBool();
 
-    ConstIterator<Employee> it(*this->users);
-    while(!it.end()) {
-        if((&it).getId() == iId) {
-            cout << " > There is already a user with the id " << iId << endl;
-            return;
-        }
-        if((&it).getLogin() == login) {
-            cout << " > There is already a user with the username " << login << endl;
-            return;
-        }
-        ++it;
+
+    if(this->users->containsWithPredicate(IdPredicate<Employee>(iId))) {
+        cout << " > There is already a user with the id " << iId << endl;
+        return;
+    }
+    if(this->users->containsWithPredicate(LoginPredicate(login))) {
+        cout << " > There is already a user with the username " << login << endl;
+        return;
     }
 
     this->users->add(Employee(surname, firstname, iId, login, bFunc ? Employee::ADMINISTRATIVE : Employee::SELLER));
@@ -346,16 +338,13 @@ void Application::resetPassword() {
         return;
     }
 
-    Iterator<Employee> it(*this->users);
-    while(!it.end()) {
-        if((&it).getLogin() == username) {
-            (&it).resetPassword();
-            cout << " > Password reset for " << username << endl;
-            return;
-        }
-        ++it;
+    Optional<Employee> opt = this->users->getFirstMatching(LoginPredicate(username));
+    if(opt.hasValue()) {
+        opt.get().resetPassword();
+        cout << " > Password reset for " << username << endl;
+    } else {
+        cout << " > User not found :(" << endl;
     }
-    cout << " > User not found :(" << endl;
 }
 
 void Application::displayContracts() {
@@ -382,15 +371,12 @@ void Application::displayContract() {
         return;
     }
 
-    ConstIterator<Contract> it(*this->contracts);
-    while(!it.end()) {
-        if((&it).getId() == id) {
-            cout << "    " << it << endl;
-            return;
-        }
-        ++it;
+    Optional<Contract> opt = this->contracts->getFirstMatching(IdPredicate<Contract>(id));
+    if(opt.hasValue()) {
+        cout << "    " << opt.get() << endl;
+    } else {
+        cout << " > id not found" << endl;
     }
-    cout << " > id not found" << endl;
 }
 
 void Application::displaySellerContracts() {
@@ -405,21 +391,13 @@ void Application::displaySellerContracts() {
         return;
     }
 
-    bool found = false;
-    ConstIterator<Employee> it(*this->users);
-    while(!it.end()) {
-        if((&it).getId() == id) {
-            if((&it).getFunction() == Employee::ADMINISTRATIVE) {
-                cout << " > This employee is not a seller" << endl;
-                return;
-            }
-            found = true;
-            break;
-        }
-    }
-
-    if(!found) {
+    Optional<Employee> optEmployee = this->users->getFirstMatching(IdPredicate<Employee>(id));
+    if(!optEmployee.hasValue()) {
         cout << " > There is no seller with this id" << endl;
+        return;
+    }
+    if(optEmployee.get().getFunction() == Employee::ADMINISTRATIVE) {
+        cout << " > This employee is not a seller" << endl;
         return;
     }
 
@@ -458,12 +436,10 @@ void Application::createClient() {
     cin >> firstname;
     cout << "    Enter client surname";
     cin >> surname;
-    ConstIterator<Client> it(*this->clients);
-    while(!it.end()) {
-        if((&it).getId() == iId) {
-            cout << " > There is already a client with the id " << iId << endl;
-            return;
-        }
+
+    if(this->clients->containsWithPredicate(IdPredicate<Client>(iId))) {
+        cout << " > There is already a client with the id " << iId << endl;
+        return;
     }
     this->clients->add(Client(surname, firstname, iId, address));
 }
@@ -480,12 +456,9 @@ void Application::removeClient() {
         return;
     }
 
-    ConstIterator<Contract> contractIt(*this->contracts);
-    while (!contractIt.end()) {
-        if ((&contractIt).getClientId() == id) {
-            cout << " > Client is involved in a contract and can't be removed" << endl;
-            return;
-        }
+    if(this->contracts->containsWithPredicate(ClientIdPredicate(id))) {
+        cout << " > Client is involved in a contract and can't be removed" << endl;
+        return;
     }
 
     Iterator<Client> clientIt(*this->clients);
@@ -628,26 +601,24 @@ void Application::addOptionToCurrentCar() {
     cout << "    Enter the code of the option to add: ";
     cin >> input;
 
-    ConstIterator<Option> it(*this->options);
-    while(!it.end()) {
-        if((&it).getCode() == input) {
-            try {
-                this->currentCar->addOption(&it);
-            } catch(NotEnoughSpaceException e) {
-                cout << " > Too much options on this car" << endl;
-                return;
-            } catch(AssertionException e) {
-                cout << " > This car already has this option" << endl;
-                return;
-            }
-
-            this->carDirty = true;
-            cout << " > Option added to the current car" << endl;
+    Optional<Option> opt = this->options->getFirstMatching(CodePredicate(input));
+    if(opt.hasValue()) {
+        try {
+            this->currentCar->addOption(opt.get());
+        } catch(NotEnoughSpaceException e) {
+            cout << " > Too much options on this car" << endl;
+            return;
+        } catch(AssertionException e) {
+            cout << " > This car already has this option" << endl;
             return;
         }
-    }
 
-    cout << " > Option not found" << endl;
+        this->carDirty = true;
+        cout << " > Option added to the current car" << endl;
+        return;
+    } else {
+        cout << " > Option not found" << endl;
+    }
 }
 
 void Application::removeOptionFromCurrentCar() {
@@ -716,12 +687,9 @@ void Application::newContract() {
         break;
     }
 
-    ConstIterator<Contract> it(*this->contracts);
-    while(!it.end()) {
-        if((&it).getId() == contractId) {
-            cout << " > A contract already exists with this id" << endl;
-            return;
-        }
+    if(this->contracts->containsWithPredicate(IdPredicate<Contract>(contractId))) {
+        cout << " > A contract already exists with this id" << endl;
+        return;
     }
 
     while(true) {
@@ -787,15 +755,8 @@ void Application::modifyContract() {
         break;
     }
 
-    Contract* contract = NULL;
-    Iterator<Contract> it(*this->contracts);
-    while(!it.end()) {
-        if((&it).getId() == id) {
-            contract = &(&it);
-        }
-    }
-
-    if(!contract) {
+    Optional<Contract> opt = this->contracts->getFirstMatching(IdPredicate<Contract>(id));
+    if(!opt.hasValue()) {
         cout << " > Contract not found" << endl;
         return;
     }
@@ -825,13 +786,13 @@ void Application::modifyContract() {
                     cout << " > " << e.what() << endl;
                     continue;
                 }
-                contract->setDiscount(discount);
+                opt.get().setDiscount(discount);
                 break;
             case 2:
                 cout << "    Enter the name of the new car project: ";
                 cin >> input;
                 if(this->currentCar->getName() == input) {
-                    contract->setCar(this->currentCar);
+                    opt.get().setCar(this->currentCar);
                 } else {
                     Car* car = new Car();
                     try {
@@ -840,7 +801,7 @@ void Application::modifyContract() {
                         cout << e.what() << endl;
                         continue;
                     }
-                    contract->setCar(car);
+                    opt.get().setCar(car);
                 }
             default:
                 cout << " > Invalid choice" << endl;

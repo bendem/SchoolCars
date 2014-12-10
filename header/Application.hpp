@@ -13,6 +13,10 @@
 #include "collections/SortedList.hpp"
 #include "menu/Menu.hpp"
 #include "menu/MenuEntry.hpp"
+#include "predicates/ClientIdPredicate.hpp"
+#include "predicates/CodePredicate.hpp"
+#include "predicates/IdPredicate.hpp"
+#include "predicates/LoginPredicate.hpp"
 #include "utils/StreamUtils.hpp"
 
 using namespace std;
