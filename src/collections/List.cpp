@@ -35,6 +35,18 @@ T List<T>::get(int index) const {
     }
 }
 
+template<class T>
+Optional<T> List<T>::getFirstMatching(const Predicate<T>& predicate) {
+    Iterator<T> it(*this);
+    while(!it.end()) {
+        if(predicate.test(it)) {
+            return Optional<T>(&(&it));
+        }
+        ++it;
+    }
+    return Optional<T>();
+}
+
 template class List<int>;
 
 #include "Option.hpp"
