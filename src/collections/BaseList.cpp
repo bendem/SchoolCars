@@ -80,6 +80,18 @@ bool BaseList<T>::contains(const T& param) const {
 }
 
 template<class T>
+bool BaseList<T>::containsWithPredicate(const Predicate<T>& predicate) const {
+    ConstIterator<T> it(*this);
+    while(!it.end()) {
+        if(predicate.test(it)) {
+            return true;
+        }
+        ++it;
+    }
+    return false;
+}
+
+template<class T>
 BaseList<T>& BaseList<T>::operator=(const BaseList<T>& param) {
     this->clear();
     this->addAll(param);

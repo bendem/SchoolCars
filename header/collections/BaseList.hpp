@@ -2,6 +2,8 @@
 #define BASELIST_HPP
 
 #include <iostream>
+
+#include "utils/Predicate.hpp"
 #include "utils/Sanity.hpp"
 
 using namespace std;
@@ -39,6 +41,7 @@ public:
     void addAll(const BaseList&);
     virtual void add(const T&) = 0;
     virtual bool contains(const T&) const;
+    bool containsWithPredicate(const Predicate<T>&) const;
 
     BaseList<T>& operator=(const BaseList<T>&);
 
