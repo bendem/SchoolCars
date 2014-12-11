@@ -28,10 +28,7 @@ Application::~Application() {
     if(this->contracts) {
         delete this->contracts;
     }
-    // Points directly inside this->users, has already been deleted
-    // if(this->currentUser) {
-    //     delete this->currentUser;
-    // }
+    // Not removing this->currentUser as it points directly inside this->users and will be deleted with the list
     if(this->currentCar) {
         delete this->currentCar;
     }
