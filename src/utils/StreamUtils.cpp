@@ -78,11 +78,3 @@ List<String> StreamUtils::readCSVLine(istream& is, int elemCount) {
 void StreamUtils::skipLine(istream& is) {
     is.ignore(1000, is.widen('\n')); // Should use numeric limit, but, oh well...
 }
-
-ostream& time(ostream& os) {
-    time_t rawtime;
-    char buff[11];
-    time(&rawtime);
-    strftime(buff, sizeof(buff), "[%H:%M:%S]", localtime(&rawtime));
-    return os << buff << " ";
-}

@@ -3,8 +3,8 @@
 #include <iostream>
 
 #include "Application.hpp"
+#include "utils/Logging.hpp"
 #include "utils/FileUtils.hpp"
-#include "utils/StreamUtils.hpp"
 
 using namespace std;
 
@@ -18,11 +18,11 @@ using namespace std;
 int main() {
     fstream x(APPLCATION_LOGS, ios::out | ios::trunc);
     streambuf* old = cerr.rdbuf(x.rdbuf());
-    cerr << time << "Output redirected to " << APPLCATION_LOGS << endl;
+    cerr << time("main") << "Output redirected to " << APPLCATION_LOGS << endl;
 
     Application app;
 
-    cerr << time << "Creating admin menu" << endl;
+    cerr << time("main") << "Creating admin menu" << endl;
     // Preparing menus
     Menu<Application> adminMenu("Menu Admin");
     adminMenu
@@ -38,7 +38,7 @@ int main() {
         .addEntry("7", "Afficher les contrats et le chiffre d'affaire d'un vendeur", &Application::displaySellerContracts)
         .addEntry("Q", "Quitter l'application", &Application::quit);
 
-    cerr << time << "Creating seller menu" << endl;
+    cerr << time("main") << "Creating seller menu" << endl;
     Menu<Application> sellerMenu("Menu Vendeur");
     sellerMenu
         .addEntry("0",  "Changer de mot de passe", &Application::changePassword)
@@ -63,34 +63,36 @@ int main() {
         .addEntry("16", "Modifier un contrat", &Application::modifyContract)
         .addEntry("Q",  "Quitter l'application", &Application::quit);
 
-    cerr << time << "Application starting" << endl;
+    cerr << time("main") << "Application starting" << endl;
     if(FileUtils::exists(USER_FILE)) {
-        cerr << time << "Loading existing users" << endl;
+        cerr << time("main") << "Loading existing users" << endl;
         app.loadUsers(USER_FILE);
     } else {
-        cerr << time << "Creating default users" << endl;
+        cerr << time("main") << "Creating default users" << endl;
         app.defaultUsers();
     }
 
     if(FileUtils::exists(CLIENT_FILE)) {
-        cerr << time << "Loading client file" << endl;
+        cerr << time("main") << "Loading client file" << endl;
         app.loadClients(CLIENT_FILE);
     }
 
     if(FileUtils::exists(CONTRACTS_FILE)) {
-        cerr << time << "Loading contract file" << endl;
+        cerr << time("main") << "Loading contract file" << endl;
         app.loadContracts(CONTRACTS_FILE);
     }
 
+    cerr << time("main") << "Loading option file" << endl;
     Sanity::truthness(FileUtils::exists(OPTIONS_FILE), "Option file not found");
     app.loadOptions(OPTIONS_FILE);
+    cerr << time("main") << "Loading model file" << endl;
     Sanity::truthness(FileUtils::exists(MODELS_FILE), "Model file not found");
     app.loadModels(MODELS_FILE);
 
     /* =================================================
      *            THE APPLICATION STARTS HERE
      * ================================================= */
-    cerr << time << "Application loaded, starting user interaction" << endl;
+    cerr << time("main") << "Application loaded, starting user interaction" << endl;
     while(!app.login()) {
         cout << endl << " > Bad login, try again..." << endl << endl;
     }
@@ -113,17 +115,17 @@ int main() {
      *            THE APPLICATION ENDS HERE
      * ================================================= */
 
-    cerr << time << "Application closing" << endl;
-    cerr << time << "Saving users" << endl;
+    cerr << time("main") << "Application closing" << endl;
+    cerr << time("main") << "Saving users" << endl;
     app.saveUsers(USER_FILE);
 
-    cerr << time << "Saving clients" << endl;
+    cerr << time("main") << "Saving clients" << endl;
     app.saveClients(CLIENT_FILE);
 
-    cerr << time << "Saving contracts" << endl;
+    cerr << time("main") << "Saving contracts" << endl;
     app.saveContracts(CONTRACTS_FILE);
 
-    cerr << time << "Restoring cerr output" << endl;
+    cerr << time("main") << "Restoring cerr output" << endl;
     cerr.rdbuf(old);
 
     return 0;

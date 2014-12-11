@@ -129,7 +129,7 @@ void Application::loadModels(const String& file) {
     ifstream is(file, ios::in);
     List<String> l;
 
-    cerr << time << "Loading models from " << file << endl;
+    cerr << time("Application") << "Loading models from " << file << endl;
     StreamUtils::skipLine(is); // Validate file format?
     while(is.peek() != EOF) {
         l = StreamUtils::readCSVLine(is, 4);
@@ -140,7 +140,7 @@ void Application::loadModels(const String& file) {
         float baseCost = (&it).toFloat();
         this->models->add(Model(name, power, diesel, baseCost));
     }
-    cerr << time << this->models->size() << " models loaded" << endl;
+    cerr << time("Application") << this->models->size() << " models loaded" << endl;
 }
 
 void Application::loadOptions(const String& file) {
@@ -150,7 +150,7 @@ void Application::loadOptions(const String& file) {
     ifstream is(file, ios::in);
     List<String> l;
 
-    cerr << time << "Loading options from " << file << endl;
+    cerr << time("Application") << "Loading options from " << file << endl;
     StreamUtils::skipLine(is); // Validate file format?
     while(is.peek() != EOF) {
         l = StreamUtils::readCSVLine(is, 3);
@@ -160,7 +160,7 @@ void Application::loadOptions(const String& file) {
         int price = (&it).toInt();
         this->options->add(Option(code, name, price));
     }
-    cerr << time << this->options->size() << " options loaded" << endl;
+    cerr << time("Application") << this->options->size() << " options loaded" << endl;
 }
 
 
@@ -174,13 +174,13 @@ bool Application::login() {
     cout << "    Entrez votre mot de passe: ";
     cin >> password;
 
-    cerr << time << "Looking for '" << username << "'" << endl;
+    cerr << time("Application") << "Looking for '" << username << "'" << endl;
 
     Optional<Employee> optEmployee = this->users->getFirstMatching(LoginPredicate(username));
     if(optEmployee.hasValue()) {
         // Password not set
         if(optEmployee.get().getPassword().length() == 0) {
-            cerr << time << "Found user without password, logging in and asking password" << endl;
+            cerr << time("Application") << "Found user without password, logging in and asking password" << endl;
             this->currentUser = &optEmployee.get();
             String newPassword;
             while(true) {
@@ -198,15 +198,15 @@ bool Application::login() {
         }
         // Correct password
         if(optEmployee.get().getPassword() == password) {
-            cerr << time << "Found correct user, logging in" << endl;
+            cerr << time("Application") << "Found correct user, logging in" << endl;
             this->currentUser = &optEmployee.get();
             return true;
         }
 
-        cerr << time << "Found user (" << optEmployee.get().getLogin() << ") with wrong password" << endl;
+        cerr << time("Application") << "Found user (" << optEmployee.get().getLogin() << ") with wrong password" << endl;
         return false;
     } else {
-        cerr << time << "User not found" << endl;
+        cerr << time("Application") << "User not found" << endl;
         return false;
     }
 }

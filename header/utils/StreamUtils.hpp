@@ -28,9 +28,4 @@ public:
 
 };
 
-
-ostream& time(ostream&);
-
-
 #endif
-
