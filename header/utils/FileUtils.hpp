@@ -10,6 +10,10 @@ using namespace std;
 class FileUtils {
 
 public:
+
+    /**
+     * Checks wether a file exists at the provided path.
+     */
     static bool exists(const String&);
 
 };

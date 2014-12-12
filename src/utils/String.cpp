@@ -82,12 +82,15 @@ String::~String() {
 
 void String::reallocate(int size, bool constructing) {
     if(constructing) {
+        /* If we are currently constructing the char array,
+         * we bypass all checks and just allocate the array */
         this->str = new char[size];
         this->arraySize = size;
         return;
     }
 
     if(size < 0) {
+        // Invalid size, ignoring
         return;
     }
 

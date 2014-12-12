@@ -8,6 +8,9 @@
 
 using namespace std;
 
+/**
+ * Easy to use utility to write and read primitive types in and out of streams.
+ */
 class StreamUtils {
 
 public:
@@ -24,7 +27,14 @@ public:
     static char   readChar(istream&);
     static float  readFloat(istream&);
 
+    /**
+     * Returns a list of string containing the elements of a single line read in a csv file.
+     */
     static List<String> readCSVLine(istream&, int);
+
+    /**
+     * Skips a line on a character based input stream.
+     */
     static void skipLine(istream&);
 
 };

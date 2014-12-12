@@ -9,6 +9,9 @@
 
 using namespace std;
 
+/**
+ * Reprensents an date by its day, month and year.
+ */
 class Date {
 
 private:

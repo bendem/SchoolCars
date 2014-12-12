@@ -5,6 +5,9 @@
 
 #include "utils/String.hpp"
 
+/**
+ * Represents an entry for a Menu.
+ */
 template<class T>
 class MenuEntry {
 
@@ -14,6 +17,13 @@ private:
     void(T::*method)(void);
 
 public:
+
+    /**
+     * Constructs an entry having an identifier, a text and a method to call.
+     *
+     * If the method pointer provided is null, the entry is not choosable and
+     * its identifier will be duplicated for times (as a separator).
+     */
     MenuEntry(const String&, const String&, void(T::*)(void));
     MenuEntry(const MenuEntry&);
 
