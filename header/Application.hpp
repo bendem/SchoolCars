@@ -34,6 +34,9 @@ private:
     Car* currentCar;
     bool carDirty;
     bool quitFlag;
+    unsigned int userId;
+    unsigned int clientId;
+    unsigned int contractId;
 
 public:
     Application();

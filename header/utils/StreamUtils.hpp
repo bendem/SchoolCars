@@ -14,6 +14,7 @@ public:
     static void write(ostream&, const String&);
     static void write(ostream&, bool);
     static void write(ostream&, int);
+    static void write(ostream&, unsigned int);
     static void write(ostream&, char);
     static void write(ostream&, float);
 

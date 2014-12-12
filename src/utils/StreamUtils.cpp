@@ -16,6 +16,10 @@ void StreamUtils::write(ostream& os, int i) {
     os.write((char*) &i, sizeof(int));
 }
 
+void StreamUtils::write(ostream& os, unsigned int i) {
+    os.write((char*) &i, sizeof(unsigned int));
+}
+
 void StreamUtils::write(ostream& os, char c) {
     os.write(&c, sizeof(char));
 }

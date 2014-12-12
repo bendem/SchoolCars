@@ -5,6 +5,9 @@ Application::Application() {
     this->currentCar = NULL;
     this->carDirty = false;
     this->quitFlag = false;
+    this->userId = 0;
+    this->clientId = 0;
+    this->contractId = 0;
 }
 
 Application::~Application() {
@@ -19,6 +22,7 @@ void Application::loadUsers(const String& userfile) {
 
     ifstream is(userfile, ios::in);
     int count = StreamUtils::readInt(is);
+    this->userId = StreamUtils::readInt(is);
 
     Employee e;
     for(int i = 0; i < count; ++i) {
@@ -30,7 +34,7 @@ void Application::loadUsers(const String& userfile) {
 void Application::defaultUsers() {
     Sanity::truthness(this->users.isEmpty(), "Can't create default users, some already exist");
 
-    Employee e("Placeholder", "Administrateur", 0, "admin", Employee::ADMINISTRATIVE);
+    Employee e("Placeholder", "Administrateur", ++this->userId, "admin", Employee::ADMINISTRATIVE);
     e.setPassword("admin000");
     this->users.add(e);
 }
@@ -38,6 +42,7 @@ void Application::defaultUsers() {
 void Application::saveUsers(const String& userfile) const {
     ofstream os(userfile, ios::out | ios::trunc);
     StreamUtils::write(os, this->users.size());
+    StreamUtils::write(os, this->userId);
 
     ConstIterator<Employee> it(this->users);
     while(!it.end()) {
@@ -48,6 +53,7 @@ void Application::saveUsers(const String& userfile) const {
 void Application::loadClients(const String& clientfile) {
     ifstream is(clientfile, ios::in);
     int count = StreamUtils::readInt(is);
+    this->clientId = StreamUtils::readInt(is);
 
     Client c;
     for(int i = 0; i < count; ++i) {
@@ -59,6 +65,7 @@ void Application::loadClients(const String& clientfile) {
 void Application::saveClients(const String& clientfile) const {
     ofstream os(clientfile, ios::out | ios::trunc);
     StreamUtils::write(os, this->clients.size());
+    StreamUtils::write(os, this->clientId);
 
     ConstIterator<Client> it(this->clients);
     while(!it.end()) {
@@ -69,6 +76,7 @@ void Application::saveClients(const String& clientfile) const {
 void Application::loadContracts(const String& file) {
     ifstream is(file, ios::in);
     int count = StreamUtils::readInt(is);
+    this->contractId = StreamUtils::readInt(is);
 
     Contract c;
     for(int i = 0; i < count; ++i) {
@@ -80,6 +88,7 @@ void Application::loadContracts(const String& file) {
 void Application::saveContracts(const String& file) const {
     ofstream os(file, ios::out | ios::trunc);
     StreamUtils::write(os, this->contracts.size());
+    StreamUtils::write(os, this->contractId);
 
     ConstIterator<Contract> it(this->contracts);
     while(!it.end()) {
@@ -240,8 +249,7 @@ void Application::displayUser() {
 }
 
 void Application::createUser() {
-    String surname, firstname, login, id, func;
-    int iId;
+    String surname, firstname, login, func;
     bool bFunc;
 
     cout << endl << "    = Creating new user =" << endl;
@@ -251,34 +259,16 @@ void Application::createUser() {
     cin >> firstname;
     cout << "    User surname: ";
     cin >> surname;
-
-    while(true) {
-        cout << "    User id: ";
-        cin >> id;
-        try {
-            iId = id.toInt();
-        } catch(invalid_argument e) {
-            cout << " > You didn't enter a valid int ._." << endl;
-            continue;
-        }
-        break;
-    }
-
     cout << "    Function (is " << Employee::ADMINISTRATIVE << "?): ";
     cin >> func;
     bFunc = func.toBool();
 
-
-    if(this->users.containsWithPredicate(IdPredicate<Employee>(iId))) {
-        cout << " > There is already a user with the id " << iId << endl;
-        return;
-    }
     if(this->users.containsWithPredicate(LoginPredicate(login))) {
         cout << " > There is already a user with the username " << login << endl;
         return;
     }
 
-    this->users.add(Employee(surname, firstname, iId, login, bFunc ? Employee::ADMINISTRATIVE : Employee::SELLER));
+    this->users.add(Employee(surname, firstname, ++this->userId, login, bFunc ? Employee::ADMINISTRATIVE : Employee::SELLER));
     cout << " > User successfuly added" << endl;
 }
 
@@ -369,20 +359,8 @@ void Application::displaySellerContracts() {
 }
 
 void Application::createClient() {
-    String id, address, firstname, surname;
-    int iId;
+    String address, firstname, surname;
     cout << endl << "    = Creating new client =" << endl;
-    while(true) {
-        cout << "    Enter client id: ";
-        cin >> id;
-        try {
-            iId = id.toInt();
-        } catch(invalid_argument e) {
-            cout << " > Invalid number given" << endl;
-            continue;
-        }
-        break;
-    }
     cout << "    Enter client address: ";
     cin >> address;
     cout << "    Enter client firstname: ";
@@ -390,11 +368,7 @@ void Application::createClient() {
     cout << "    Enter client surname";
     cin >> surname;
 
-    if(this->clients.containsWithPredicate(IdPredicate<Client>(iId))) {
-        cout << " > There is already a client with the id " << iId << endl;
-        return;
-    }
-    this->clients.add(Client(surname, firstname, iId, address));
+    this->clients.add(Client(surname, firstname, ++this->clientId, address));
 }
 
 void Application::removeClient() {
@@ -616,24 +590,7 @@ void Application::saveCurrentCar() {
 
 void Application::newContract() {
     String carName, input;
-    int contractId, clientId;
-
-    while(true) {
-        cout << "    Enter the id of the contract: ";
-        cin >> input;
-        try {
-            contractId = input.toInt();
-        } catch(invalid_argument e) {
-            cout << e.what() << endl;
-            continue;
-        }
-        break;
-    }
-
-    if(this->contracts.containsWithPredicate(IdPredicate<Contract>(contractId))) {
-        cout << " > A contract already exists with this id" << endl;
-        return;
-    }
+    int clientId;
 
     while(true) {
         cout << "    Enter the client id: ";
@@ -663,7 +620,7 @@ void Application::newContract() {
         }
     }
 
-    this->contracts.add(Contract(contractId, this->currentUser->getId(), clientId, Date(), car));
+    this->contracts.add(Contract(++this->contractId, this->currentUser->getId(), clientId, Date(), car));
     cout << " > Contract added" << endl;
 }
 
