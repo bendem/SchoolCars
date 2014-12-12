@@ -6,8 +6,8 @@
 
 You develop an application for a company selling cars (more informations in the pdf)
 
-The application is built with C++99 and presented on Solaris (should compile everywhere
-- Linux requires python to create the target dir using `make clean` cause I'm lazy)
+The application is built with C++99 and presented on Solaris (should compile everywhere -
+Linux requires python to create the target dir using `make clean` cause I'm lazy)
 
 ### License
 
