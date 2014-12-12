@@ -1,11 +1,6 @@
 #include "Application.hpp"
 
 Application::Application() {
-    this->users = NULL;
-    this->clients = new SortedList<Client>();
-    this->options = NULL;
-    this->models = NULL;
-    this->contracts = new SortedList<Contract>();
     this->currentUser = NULL;
     this->currentCar = NULL;
     this->carDirty = false;
@@ -13,21 +8,6 @@ Application::Application() {
 }
 
 Application::~Application() {
-    if(this->users) {
-        delete this->users;
-    }
-    if(this->clients) {
-        delete this->clients;
-    }
-    if(this->options) {
-        delete this->options;
-    }
-    if(this->models) {
-        delete this->models;
-    }
-    if(this->contracts) {
-        delete this->contracts;
-    }
     // Not removing this->currentUser as it points directly inside this->users and will be deleted with the list
     if(this->currentCar) {
         delete this->currentCar;
@@ -35,9 +15,7 @@ Application::~Application() {
 }
 
 void Application::loadUsers(const String& userfile) {
-    Sanity::truthness(this->users == NULL, "Users were already loaded");
-
-    this->users = new SortedList<Employee>();
+    Sanity::truthness(this->users.isEmpty(), "Users were already loaded");
 
     ifstream is(userfile, ios::in);
     int count = StreamUtils::readInt(is);
@@ -45,27 +23,23 @@ void Application::loadUsers(const String& userfile) {
     Employee e;
     for(int i = 0; i < count; ++i) {
         e.load(is);
-        this->users->add(e);
+        this->users.add(e);
     }
 }
 
 void Application::defaultUsers() {
-    Sanity::truthness(this->users == NULL, "Can't create default users, some already exist");
+    Sanity::truthness(this->users.isEmpty(), "Can't create default users, some already exist");
 
-    this->users = new SortedList<Employee>();
     Employee e("Placeholder", "Administrateur", 0, "admin", Employee::ADMINISTRATIVE);
     e.setPassword("admin000");
-    this->users->add(e);
+    this->users.add(e);
 }
 
 void Application::saveUsers(const String& userfile) const {
-    if(!this->users) {
-        return;
-    }
     ofstream os(userfile, ios::out | ios::trunc);
-    StreamUtils::write(os, this->users->size());
+    StreamUtils::write(os, this->users.size());
 
-    ConstIterator<Employee> it(*this->users);
+    ConstIterator<Employee> it(this->users);
     while(!it.end()) {
         ((Employee) it++).save(os);
     }
@@ -78,18 +52,15 @@ void Application::loadClients(const String& clientfile) {
     Client c;
     for(int i = 0; i < count; ++i) {
         c.load(is);
-        this->clients->add(c);
+        this->clients.add(c);
     }
 }
 
 void Application::saveClients(const String& clientfile) const {
-    if(!this->clients) {
-        return;
-    }
     ofstream os(clientfile, ios::out | ios::trunc);
-    StreamUtils::write(os, this->clients->size());
+    StreamUtils::write(os, this->clients.size());
 
-    ConstIterator<Client> it(*this->clients);
+    ConstIterator<Client> it(this->clients);
     while(!it.end()) {
         ((Client) it++).save(os);
     }
@@ -102,27 +73,23 @@ void Application::loadContracts(const String& file) {
     Contract c;
     for(int i = 0; i < count; ++i) {
         c.load(is);
-        this->contracts->add(c);
+        this->contracts.add(c);
     }
 }
 
 void Application::saveContracts(const String& file) const {
-    if(!this->contracts) {
-        return;
-    }
     ofstream os(file, ios::out | ios::trunc);
-    StreamUtils::write(os, this->contracts->size());
+    StreamUtils::write(os, this->contracts.size());
 
-    ConstIterator<Contract> it(*this->contracts);
+    ConstIterator<Contract> it(this->contracts);
     while(!it.end()) {
         ((Contract) it++).save(os);
     }
 }
 
 void Application::loadModels(const String& file) {
-    Sanity::truthness(this->models == NULL, "Models are already loaded");
+    Sanity::truthness(this->models.isEmpty(), "Models are already loaded");
 
-    this->models = new List<Model>();
     ifstream is(file, ios::in);
     List<String> l;
 
@@ -135,15 +102,14 @@ void Application::loadModels(const String& file) {
         int power = (&it++).toInt();
         bool diesel = (&it++).toBool();
         float baseCost = (&it).toFloat();
-        this->models->add(Model(name, power, diesel, baseCost));
+        this->models.add(Model(name, power, diesel, baseCost));
     }
-    cerr << time("Application") << this->models->size() << " models loaded" << endl;
+    cerr << time("Application") << this->models.size() << " models loaded" << endl;
 }
 
 void Application::loadOptions(const String& file) {
-    Sanity::truthness(this->models == NULL, "Options are already loaded");
+    Sanity::truthness(this->models.isEmpty(), "Options are already loaded");
 
-    this->options = new List<Option>();
     ifstream is(file, ios::in);
     List<String> l;
 
@@ -155,9 +121,9 @@ void Application::loadOptions(const String& file) {
         String code = it++;
         String name = it++;
         int price = (&it).toInt();
-        this->options->add(Option(code, name, price));
+        this->options.add(Option(code, name, price));
     }
-    cerr << time("Application") << this->options->size() << " options loaded" << endl;
+    cerr << time("Application") << this->options.size() << " options loaded" << endl;
 }
 
 
@@ -173,7 +139,7 @@ bool Application::login() {
 
     cerr << time("Application") << "Looking for '" << username << "'" << endl;
 
-    Optional<Employee> optEmployee = this->users->getFirstMatching(LoginPredicate(username));
+    Optional<Employee> optEmployee = this->users.getFirstMatching(LoginPredicate(username));
     if(optEmployee.hasValue()) {
         // Password not set
         if(optEmployee.get().getPassword().length() == 0) {
@@ -240,11 +206,11 @@ void Application::quit() {
 }
 
 void Application::displayUsers() {
-    if(this->users->size() == 0) {
+    if(this->users.isEmpty()) {
         cout << " > No users" << endl;
         return;
     }
-    ConstIterator<Employee> it(*this->users);
+    ConstIterator<Employee> it(this->users);
     while(!it.end()) {
         cout << it++ << endl;
     }
@@ -259,7 +225,7 @@ void Application::displayUser() {
         return;
     }
 
-    Optional<Employee> opt = this->users->getFirstMatching(LoginPredicate(username));
+    Optional<Employee> opt = this->users.getFirstMatching(LoginPredicate(username));
     if(opt.hasValue()) {
         cout << endl << "    = " << username << " =" << endl
             << "    Id: \t" << opt.get().getId() << endl
@@ -303,16 +269,16 @@ void Application::createUser() {
     bFunc = func.toBool();
 
 
-    if(this->users->containsWithPredicate(IdPredicate<Employee>(iId))) {
+    if(this->users.containsWithPredicate(IdPredicate<Employee>(iId))) {
         cout << " > There is already a user with the id " << iId << endl;
         return;
     }
-    if(this->users->containsWithPredicate(LoginPredicate(login))) {
+    if(this->users.containsWithPredicate(LoginPredicate(login))) {
         cout << " > There is already a user with the username " << login << endl;
         return;
     }
 
-    this->users->add(Employee(surname, firstname, iId, login, bFunc ? Employee::ADMINISTRATIVE : Employee::SELLER));
+    this->users.add(Employee(surname, firstname, iId, login, bFunc ? Employee::ADMINISTRATIVE : Employee::SELLER));
     cout << " > User successfuly added" << endl;
 }
 
@@ -325,7 +291,7 @@ void Application::resetPassword() {
         return;
     }
 
-    Optional<Employee> opt = this->users->getFirstMatching(LoginPredicate(username));
+    Optional<Employee> opt = this->users.getFirstMatching(LoginPredicate(username));
     if(opt.hasValue()) {
         opt.get().resetPassword();
         cout << " > Password reset for " << username << endl;
@@ -335,12 +301,12 @@ void Application::resetPassword() {
 }
 
 void Application::displayContracts() {
-    if(this->contracts->size() == 0) {
+    if(this->contracts.isEmpty()) {
         cout << " > No contracts" << endl;
         return;
     }
 
-    ConstIterator<Contract> it(*this->contracts);
+    ConstIterator<Contract> it(this->contracts);
     while(!it.end()) {
         cout << "    " << it++ << endl;
     }
@@ -358,7 +324,7 @@ void Application::displayContract() {
         return;
     }
 
-    Optional<Contract> opt = this->contracts->getFirstMatching(IdPredicate<Contract>(id));
+    Optional<Contract> opt = this->contracts.getFirstMatching(IdPredicate<Contract>(id));
     if(opt.hasValue()) {
         cout << "    " << opt.get() << endl;
     } else {
@@ -378,7 +344,7 @@ void Application::displaySellerContracts() {
         return;
     }
 
-    Optional<Employee> optEmployee = this->users->getFirstMatching(IdPredicate<Employee>(id));
+    Optional<Employee> optEmployee = this->users.getFirstMatching(IdPredicate<Employee>(id));
     if(!optEmployee.hasValue()) {
         cout << " > There is no seller with this id" << endl;
         return;
@@ -389,7 +355,7 @@ void Application::displaySellerContracts() {
     }
 
     bool stuffWasDisplayed = false;
-    ConstIterator<Contract> contractIt(*this->contracts);
+    ConstIterator<Contract> contractIt(this->contracts);
     while(!contractIt.end()) {
         if((&contractIt).getSellerId() == id) {
             cout << "    " << contractIt << endl;
@@ -424,11 +390,11 @@ void Application::createClient() {
     cout << "    Enter client surname";
     cin >> surname;
 
-    if(this->clients->containsWithPredicate(IdPredicate<Client>(iId))) {
+    if(this->clients.containsWithPredicate(IdPredicate<Client>(iId))) {
         cout << " > There is already a client with the id " << iId << endl;
         return;
     }
-    this->clients->add(Client(surname, firstname, iId, address));
+    this->clients.add(Client(surname, firstname, iId, address));
 }
 
 void Application::removeClient() {
@@ -443,12 +409,12 @@ void Application::removeClient() {
         return;
     }
 
-    if(this->contracts->containsWithPredicate(ClientIdPredicate(id))) {
+    if(this->contracts.containsWithPredicate(ClientIdPredicate(id))) {
         cout << " > Client is involved in a contract and can't be removed" << endl;
         return;
     }
 
-    Iterator<Client> clientIt(*this->clients);
+    Iterator<Client> clientIt(this->clients);
     while(!clientIt.end()) {
         if((&clientIt).getId() == id) {
             clientIt.remove();
@@ -460,47 +426,37 @@ void Application::removeClient() {
 }
 
 void Application::displayClients() {
-    if(this->clients->size() == 0) {
+    if(this->clients.isEmpty()) {
         cout << " > No clients" << endl;
         return;
     }
 
-    ConstIterator<Client> it(*this->clients);
+    ConstIterator<Client> it(this->clients);
     while(!it.end()) {
         cout << "    " << &(it++) << endl;
     }
 }
 
 void Application::displayModels() {
-    if(!this->models) {
-        cout << " > Models not loaded" << endl;
-        return;
-    }
-
-    if(this->models->size() == 0) {
+    if(this->models.isEmpty()) {
         cout << " > No models yet" << endl;
         return;
     }
 
     int i = 0;
-    ConstIterator<Model> it(*this->models);
+    ConstIterator<Model> it(this->models);
     while(!it.end()) {
         cout << "    " << i++ << ". " << it++ << endl;
     }
 }
 
 void Application::displayOptions() {
-    if(!this->options) {
-        cout << " > Options not loaded" << endl;
-        return;
-    }
-
-    if(this->options->size() == 0) {
+    if(this->options.isEmpty()) {
         cout << " > No options yet" << endl;
         return;
     }
 
-    ConstIterator<Option> it(*this->options);
+    ConstIterator<Option> it(this->options);
     while(!it.end()) {
         cout << "    " << it++ << endl;
     }
@@ -538,12 +494,12 @@ void Application::createCar() {
         break;
     }
 
-    if(modelId >= this->models->size()) {
+    if(modelId >= this->models.size()) {
         cout << " > Model not found";
         return;
     }
 
-    this->currentCar = new Car(carName, this->models->get(modelId));
+    this->currentCar = new Car(carName, this->models.get(modelId));
     this->carDirty = true;
     cout << " > Car created and loaded" << endl;
 }
@@ -588,7 +544,7 @@ void Application::addOptionToCurrentCar() {
     cout << "    Enter the code of the option to add: ";
     cin >> input;
 
-    Optional<Option> opt = this->options->getFirstMatching(CodePredicate(input));
+    Optional<Option> opt = this->options.getFirstMatching(CodePredicate(input));
     if(opt.hasValue()) {
         try {
             this->currentCar->addOption(opt.get());
@@ -674,7 +630,7 @@ void Application::newContract() {
         break;
     }
 
-    if(this->contracts->containsWithPredicate(IdPredicate<Contract>(contractId))) {
+    if(this->contracts.containsWithPredicate(IdPredicate<Contract>(contractId))) {
         cout << " > A contract already exists with this id" << endl;
         return;
     }
@@ -707,13 +663,13 @@ void Application::newContract() {
         }
     }
 
-    this->contracts->add(Contract(contractId, this->currentUser->getId(), clientId, Date(), car));
+    this->contracts.add(Contract(contractId, this->currentUser->getId(), clientId, Date(), car));
     cout << " > Contract added" << endl;
 }
 
 void Application::displayContractsForCurrentUser() {
     bool displayedStuff = false;
-    ConstIterator<Contract> it(*this->contracts);
+    ConstIterator<Contract> it(this->contracts);
     while(!it.end()) {
         if((&it).getSellerId() == this->currentUser->getId()) {
             cout << "    " << it << endl;
@@ -742,7 +698,7 @@ void Application::modifyContract() {
         break;
     }
 
-    Optional<Contract> opt = this->contracts->getFirstMatching(IdPredicate<Contract>(id));
+    Optional<Contract> opt = this->contracts.getFirstMatching(IdPredicate<Contract>(id));
     if(!opt.hasValue()) {
         cout << " > Contract not found" << endl;
         return;

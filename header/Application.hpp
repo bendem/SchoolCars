@@ -25,11 +25,11 @@ using namespace std;
 class Application {
 
 private:
-    SortedList<Employee>* users;
-    SortedList<Client>* clients;
-    List<Option>* options;
-    List<Model>* models;
-    SortedList<Contract>* contracts;
+    SortedList<Employee> users;
+    SortedList<Client> clients;
+    List<Option> options;
+    List<Model> models;
+    SortedList<Contract> contracts;
     Employee* currentUser;
     Car* currentCar;
     bool carDirty;
