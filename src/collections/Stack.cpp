@@ -9,6 +9,8 @@ void Stack<T>::add(T const& param) {
 
 template<class T>
 T Stack<T>::pop() {
+    Sanity::nullness(this->first, "No element to remove");
+
     T elem(this->first->value);
 
     Node<T>* tmp = this->first;
