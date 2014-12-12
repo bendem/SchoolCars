@@ -180,9 +180,16 @@ bool Application::login() {
             cerr << time("Application") << "Found user without password, logging in and asking password" << endl;
             this->currentUser = &optEmployee.get();
             String newPassword;
+            String confirmation;
             while(true) {
                 cout << "    404 password not found, enter a new one: ";
                 cin >> newPassword;
+                cout << "    Confirm your password: ";
+                cin >> confirmation;
+                if(newPassword != confirmation) {
+                    cout << " > Passwords don't match!" << endl;
+                    continue;
+                }
                 try {
                     this->currentUser->setPassword(newPassword);
                 } catch(InvalidPasswordException e) {
