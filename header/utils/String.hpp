@@ -14,7 +14,7 @@ using namespace std;
 class String {
 
 private:
-    static char END_OF_STRING;
+    static const char END_OF_STRING;
 
     char* str;
     int stringSize;

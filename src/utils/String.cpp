@@ -1,6 +1,6 @@
 #include "utils/String.hpp"
 
-char String::END_OF_STRING = '\0';
+const char String::END_OF_STRING = '\0';
 
 String::String() {
     this->str = NULL;

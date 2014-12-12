@@ -8,8 +8,8 @@ using namespace std;
 class Sanity {
 
 public:
-    static void truthness(bool cond, String error);
-    static void nullness(void* cond, String error);
+    static void truthness(bool cond, const String& error);
+    static void nullness(const void* cond, const String& error);
 
 };
 
