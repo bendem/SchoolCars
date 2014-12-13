@@ -52,9 +52,9 @@ int main() {
         .addEntry("6",  "Nouvelle Voiture", &Application::createCar)
         .addEntry("7",  "Charger une voiture", &Application::loadCar)
         .addEntry("8",  "Afficher la voiture en cours", &Application::displayCurrentCar)
-        .addEntry("9",  "Ajouter une option à la voiture en cours", &Application::addOptionToCurrentCar)
-        .addEntry("10", "Retirer une option à la voiture en cours", &Application::removeOptionFromCurrentCar)
-        .addEntry("11", "Appliquer une ristourne à une option de la voiture en cours", &Application::applyDiscountToCurrentCar)
+        .addEntry("9",  "Ajouter une option a la voiture en cours", &Application::addOptionToCurrentCar)
+        .addEntry("10", "Retirer une option a la voiture en cours", &Application::removeOptionFromCurrentCar)
+        .addEntry("11", "Appliquer une ristourne a une option de la voiture en cours", &Application::applyDiscountToCurrentCar)
         .addEntry("12", "Enregistrer la voiture en cours", &Application::saveCurrentCar)
         .addEntry("-",  "Gerer les projets de voiture", NULL)
         .addEntry("13", "Nouveau contrat", &Application::newContract)
@@ -107,7 +107,7 @@ int main() {
             sellerMenu.display();
             sellerMenu.choose(app);
         }
-        cout << endl << " > Press a <ENTER> to continue";
+        cout << endl << " > Press <ENTER> to continue";
         cin.get();
         cin.ignore();
     }
