@@ -21,12 +21,12 @@ void Person::setSurname(const String& surname) {
     this->surname = surname;
 }
 
-void Person::save(ofstream& os) const {
+void Person::save(ostream& os) const {
     StreamUtils::write(os, this->firstname);
     StreamUtils::write(os, this->surname);
 }
 
-void Person::load(ifstream& is) {
+void Person::load(istream& is) {
     this->firstname = StreamUtils::readString(is);
     this->surname = StreamUtils::readString(is);
 }

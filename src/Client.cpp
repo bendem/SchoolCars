@@ -76,11 +76,13 @@ Client& Client::operator=(const Client& param) {
 void Client::load(istream& is) {
     this->id = StreamUtils::readInt(is);
     this->address = StreamUtils::readString(is);
+    Person::load(is);
 }
 
 void Client::save(ostream& os) const {
     StreamUtils::write(os, this->id);
     StreamUtils::write(os, this->address);
+    Person::save(os);
 }
 
 istream& operator>>(istream& is, Client& param) {

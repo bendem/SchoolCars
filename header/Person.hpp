@@ -2,7 +2,6 @@
 #define PERSON_HPP
 
 #include <iostream>
-#include <fstream>
 
 #include "utils/StreamUtils.hpp"
 #include "utils/String.hpp"
@@ -25,8 +24,8 @@ public:
     const String& getSurname() const;
     void setSurname(const String& surname);
 
-    virtual void save(ofstream&) const;
-    virtual void load(ifstream&);
+    virtual void save(ostream&) const;
+    virtual void load(istream&);
 
     void display() const;
     virtual String toString() const;
