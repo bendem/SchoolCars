@@ -37,6 +37,8 @@ public:
     void setMonth(int);
     void setYear(int);
 
+    String format(String) const;
+
     Date& operator=(const Date&);
 
     bool operator==(const Date&) const;

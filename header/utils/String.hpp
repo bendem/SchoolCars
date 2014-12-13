@@ -38,8 +38,11 @@ private:
 
     /**
      * Copy a char array to another from index the provided start to the provided end.
+     *
+     * bool parameter is required to be false if you don't want this method to ensure that the destination
+     * ends with the string terminator character.
      */
-    static void copy(char*, const char*, int, int);
+    static void copy(char*, const char*, int, int, bool = true);
 
 public:
 
@@ -86,6 +89,16 @@ public:
      * Transforms the String to have all its characters lowercased.
      */
     void toLower();
+
+    /**
+     * Replaces all the occurences of the String with the provided replacement.
+     */
+    String& replace(const String&, const String&);
+
+    /**
+     * Returns the index of the first occurence of the provided String in this one or -1 if not found.
+     */
+    int indexOf(const String&) const;
 
     String& operator=(const String&);
     String& operator=(const char*);

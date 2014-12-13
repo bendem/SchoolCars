@@ -123,11 +123,13 @@ void String::copy(char* dest, const char* source, int end) {
     copy(dest, source, 0, end);
 }
 
-void String::copy(char* dest, const char* source, int start, int end) {
+void String::copy(char* dest, const char* source, int start, int end, bool ensureEOS) {
     for(int i = 0, j = start; j < end; ++i, ++j) {
         dest[j] = source[i];
     }
-    dest[end] = END_OF_STRING;
+    if(ensureEOS) {
+        dest[end] = END_OF_STRING;
+    }
 }
 
 int String::length() const {
@@ -143,6 +145,57 @@ void String::toLower() {
     for(int i = 0; i < this->stringSize; ++i) {
         this->str[i] = tolower(this->str[i]);
     }
+}
+
+String& String::replace(const String& search, const String& replace) {
+    if(search.length() == 0) {
+        return *this;
+    }
+
+    int index;
+    int addedSize = replace.length() - search.length();
+
+    while((index = this->indexOf(search)) != -1) {
+        this->stringSize += addedSize;
+        if(addedSize > 0) {
+            // Move towards the end
+            // Reallocate if needed
+            if(this->stringSize + addedSize > this->arraySize) {
+                this->reallocate(this->stringSize + addedSize);
+            }
+            for(int i = this->stringSize - 1; i >= index + search.length(); --i) {
+                this->str[i + addedSize] = this->str[i];
+            }
+        } else if(addedSize < 0) {
+            // Move forward
+            for(int i = index + replace.length(); i < this->stringSize + addedSize; ++i) {
+                this->str[i] = this->str[i - addedSize];
+            }
+            this->str[this->stringSize + addedSize] = END_OF_STRING;
+        }
+
+        copy(this->str, replace, index, index + replace.length(), false);
+    }
+    return *this;
+}
+
+int String::indexOf(const String& search) const {
+    int found = 0;
+    int index;
+    for(int i = 0; i < this->stringSize; ++i) {
+        if(this->str[i] == search[found]) {
+            if(found == 0) {
+                index = i;
+            }
+            ++found;
+            if(found == search.length()) {
+                return index;
+            }
+        } else {
+            found = 0;
+        }
+    }
+    return -1;
 }
 
 String& String::operator=(const String& param) {
