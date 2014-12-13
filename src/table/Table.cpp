@@ -1,27 +1,25 @@
 #include "table/Table.hpp"
 
-Table::Table(int width, int maxTableWidth) {
+Table::Table(int columnCount) {
     this->lines = 0;
-    this->width = width;
-    this->charsInsideTheColumns = new int[width];
-    ArrayUtils::fill<int>(this->charsInsideTheColumns, 0, width);
+    this->columnCount = columnCount;
+    this->charsInsideTheColumns = new int[columnCount];
+    ArrayUtils::fill<int>(this->charsInsideTheColumns, 0, columnCount);
     this->countOfTheCharInsideTheTable = 0;
-    this->maxTableWidth = maxTableWidth;
 }
 
 Table::Table(const Table& param) {
     this->lines = param.lines;
-    this->width = param.width;
-    this->charsInsideTheColumns = new int[this->width];
-    ArrayUtils::copy<int>(this->charsInsideTheColumns, param.charsInsideTheColumns, this->width);
-    this->maxTableWidth = param.maxTableWidth;
+    this->columnCount = param.columnCount;
+    this->charsInsideTheColumns = new int[this->columnCount];
+    ArrayUtils::copy<int>(this->charsInsideTheColumns, param.charsInsideTheColumns, this->columnCount);
 }
 
 Table& Table::addLine(const String columns[]) {
-    TableLine t(columns, this->width);
+    TableLine t(columns, this->columnCount);
     this->entries.add(t);
 
-    for(int i = 0; i < this->width; ++i) {
+    for(int i = 0; i < this->columnCount; ++i) {
         if(this->charsInsideTheColumns[i] < columns[i].length()) {
             this->countOfTheCharInsideTheTable += columns[i].length() - this->charsInsideTheColumns[i];
             this->charsInsideTheColumns[i] = columns[i].length();
@@ -32,11 +30,7 @@ Table& Table::addLine(const String columns[]) {
 }
 
 String Table::toString() const {
-    int tableWidth = this->countOfTheCharInsideTheTable + 3 * (this->width - 1) + 4;
-    if(tableWidth > this->maxTableWidth) {
-        // TODO Handle line wrapping somehow
-        return "error";
-    }
+    int tableWidth = this->countOfTheCharInsideTheTable + 3 * (this->columnCount - 1) + 4;
 
     stringstream ss;
     this->formatTableBorder(ss);
@@ -68,7 +62,7 @@ String Table::toString() const {
 
 void Table::formatTableBorder(stringstream& ss) const {
     ss << " +";
-    for(int i = 0; i < width; ++i) {
+    for(int i = 0; i < columnCount; ++i) {
         ss << String('-', charsInsideTheColumns[i]+2) << "+";
     }
     ss << endl;

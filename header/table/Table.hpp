@@ -13,15 +13,14 @@ using namespace std;
 class Table {
 
 private:
-    int width;
+    int columnCount;
     int lines;
     int*charsInsideTheColumns; // it's an array!
     int countOfTheCharInsideTheTable;
-    int maxTableWidth;
     List<TableLine> entries;
 
 public:
-    Table(int, int);
+    Table(int);
     Table(const Table&);
     ~Table() { delete this->charsInsideTheColumns; }
 
