@@ -22,7 +22,7 @@ void List<T>::add(const T& para) {
 
 template<class T>
 T List<T>::get(int index) const {
-    Sanity::truthness(index < this->nbElems, "Index out of bounds" + index);
+    Sanity::truthness(index >= 0 && index < this->nbElems, "Index out of bounds");
 
     ConstIterator<T> it(*this);
     int i = 0;
