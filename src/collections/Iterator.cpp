@@ -103,3 +103,6 @@ template class Iterator<Model>;
 
 #include "Contract.hpp"
 template class Iterator<Contract>;
+
+#include "table/TableLine.hpp"
+template class Iterator<TableLine>;

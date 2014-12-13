@@ -132,3 +132,6 @@ template class BaseList<Model>;
 
 #include "Contract.hpp"
 template class BaseList<Contract>;
+
+#include "table/TableLine.hpp"
+template class BaseList<TableLine>;

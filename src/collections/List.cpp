@@ -73,3 +73,6 @@ template class List<Model>;
 
 #include "Contract.hpp"
 template class List<Contract>;
+
+#include "table/TableLine.hpp"
+template class List<TableLine>;

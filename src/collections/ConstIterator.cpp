@@ -72,3 +72,6 @@ template class ConstIterator<Model>;
 
 #include "Contract.hpp"
 template class ConstIterator<Contract>;
+
+#include "table/TableLine.hpp"
+template class ConstIterator<TableLine>;
