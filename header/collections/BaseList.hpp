@@ -70,7 +70,7 @@ public:
     /**
      * Checks wether the list contains the provided element or not.
      */
-    virtual bool contains(const T&) const;
+    //virtual bool contains(const T&) const;
 
     /**
      * Checks wether the list contains an element matching the provided predicate.
@@ -80,7 +80,7 @@ public:
     BaseList<T>& operator=(const BaseList<T>&);
 
     // Eww (Horrible, has nothing to do in a list class) :(
-    void display() const;
+    //void display() const;
 
     friend class ConstIterator<T>;
     friend class Iterator<T>;

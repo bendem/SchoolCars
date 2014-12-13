@@ -68,16 +68,16 @@ void BaseList<T>::addAll(const BaseList& toAdd) {
     }
 }
 
-template<class T>
-bool BaseList<T>::contains(const T& param) const {
-    ConstIterator<T> it(*this);
-    while(!it.end()) {
-        if((T) it++ == param) {
-            return true;
-        }
-    }
-    return false;
-}
+//template<class T>
+//bool BaseList<T>::contains(const T& param) const {
+//    ConstIterator<T> it(*this);
+//    while(!it.end()) {
+//        if((T) it++ == param) {
+//            return true;
+//        }
+//    }
+//    return false;
+//}
 
 template<class T>
 bool BaseList<T>::containsWithPredicate(const Predicate<T>& predicate) const {
@@ -98,13 +98,13 @@ BaseList<T>& BaseList<T>::operator=(const BaseList<T>& param) {
     return *this;
 }
 
-template<class T>
-void BaseList<T>::display() const {
-    ConstIterator<T> it(*this);
-    while(!it.end()) {
-        cout << (T) it++ << endl;
-    }
-}
+//template<class T>
+//void BaseList<T>::display() const {
+//    ConstIterator<T> it(*this);
+//    while(!it.end()) {
+//        cout << (T) it++ << endl;
+//    }
+//}
 
 template class BaseList<int>;
 
