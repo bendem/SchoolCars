@@ -17,6 +17,7 @@
 #include "predicates/CodePredicate.hpp"
 #include "predicates/IdPredicate.hpp"
 #include "predicates/LoginPredicate.hpp"
+#include "table/Table.hpp"
 #include "utils/Logging.hpp"
 #include "utils/StreamUtils.hpp"
 

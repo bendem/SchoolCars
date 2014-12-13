@@ -219,10 +219,24 @@ void Application::displayUsers() {
         cout << " > No users" << endl;
         return;
     }
+
+    Table table(6);
+    String headers[] = { "id", "login", "firstname", "surname", "function", "password" };
+    table.setHeader(headers);
     ConstIterator<Employee> it(this->users);
     while(!it.end()) {
-        cout << it++ << endl;
+        String line[] = {
+            String() + (&it).getId(),
+            String((&it).getLogin()),
+            String((&it).getFirstname()),
+            String((&it).getSurname()),
+            String((&it).getFunction()),
+            (&it).getPassword().length() == 0 ? "<empty>" : String('*', (&it).getPassword().length())
+        };
+        table.addLine(line);
+        ++it;
     }
+    cout << table.toString() << endl;
 }
 
 void Application::displayUser() {
@@ -296,10 +310,23 @@ void Application::displayContracts() {
         return;
     }
 
+    Table table(6);
+    String headers[] = { "id", "seller id", "client id", "date", "car", "discount" };
+    table.setHeader(headers);
     ConstIterator<Contract> it(this->contracts);
     while(!it.end()) {
-        cout << "    " << it++ << endl;
+        String line[] = {
+            String() + (&it).getId(),
+            String() + (&it).getSellerId(),
+            String() + (&it).getClientId(),
+            (&it).getDate().format("%d-%m-%y"),
+            (&it).getCar()->getName(),
+            String() + (&it).getDiscount()
+        };
+        table.addLine(line);
+        ++it;
     }
+    cout << table.toString() << endl;
 }
 
 void Application::displayContract() {
@@ -365,7 +392,7 @@ void Application::createClient() {
     cin >> address;
     cout << "    Enter client firstname: ";
     cin >> firstname;
-    cout << "    Enter client surname";
+    cout << "    Enter client surname: ";
     cin >> surname;
 
     this->clients.add(Client(surname, firstname, ++this->clientId, address));
@@ -405,10 +432,21 @@ void Application::displayClients() {
         return;
     }
 
+    Table table(4);
+    String headers[] = { "id", "address", "firstname", "surname" };
+    table.setHeader(headers);
     ConstIterator<Client> it(this->clients);
     while(!it.end()) {
-        cout << "    " << &(it++) << endl;
+        String line[] = {
+            String() + (&it).getId(),
+            String((&it).getAddress()),
+            String((&it).getFirstname()),
+            String((&it).getSurname())
+        };
+        table.addLine(line);
+        ++it;
     }
+    cout << table.toString() << endl;
 }
 
 void Application::displayModels() {
@@ -418,10 +456,21 @@ void Application::displayModels() {
     }
 
     int i = 0;
+    Table table(4);
+    String headers[] = { "id", "name", "base cost", "power", "diesel" };
     ConstIterator<Model> it(this->models);
     while(!it.end()) {
-        cout << "    " << i++ << ". " << it++ << endl;
+        String line[] = {
+            String() + i++,
+            String((&it).getName()),
+            String() + (&it).getBaseCost(),
+            String() + (&it).getPower(),
+            String((&it).isDiesel() ? "yes" : "no")
+        };
+        table.addLine(line);
+        ++it;
     }
+    cout << table.toString() << endl;
 }
 
 void Application::displayOptions() {
@@ -430,10 +479,19 @@ void Application::displayOptions() {
         return;
     }
 
+    Table table(3);
+    String headers[] = { "code", "name", "price" };
     ConstIterator<Option> it(this->options);
     while(!it.end()) {
-        cout << "    " << it++ << endl;
+        String line[] = {
+            String((&it).getCode()),
+            String((&it).getName()),
+            String() + (&it).getPrice()
+        };
+        table.addLine(line);
+        ++it;
     }
+    cout << table.toString() << endl;
 }
 
 void Application::createCar() {
@@ -626,15 +684,28 @@ void Application::newContract() {
 
 void Application::displayContractsForCurrentUser() {
     bool displayedStuff = false;
+
+    Table table(6);
+    String headers[] = { "id", "seller id", "client id", "date", "car", "discount" };
     ConstIterator<Contract> it(this->contracts);
     while(!it.end()) {
         if((&it).getSellerId() == this->currentUser->getId()) {
-            cout << "    " << it << endl;
+            String line[] = {
+                String() + (&it).getId(),
+                String() + (&it).getSellerId(),
+                String() + (&it).getClientId(),
+                (&it).getDate().format("%d-%m-%y"),
+                (&it).getCar()->getName(),
+                String() + (&it).getDiscount()
+            };
+            table.addLine(line);
             displayedStuff = true;
         }
         ++it;
     }
-    if(!displayedStuff) {
+    if(displayedStuff) {
+        cout << table.toString() << endl;
+    } else {
         cout << " > No contract made by the current user" << endl;
     }
 }
