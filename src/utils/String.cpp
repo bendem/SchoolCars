@@ -163,6 +163,7 @@ String& String::replace(const String& search, const String& replace) {
             if(this->stringSize + addedSize > this->arraySize) {
                 this->reallocate(this->stringSize + addedSize);
             }
+            // Backward copy preventing from overriding what is being written
             for(int i = this->stringSize - 1; i >= index + search.length(); --i) {
                 this->str[i + addedSize] = this->str[i];
             }
