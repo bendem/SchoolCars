@@ -27,7 +27,7 @@ public:
     const static String ADMINISTRATIVE;
 
     Employee(String surname = "", String firstname = "", int id = 0, String login = "", String function = "") :
-        Person(firstname, surname), id(id), login(login), password(""), function(function) {}
+        Person(surname, firstname), id(id), login(login), password(""), function(function) {}
     Employee(const Employee&);
 
     int getId() const;
