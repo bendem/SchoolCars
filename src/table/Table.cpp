@@ -1,6 +1,7 @@
 #include "table/Table.hpp"
 
 Table::Table(int columnCount) {
+    this->headers = NULL;
     this->lines = 0;
     this->columnCount = columnCount;
     this->charsInsideTheColumns = new int[columnCount];
@@ -15,16 +16,58 @@ Table::Table(const Table& param) {
     ArrayUtils::copy<int>(this->charsInsideTheColumns, param.charsInsideTheColumns, this->columnCount);
 }
 
+Table::~Table() {
+    delete this->charsInsideTheColumns;
+    if(this->headers) {
+        delete[] this->headers;
+    }
+}
+
+void Table::checkMaxLengths(const String array[]) {
+    for(int i = 0; i < this->columnCount; ++i) {
+        if(this->charsInsideTheColumns[i] < array[i].length()) {
+            this->countOfTheCharInsideTheTable += array[i].length() - this->charsInsideTheColumns[i];
+            this->charsInsideTheColumns[i] = array[i].length();
+        }
+    }
+}
+
+void Table::formatTableBorder(stringstream& ss) const {
+    ss << " +";
+    for(int i = 0; i < this->columnCount; ++i) {
+        ss << String('-', this->charsInsideTheColumns[i]+2) << "+";
+    }
+    ss << endl;
+}
+
+void Table::formatHeader(stringstream& ss) const {
+    ss << " | ";
+    for(int i = 0; i < this->columnCount; ++i) {
+        ss
+            << this->headers[i]
+            << String(' ', this->charsInsideTheColumns[i] - this->headers[i].length())
+            << " |";
+        if(i + 1 != this->columnCount) {
+            ss << ' ';
+        }
+    }
+    ss << endl;
+}
+
+Table& Table::setHeader(const String headers[]) {
+    this->headers = new String[this->columnCount];
+    ArrayUtils::copy<String>(this->headers, headers, this->columnCount);
+
+    this->checkMaxLengths(headers);
+
+    return *this;
+}
+
 Table& Table::addLine(const String columns[]) {
     TableLine t(columns, this->columnCount);
     this->entries.add(t);
 
-    for(int i = 0; i < this->columnCount; ++i) {
-        if(this->charsInsideTheColumns[i] < columns[i].length()) {
-            this->countOfTheCharInsideTheTable += columns[i].length() - this->charsInsideTheColumns[i];
-            this->charsInsideTheColumns[i] = columns[i].length();
-        }
-    }
+    this->checkMaxLengths(columns);
 
     return *this;
 }
@@ -34,6 +77,10 @@ String Table::toString() const {
 
     stringstream ss;
     this->formatTableBorder(ss);
+    if(this->headers) {
+        this->formatHeader(ss);
+        this->formatTableBorder(ss);
+    }
 
     ConstIterator<TableLine> lineIterator(this->entries);
     while(!lineIterator.end()) {
@@ -58,14 +105,6 @@ String Table::toString() const {
 
     this->formatTableBorder(ss);
     return ss.str();
-}
-
-void Table::formatTableBorder(stringstream& ss) const {
-    ss << " +";
-    for(int i = 0; i < columnCount; ++i) {
-        ss << String('-', charsInsideTheColumns[i]+2) << "+";
-    }
-    ss << endl;
 }
 
 Table& Table::operator=(const Table&) {

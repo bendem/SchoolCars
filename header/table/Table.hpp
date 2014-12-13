@@ -13,24 +13,29 @@ using namespace std;
 class Table {
 
 private:
+    String* headers;
     int columnCount;
     int lines;
     int*charsInsideTheColumns; // it's an array!
     int countOfTheCharInsideTheTable;
     List<TableLine> entries;
 
+    void checkMaxLengths(const String[]);
+    void formatHeader(stringstream&) const;
+    void formatTableBorder(stringstream& ss) const;
+
 public:
     Table(int);
     Table(const Table&);
-    ~Table() { delete this->charsInsideTheColumns; }
+    ~Table();
 
+    Table& setHeader(const String[]);
     Table& addLine(const String[]);
 
     String toString() const;
 
-    void formatTableBorder(stringstream& ss) const;
-
     Table& operator=(const Table&);
+
 };
 
 #endif
