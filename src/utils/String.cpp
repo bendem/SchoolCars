@@ -295,7 +295,7 @@ float String::toFloat() const {
         return result;
     }
 
-    return result / pow(10, decCount);
+    return result / pow((double) 10, (double) decCount);
 }
 
 bool String::toBool() const {
