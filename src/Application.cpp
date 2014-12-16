@@ -1,6 +1,12 @@
 #include "Application.hpp"
 
-Application::Application() {
+Application::Application() : optionTable(3), modelTable(4) {
+    String optionHeaders[] = { "code", "name", "price" };
+    this->optionTable.setHeader(optionHeaders);
+
+    String modelHeaders[] = { "id", "name", "base cost", "power", "diesel" };
+    this->modelTable.setHeader(modelHeaders);
+
     this->currentUser = NULL;
     this->currentCar = NULL;
     this->carDirty = false;
@@ -104,14 +110,28 @@ void Application::loadModels(const String& file) {
 
     cerr << time("Application") << "Loading models from " << file << endl;
     StreamUtils::skipLine(is); // Validate file format?
+    int i = 0;
     while(is.peek() != EOF) {
+        // Reading data
         l = StreamUtils::readCSVLine(is, 4);
         ConstIterator<String> it(l);
         String name(&it++);
         int power = (&it++).toInt();
         bool diesel = (&it++).toBool();
         float baseCost = (&it).toFloat();
+
+        // Adding to list
         this->models.add(Model(name, power, diesel, baseCost));
+
+        // Adding to table
+        String line[] = {
+            String() + i++,
+            name,
+            String() + baseCost,
+            String() + power,
+            String(diesel ? "yes" : "no")
+        };
+        this->modelTable.addLine(line);
     }
     cerr << time("Application") << this->models.size() << " models loaded" << endl;
 }
@@ -130,7 +150,17 @@ void Application::loadOptions(const String& file) {
         String code = it++;
         String name = it++;
         int price = (&it).toInt();
+
+        // Adding to list
         this->options.add(Option(code, name, price));
+
+        // Adding to table
+        String line[] = {
+            code,
+            name,
+            String() + price
+        };
+        this->optionTable.addLine(line);
     }
     cerr << time("Application") << this->options.size() << " options loaded" << endl;
 }
@@ -455,22 +485,7 @@ void Application::displayModels() {
         return;
     }
 
-    int i = 0;
-    Table table(4);
-    String headers[] = { "id", "name", "base cost", "power", "diesel" };
-    ConstIterator<Model> it(this->models);
-    while(!it.end()) {
-        String line[] = {
-            String() + i++,
-            String((&it).getName()),
-            String() + (&it).getBaseCost(),
-            String() + (&it).getPower(),
-            String((&it).isDiesel() ? "yes" : "no")
-        };
-        table.addLine(line);
-        ++it;
-    }
-    cout << table.toString() << endl;
+    cout << this->modelTable.toString() << endl;
 }
 
 void Application::displayOptions() {
@@ -479,19 +494,7 @@ void Application::displayOptions() {
         return;
     }
 
-    Table table(3);
-    String headers[] = { "code", "name", "price" };
-    ConstIterator<Option> it(this->options);
-    while(!it.end()) {
-        String line[] = {
-            String((&it).getCode()),
-            String((&it).getName()),
-            String() + (&it).getPrice()
-        };
-        table.addLine(line);
-        ++it;
-    }
-    cout << table.toString() << endl;
+    cout << this->optionTable.toString() << endl;
 }
 
 void Application::createCar() {

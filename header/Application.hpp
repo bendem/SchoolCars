@@ -30,6 +30,8 @@ private:
     SortedList<Client> clients;
     List<Option> options;
     List<Model> models;
+    Table optionTable;
+    Table modelTable;
     SortedList<Contract> contracts;
     Employee* currentUser;
     Car* currentCar;
