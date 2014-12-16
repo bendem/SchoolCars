@@ -94,7 +94,7 @@ int main() {
      * ================================================= */
     cerr << time("main") << "Application loaded, starting user interaction" << endl;
     while(!app.login()) {
-        cout << endl << " > Bad login, try again..." << endl << endl;
+        cout << " > Bad login, try again..." << endl << endl;
     }
     cout << endl << endl << " > Welcome " << app.getCurrentUser().getFirstname() << "!" << endl;
 

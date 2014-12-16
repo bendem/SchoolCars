@@ -167,57 +167,59 @@ void Application::loadOptions(const String& file) {
 
 
 bool Application::login() {
+    String username, password;
+
     cout << "    ========================" << endl;
     cout << "    =        Login         =" << endl;
     cout << "    ========================" << endl << endl;
     cout << "    Entrez votre nom d'utilisateur: ";
-    String username, password;
     cin >> username;
+    cout << endl;
+
+    Optional<Employee> optEmployee = this->users.getFirstMatching(LoginPredicate(username));
+    if(!optEmployee.hasValue()) {
+        cout << " > User not found" << endl;
+        return false;
+    }
+
+    // Password not set
+    if(optEmployee.get().getPassword().length() == 0) {
+        cerr << time("Application") << "Found user without password, logging in and asking password" << endl;
+        this->currentUser = &optEmployee.get();
+        String newPassword;
+        String confirmation;
+        while(true) {
+            cout << "    404 password not found, enter a new one: ";
+            cin >> newPassword;
+            cout << "    Confirm your password: ";
+            cin >> confirmation;
+            if(newPassword != confirmation) {
+                cout << " > Passwords don't match!" << endl;
+                continue;
+            }
+            try {
+                this->currentUser->setPassword(newPassword);
+            } catch(InvalidPasswordException e) {
+                e.display();
+                continue;
+            }
+            break;
+        }
+        return true;
+    }
+
     cout << "    Entrez votre mot de passe: ";
     cin >> password;
 
-    cerr << time("Application") << "Looking for '" << username << "'" << endl;
-
-    Optional<Employee> optEmployee = this->users.getFirstMatching(LoginPredicate(username));
-    if(optEmployee.hasValue()) {
-        // Password not set
-        if(optEmployee.get().getPassword().length() == 0) {
-            cerr << time("Application") << "Found user without password, logging in and asking password" << endl;
-            this->currentUser = &optEmployee.get();
-            String newPassword;
-            String confirmation;
-            while(true) {
-                cout << "    404 password not found, enter a new one: ";
-                cin >> newPassword;
-                cout << "    Confirm your password: ";
-                cin >> confirmation;
-                if(newPassword != confirmation) {
-                    cout << " > Passwords don't match!" << endl;
-                    continue;
-                }
-                try {
-                    this->currentUser->setPassword(newPassword);
-                } catch(InvalidPasswordException e) {
-                    e.display();
-                    continue;
-                }
-                break;
-            }
-            return true;
-        }
-        // Correct password
-        if(optEmployee.get().getPassword() == password) {
-            cerr << time("Application") << "Found correct user, logging in" << endl;
-            this->currentUser = &optEmployee.get();
-            return true;
-        }
-
-        cerr << time("Application") << "Found user (" << optEmployee.get().getLogin() << ") with wrong password" << endl;
-        return false;
-    } else {
-        cerr << time("Application") << "User not found" << endl;
-        return false;
+    // Correct password
+    if(optEmployee.get().getPassword() == password) {
+        cerr << time("Application") << "Found correct user, logging in" << endl;
+        this->currentUser = &optEmployee.get();
+        return true;
     }
+
+    cerr << time("Application") << "Found user (" << optEmployee.get().getLogin() << ") with wrong password" << endl;
+    return false;
 }
 
 Employee& Application::getCurrentUser() const {
