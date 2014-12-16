@@ -424,7 +424,7 @@ ostream& operator<<(ostream& os, const String& str) {
 
 istream& operator>>(istream& is, String& str) {
     string tmp;
-    is >> tmp;
+    getline(is, tmp);
     str = tmp.c_str();
     return is;
 }

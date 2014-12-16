@@ -109,7 +109,7 @@ int main() {
         }
         cout << endl << " > Press <ENTER> to continue";
         cin.get();
-        cin.ignore();
+        cin.ignore(1024, cin.widen('\n'));
     }
     /* =================================================
      *            THE APPLICATION ENDS HERE
