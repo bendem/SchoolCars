@@ -45,8 +45,12 @@ void Application::defaultUsers() {
     this->users.add(e);
 }
 
-void Application::saveUsers(const String& userfile) const {
-    ofstream os(userfile, ios::out | ios::trunc);
+void Application::saveUsers(const String& file) const {
+    ofstream os(file, ios::out | ios::trunc);
+    if(os.fail()) {
+        throw IOException(String("Couldn't open ") + file);
+    }
+
     StreamUtils::write(os, this->users.size());
     StreamUtils::write(os, this->userId);
 
@@ -56,8 +60,12 @@ void Application::saveUsers(const String& userfile) const {
     }
 }
 
-void Application::loadClients(const String& clientfile) {
-    ifstream is(clientfile, ios::in);
+void Application::loadClients(const String& file) {
+    ifstream is(file, ios::in);
+    if(is.fail()) {
+        throw IOException(String("Couldn't open ") + file);
+    }
+
     int count = StreamUtils::readInt(is);
     this->clientId = StreamUtils::readInt(is);
 
@@ -68,8 +76,12 @@ void Application::loadClients(const String& clientfile) {
     }
 }
 
-void Application::saveClients(const String& clientfile) const {
-    ofstream os(clientfile, ios::out | ios::trunc);
+void Application::saveClients(const String& file) const {
+    ofstream os(file, ios::out | ios::trunc);
+    if(os.fail()) {
+        throw IOException(String("Couldn't open ") + file);
+    }
+
     StreamUtils::write(os, this->clients.size());
     StreamUtils::write(os, this->clientId);
 
@@ -81,6 +93,10 @@ void Application::saveClients(const String& clientfile) const {
 
 void Application::loadContracts(const String& file) {
     ifstream is(file, ios::in);
+    if(is.fail()) {
+        throw IOException(String("Couldn't open ") + file);
+    }
+
     int count = StreamUtils::readInt(is);
     this->contractId = StreamUtils::readInt(is);
 
@@ -93,6 +109,10 @@ void Application::loadContracts(const String& file) {
 
 void Application::saveContracts(const String& file) const {
     ofstream os(file, ios::out | ios::trunc);
+    if(os.fail()) {
+        throw IOException(String("Couldn't open ") + file);
+    }
+
     StreamUtils::write(os, this->contracts.size());
     StreamUtils::write(os, this->contractId);
 
@@ -106,6 +126,10 @@ void Application::loadModels(const String& file) {
     Sanity::truthness(this->models.isEmpty(), "Models are already loaded");
 
     ifstream is(file, ios::in);
+    if(is.fail()) {
+        throw IOException(String("Couldn't open ") + file);
+    }
+
     List<String> l;
 
     cerr << time("Application") << "Loading models from " << file << endl;
@@ -140,6 +164,10 @@ void Application::loadOptions(const String& file) {
     Sanity::truthness(this->models.isEmpty(), "Options are already loaded");
 
     ifstream is(file, ios::in);
+    if(is.fail()) {
+        throw IOException(String("Couldn't open ") + file);
+    }
+
     List<String> l;
 
     cerr << time("Application") << "Loading options from " << file << endl;

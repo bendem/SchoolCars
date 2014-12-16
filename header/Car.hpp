@@ -7,6 +7,7 @@
 #include "Model.hpp"
 #include "Option.hpp"
 #include "exceptions/ElementNotFoundException.hpp"
+#include "exceptions/IOException.hpp"
 #include "exceptions/NotEnoughSpaceException.hpp"
 #include "utils/FileUtils.hpp"
 
