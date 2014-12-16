@@ -108,8 +108,8 @@ int main() {
             sellerMenu.choose(app);
         }
         cout << endl << " > Press <ENTER> to continue";
-        cin.get();
-        cin.ignore(1024, cin.widen('\n'));
+        String throwItOnTheGround;
+        cin >> throwItOnTheGround;
     }
     /* =================================================
      *            THE APPLICATION ENDS HERE

@@ -689,6 +689,10 @@ void Application::newContract() {
         }
         break;
     }
+    if(!this->clients.containsWithPredicate(IdPredicate<Client>(clientId))) {
+        cout << " > Unknown client id" << endl;
+        return;
+    }
 
     cout << "    Enter the name of the car project: ";
     cin >> carName;
