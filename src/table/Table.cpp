@@ -2,7 +2,6 @@
 
 Table::Table(int columnCount) {
     this->headers = NULL;
-    this->lines = 0;
     this->columnCount = columnCount;
     this->charsInsideTheColumns = new int[columnCount];
     ArrayUtils::fill<int>(this->charsInsideTheColumns, 0, columnCount);
@@ -10,7 +9,6 @@ Table::Table(int columnCount) {
 }
 
 Table::Table(const Table& param) {
-    this->lines = param.lines;
     this->columnCount = param.columnCount;
     this->charsInsideTheColumns = new int[this->columnCount];
     ArrayUtils::copy<int>(this->charsInsideTheColumns, param.charsInsideTheColumns, this->columnCount);
@@ -72,9 +70,13 @@ Table& Table::addLine(const String columns[]) {
     return *this;
 }
 
-String Table::toString() const {
-    int tableWidth = this->countOfTheCharInsideTheTable + 3 * (this->columnCount - 1) + 4;
+void Table::clear() {
+    ArrayUtils::fill<int>(this->charsInsideTheColumns, 0, columnCount);
+    this->countOfTheCharInsideTheTable = 0;
+    this->entries.clear();
+}
 
+String Table::toString() const {
     stringstream ss;
     this->formatTableBorder(ss);
     if(this->headers) {
@@ -90,7 +92,7 @@ String Table::toString() const {
         ConstIterator<String> it((&lineIterator).iterator());
         while(!it.end()) {
             ss << it;
-            ss << String(' ', this->charsInsideTheColumns[i] - (&it).length());// Fills the end of the column
+            ss << String(' ', this->charsInsideTheColumns[i] - (&it).length()); // Fills the end of the column
             ss << " |";
             ++it;
             ++i;
@@ -107,6 +109,29 @@ String Table::toString() const {
     return ss.str();
 }
 
-Table& Table::operator=(const Table&) {
+Table& Table::operator=(const Table& param) {
+    if(this->headers) {
+        delete[] this->headers;
+        this->headers = NULL;
+    }
+    if(param.headers) {
+        this->headers = new String[param.columnCount];
+        ArrayUtils::copy<String>(this->headers, param.headers, param.columnCount);
+    }
+
+    if(this->columnCount != param.columnCount) {
+        // Reallocate the array only if the size is different
+        delete this->charsInsideTheColumns;
+        this->charsInsideTheColumns = new int[param.columnCount];
+    }
+    ArrayUtils::copy<int>(this->charsInsideTheColumns, param.charsInsideTheColumns, param.columnCount);
+
+    this->countOfTheCharInsideTheTable = param.countOfTheCharInsideTheTable;
+
+    this->entries.clear();
+    this->entries.addAll(param.entries);
+
+    this->columnCount = param.columnCount;
+
     return *this;
 }

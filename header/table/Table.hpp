@@ -15,8 +15,7 @@ class Table {
 private:
     String* headers;
     int columnCount;
-    int lines;
-    int*charsInsideTheColumns; // it's an array!
+    int* charsInsideTheColumns; // it's an array!
     int countOfTheCharInsideTheTable;
     List<TableLine> entries;
 
@@ -31,6 +30,7 @@ public:
 
     Table& setHeader(const String[]);
     Table& addLine(const String[]);
+    void clear();
 
     String toString() const;
 
