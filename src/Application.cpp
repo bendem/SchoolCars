@@ -470,6 +470,7 @@ void Application::removeClient() {
             cout << " > Client removed" << endl;
             return;
         }
+        ++clientIt;
     }
     cout << " > Client not found" << endl;
 }
