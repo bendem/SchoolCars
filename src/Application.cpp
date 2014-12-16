@@ -229,11 +229,27 @@ bool Application::shouldQuit() const {
 }
 
 void Application::changePassword() {
-    String password;
+    String current, newPassword, confirmation;
+
+    cout << "    Type your current password: ";
+    cin >> current;
+    if(this->currentUser->getPassword() != current) {
+        cout << " > Incorrect password" << endl;
+        return;
+    }
+
     cout << "    Type your new password: ";
-    cin >> password;
+    cin >> newPassword;
+    cout << "    Confirm your password: ";
+    cin >> confirmation;
+
+    if(newPassword != confirmation) {
+        cout << " > Passwords do not match!" << endl;
+        return;
+    }
+
     try {
-        this->currentUser->setPassword(password);
+        this->currentUser->setPassword(newPassword);
     } catch(InvalidPasswordException e) {
         cout << e.what() << endl;
         return;
