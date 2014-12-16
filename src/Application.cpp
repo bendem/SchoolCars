@@ -574,7 +574,14 @@ void Application::loadCar() {
     String input;
     cout << "    Enter the name of the project to load: ";
     cin >> input;
-    this->currentCar->load(input);
+    try {
+        this->currentCar->load(input);
+    } catch(AssertionException e) {
+        cout << " > " << e.what() << endl;
+        delete this->currentCar;
+        this->currentCar = NULL;
+        return;
+    }
     this->carDirty = false;
     cout << " > Car loaded" << endl;
 }
