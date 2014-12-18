@@ -10,6 +10,12 @@ Table::Table(int columnCount) {
 
 Table::Table(const Table& param) {
     this->columnCount = param.columnCount;
+    this->countOfTheCharInsideTheTable = param.countOfTheCharInsideTheTable;
+    this->entries = param.entries; // maybe redirect instead?
+
+    this->headers = new String[this->columnCount];
+    ArrayUtils::copy<String>(this->headers, param.headers, this->columnCount);
+
     this->charsInsideTheColumns = new int[this->columnCount];
     ArrayUtils::copy<int>(this->charsInsideTheColumns, param.charsInsideTheColumns, this->columnCount);
 }
@@ -109,29 +115,12 @@ String Table::toString() const {
     return ss.str();
 }
 
-Table& Table::operator=(const Table& param) {
-    if(this->headers) {
-        delete[] this->headers;
-        this->headers = NULL;
-    }
-    if(param.headers) {
-        this->headers = new String[param.columnCount];
-        ArrayUtils::copy<String>(this->headers, param.headers, param.columnCount);
-    }
-
-    if(this->columnCount != param.columnCount) {
-        // Reallocate the array only if the size is different
-        delete this->charsInsideTheColumns;
-        this->charsInsideTheColumns = new int[param.columnCount];
-    }
-    ArrayUtils::copy<int>(this->charsInsideTheColumns, param.charsInsideTheColumns, param.columnCount);
-
-    this->countOfTheCharInsideTheTable = param.countOfTheCharInsideTheTable;
-
-    this->entries.clear();
-    this->entries.addAll(param.entries);
-
-    this->columnCount = param.columnCount;
+Table& Table::operator=(Table param) {
+    swap(this->headers, param.headers);
+    swap(this->columnCount, param.columnCount);
+    swap(this->charsInsideTheColumns, param.charsInsideTheColumns);
+    swap(this->countOfTheCharInsideTheTable, param.countOfTheCharInsideTheTable);
+    swap(this->entries, param.entries);
 
     return *this;
 }

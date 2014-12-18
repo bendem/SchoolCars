@@ -69,6 +69,13 @@ String::String(const string& str) {
 }
 
 String::String(const String& param) {
+    if(param.stringSize == 0) {
+        this->str = NULL;
+        this->stringSize = 0;
+        this->arraySize = 0;
+        return;
+    }
+
     this->stringSize = param.stringSize;
     this->reallocate(param.stringSize + 1, true);
     copy(this->str, param.str, this->stringSize);
@@ -199,10 +206,10 @@ int String::indexOf(const String& search) const {
     return -1;
 }
 
-String& String::operator=(const String& param) {
-    this->stringSize = param.stringSize;
-    this->reallocate(this->stringSize + 1);
-    copy(this->str, param.str, this->stringSize);
+String& String::operator=(String param) {
+    swap(this->stringSize, param.stringSize);
+    swap(this->arraySize, param.arraySize);
+    swap(this->str, param.str);
     return *this;
 }
 

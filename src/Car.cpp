@@ -12,6 +12,14 @@ Car::Car(Car const& param) : name(param.name), model(param.model) {
     }
 }
 
+Car::~Car() {
+    for(int i = 0; i < MAX_OPTION_COUNT; ++i) {
+        if(this->options[i]) {
+            delete this->options[i];
+        }
+    }
+}
+
 void Car::display() const {
     cout << *this << endl;
 }
@@ -137,16 +145,10 @@ void Car::load(const String& filename) {
     }
 }
 
-Car& Car::operator=(const Car& param) {
+Car& Car::operator=(Car param) {
     this->name = param.name;
     this->model = param.model;
-
-    for(int i = 0; i < MAX_OPTION_COUNT; ++i) {
-        if(this->options[i]) {
-            delete this->options[i];
-        }
-        this->options[i] = param.options[i] ? new Option(*param.options[i]) : (Option*) NULL;
-    }
+    swap(this->options, param.options);
 
     return *this;
 }

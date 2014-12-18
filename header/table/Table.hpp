@@ -34,7 +34,7 @@ public:
 
     String toString() const;
 
-    Table& operator=(const Table&);
+    Table& operator=(Table);
 
 };
 

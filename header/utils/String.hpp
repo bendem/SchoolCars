@@ -100,7 +100,7 @@ public:
      */
     int indexOf(const String&) const;
 
-    String& operator=(const String&);
+    String& operator=(String);
     String& operator=(const char*);
 
     char& operator[](int);

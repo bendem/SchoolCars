@@ -19,11 +19,12 @@ class Car {
 private:
     String name;
     Model model;
-    Option *options[MAX_OPTION_COUNT];
+    Option* options[MAX_OPTION_COUNT];
 
 public:
     Car(String = "", const Model& = Model());
     Car(const Car&);
+    ~Car();
 
     void display() const;
 
@@ -42,7 +43,7 @@ public:
     void save() const;
     void load(const String&);
 
-    Car& operator=(const Car&);
+    Car& operator=(Car);
     Car operator+(const Option&) const;
     Car operator-(const Option&) const;
     Car operator-(const String&) const;
