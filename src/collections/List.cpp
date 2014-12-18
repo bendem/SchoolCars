@@ -33,6 +33,7 @@ T List<T>::get(int index) const {
         }
         it++;
     }
+    throw logic_error("Should not be possible to reach the end of this method");
 }
 
 template<class T>

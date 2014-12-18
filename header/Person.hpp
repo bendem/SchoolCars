@@ -15,7 +15,7 @@ protected:
     String surname;
 
 public:
-    Person(const String& surname = "", const String& firstname = "") : surname(surname), firstname(firstname) {}
+    Person(const String& surname = "", const String& firstname = "") : firstname(firstname), surname(surname) {}
     Person(const Person&);
 
     const String& getFirstname() const;

@@ -1,6 +1,8 @@
 #ifndef LIST_HPP
 #define LIST_HPP
 
+#include <stdexcept>
+
 #include "collections/BaseList.hpp"
 #include "collections/Iterator.hpp"
 #include "utils/Optional.hpp"

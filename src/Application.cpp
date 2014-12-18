@@ -748,6 +748,7 @@ void Application::displayContractsForCurrentUser() {
 
     Table table(6);
     String headers[] = { "id", "seller id", "client id", "date", "car", "discount" };
+    table.setHeader(headers);
     ConstIterator<Contract> it(this->contracts);
     while(!it.end()) {
         if((&it).getSellerId() == this->currentUser->getId()) {

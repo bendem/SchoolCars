@@ -18,7 +18,7 @@ private:
 
 public:
     Model(const String& name = "", int power = 0, bool diesel = false, float baseCost = 0)
-        : power(power), name(name), diesel(diesel), baseCost(baseCost) {}
+        : name(name), power(power), diesel(diesel), baseCost(baseCost) {}
     Model(const Model&);
     virtual ~Model() {}
 
