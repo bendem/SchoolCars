@@ -45,36 +45,6 @@ Person& Person::operator=(const Person& param) {
     return *this;
 }
 
-bool Person::operator>(const Person& param) const {
-    if(this->surname == param.surname) {
-        return this->firstname > param.firstname;
-    }
-    return this->surname > param.surname;
-}
-
-bool Person::operator<(const Person& param) const {
-    if(this->surname == param.surname) {
-        return this->firstname < param.firstname;
-    }
-    return this->surname < param.surname;
-}
-
-bool Person::operator<=(const Person& param) const {
-    return *this < param || *this == param;
-}
-
-bool Person::operator>=(const Person& param) const {
-    return *this > param || *this == param;
-}
-
-bool Person::operator==(const Person& param) const {
-    return this->surname == param.surname && this->firstname == param.firstname;
-}
-
-bool Person::operator!=(const Person& param) const {
-    return this->surname != param.surname || this->firstname != param.firstname;
-}
-
 istream& operator>>(istream& is, Person& p) {
     return is >> p.firstname >> p.surname;
 }

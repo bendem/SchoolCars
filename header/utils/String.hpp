@@ -9,12 +9,14 @@
 #include <string>
 #include <sstream>
 
+#include "utils/Comparable.hpp"
+
 using namespace std;
 
 /**
  * Represents a string holding and managing an internal char array.
  */
-class String {
+class String : public Comparable<String> {
 
 private:
     static const char END_OF_STRING;
@@ -136,12 +138,7 @@ public:
     String operator+(const String&) const;
 
     // Comparisons
-    bool operator==(const String&) const;
-    bool operator!=(const String&) const;
-    bool operator>(const String&) const;
-    bool operator<(const String&) const;
-    bool operator>=(const String&) const;
-    bool operator<=(const String&) const;
+    int compareTo(const String&) const;
 
 };
 

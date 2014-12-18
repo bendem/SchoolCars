@@ -4,11 +4,12 @@
 #include <string>
 
 #include "Person.hpp"
+#include "utils/Comparable.hpp"
 #include "utils/String.hpp"
 
 using namespace std;
 
-class Client : public Person {
+class Client : public Person, public Comparable<Client> {
 private:
     int id;
     String address;
@@ -26,12 +27,7 @@ public:
 
     String toString() const;
 
-    bool operator==(const Client&) const;
-    bool operator!=(const Client&) const;
-    bool operator<=(const Client&) const;
-    bool operator>=(const Client&) const;
-    bool operator<(const Client&) const;
-    bool operator>(const Client&) const;
+    int compareTo(const Client&) const;
 
     Client& operator=(const Client&);
 

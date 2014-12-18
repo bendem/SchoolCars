@@ -106,23 +106,8 @@ Employee& Employee::operator=(const Employee& param) {
     return *this;
 }
 
-bool Employee::operator>(const Employee& param) const {
-    return this->id > param.id;
-}
-bool Employee::operator<(const Employee& param) const {
-    return this->id < param.id;
-}
-bool Employee::operator<=(const Employee& param) const {
-    return this->id <= param.id;
-}
-bool Employee::operator>=(const Employee& param) const {
-    return this->id >= param.id;
-}
-bool Employee::operator==(const Employee& param) const {
-    return this->id == param.id;
-}
-bool Employee::operator!=(const Employee& param) const {
-    return this->id != param.id;
+int Employee::compareTo(const Employee& p) const {
+    return this->id - p.id;
 }
 
 istream& operator>>(istream& is, Employee& param) {

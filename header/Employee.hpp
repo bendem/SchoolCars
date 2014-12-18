@@ -7,12 +7,13 @@
 #include "Person.hpp"
 #include "exceptions/InvalidFunctionException.hpp"
 #include "exceptions/InvalidPasswordException.hpp"
+#include "utils/Comparable.hpp"
 #include "utils/StreamUtils.hpp"
 #include "utils/String.hpp"
 
 using namespace std;
 
-class Employee : public Person {
+class Employee : public Person, public Comparable<Employee> {
 
 private:
     int id;
@@ -50,12 +51,7 @@ public:
 
     Employee& operator=(const Employee&);
 
-    bool operator>(const Employee&) const;
-    bool operator<(const Employee&) const;
-    bool operator<=(const Employee&) const;
-    bool operator>=(const Employee&) const;
-    bool operator==(const Employee&) const;
-    bool operator!=(const Employee&) const;
+    int compareTo(const Employee&) const;
 
     friend istream& operator>>(istream&, Employee&);
     friend ostream& operator<<(ostream&, const Employee&);

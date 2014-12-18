@@ -1,6 +1,5 @@
 #include "Client.hpp"
 
-
 Client::Client(const Client& param) : Person(param) {
     this->id = param.id;
     this->address = param.address;
@@ -30,40 +29,12 @@ String Client::toString() const {
     return s.str();
 }
 
-bool Client::operator==(const Client& param) const {
-    return this->surname == param.surname && this->firstname == param.firstname;
-}
-
-bool Client::operator!=(const Client& param) const {
-    return this->surname != param.surname || this->firstname != param.firstname;
-}
-
-bool Client::operator<=(const Client& param) const {
-    if(this->surname <= param.surname) {
-        return true;
+int Client::compareTo(const Client& param) const {
+    int res = this->surname.compareTo(param.surname);
+    if(res == 0) {
+        return this->firstname.compareTo(param.firstname);
     }
-    return this->surname == param.surname && this->firstname <= param.firstname;
-}
-
-bool Client::operator>=(const Client& param) const {
-    if(this->surname >= param.surname) {
-        return true;
-    }
-    return this->surname == param.surname && this->firstname >= param.firstname;
-}
-
-bool Client::operator<(const Client& param) const {
-    if(this->surname < param.surname) {
-        return true;
-    }
-    return this->surname == param.surname && this->firstname < param.firstname;
-}
-
-bool Client::operator>(const Client& param) const {
-    if(this->surname > param.surname) {
-        return true;
-    }
-    return this->surname == param.surname && this->firstname > param.firstname;
+    return res;
 }
 
 Client& Client::operator=(const Client& param) {

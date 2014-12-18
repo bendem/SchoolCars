@@ -41,9 +41,6 @@ bool SortedList<T>::contains(const T& param) const {
 
 template class SortedList<int>;
 
-#include "Person.hpp"
-template class SortedList<Person>;
-
 #include "Employee.hpp"
 template class SortedList<Employee>;
 

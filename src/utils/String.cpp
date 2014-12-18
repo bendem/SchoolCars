@@ -375,51 +375,8 @@ String String::operator+(const String& param) const {
     return *this + param.str;
 }
 
-bool String::operator==(const String& param) const {
-    if(this->stringSize == 0 && param.stringSize) {
-        return true;
-    }
-    if(this->stringSize == 0 ^ param.stringSize == 0) {
-        return false;
-    }
-    return strcmp(this->str, param.str) == 0;
-}
-
-bool String::operator!=(const String& param) const {
-    if(this->stringSize == 0 && param.stringSize) {
-        return true;
-    }
-    if(this->stringSize == 0 ^ param.stringSize == 0) {
-        return false;
-    }
-    return strcmp(this->str, param.str) != 0;
-}
-
-bool String::operator>(const String& param) const {
-    if(this->stringSize == 0 && param.stringSize) {
-        return true;
-    }
-    if(this->stringSize == 0 ^ param.stringSize == 0) {
-        return false;
-    }
-    return strcmp(this->str, param.str) > 0;
-}
-
-bool String::operator<(const String& param) const {
-    if(this->stringSize == 0 && param.stringSize) {
-        return true;
-    }
-    if(this->stringSize == 0 ^ param.stringSize == 0) {
-        return false;
-    }
-    return strcmp(this->str, param.str) < 0;
-}
-
-bool String::operator>=(const String& param) const {
-    return *this > param || *this == param;
-}
-bool String::operator<=(const String& param) const {
-    return *this < param || *this == param;
+int String::compareTo(const String& param) const {
+    return strcmp(this->str, param.str);
 }
 
 ostream& operator<<(ostream& os, const String& str) {

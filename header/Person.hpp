@@ -32,13 +32,6 @@ public:
 
     Person& operator=(const Person&);
 
-    bool operator>(const Person&) const;
-    bool operator<(const Person&) const;
-    bool operator<=(const Person&) const;
-    bool operator>=(const Person&) const;
-    bool operator==(const Person&) const;
-    bool operator!=(const Person&) const;
-
     friend istream& operator>>(istream&, Person&);
     friend ostream& operator<<(ostream&, const Person&);
 
