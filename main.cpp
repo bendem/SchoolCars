@@ -15,10 +15,16 @@ using namespace std;
 #define CONTRACTS_FILE "data/contracts.dat"
 #define APPLCATION_LOGS "application.log"
 
-int main() {
+int main(int argc, char** argv) {
     fstream x(APPLCATION_LOGS, ios::out | ios::trunc);
     streambuf* old = cerr.rdbuf(x.rdbuf());
     cerr << time("main") << "Output redirected to " << APPLCATION_LOGS << endl;
+
+    String login, password;
+    if(argc == 3) {
+        login = argv[1];
+        password = argv[2];
+    }
 
     Application app;
 
@@ -93,7 +99,7 @@ int main() {
      *            THE APPLICATION STARTS HERE
      * ================================================= */
     cerr << time("main") << "Application loaded, starting user interaction" << endl;
-    while(!app.login()) {
+    while(!app.login(login, password)) {
         cout << " > Bad login, try again..." << endl << endl;
     }
     cout << endl << endl << " > Welcome " << app.getCurrentUser().getFirstname() << "!" << endl;

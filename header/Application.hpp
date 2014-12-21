@@ -55,7 +55,7 @@ public:
     void saveContracts(const String&) const;
     void loadModels(const String&);
     void loadOptions(const String&);
-    bool login();
+    bool login(const String&, const String&);
     Employee& getCurrentUser() const;
     bool shouldQuit() const;
 

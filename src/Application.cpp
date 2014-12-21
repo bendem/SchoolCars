@@ -194,7 +194,16 @@ void Application::loadOptions(const String& file) {
 }
 
 
-bool Application::login() {
+bool Application::login(const String& providedLogin, const String& providedPassword) {
+    if(providedLogin.length() != 0 && providedPassword.length() != 0) {
+        // Quick arg login
+        Optional<Employee> opt = this->users.getFirstMatching(LoginPredicate(providedLogin));
+        if(opt.hasValue() && opt.get().getPassword() == providedPassword) {
+            this->currentUser = &opt.get();
+            return true;
+        }
+    }
+
     String username, password;
 
     cout << "    ========================" << endl;
