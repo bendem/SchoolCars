@@ -18,9 +18,9 @@ template<class T>
 String MenuEntry<T>::toString() const {
     ostringstream os;
     if(this->method) {
-        os << "    " << this->id << ". " << this->text;
+        os << "    " << this->id << ".\t" << this->text;
     } else {
-        os << " " << String(this->id, 4) << "  " << this->text;
+        os << "  " << String(this->id, 5) << '\t' << this->text;
     }
     return os.str();
 }
