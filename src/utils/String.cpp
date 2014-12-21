@@ -376,6 +376,12 @@ String String::operator+(const String& param) const {
 }
 
 int String::compareTo(const String& param) const {
+    if(!this->str) {
+        return -1;
+    }
+    if(!param.str) {
+        return 1;
+    }
     return strcmp(this->str, param.str);
 }
 
