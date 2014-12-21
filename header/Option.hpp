@@ -2,7 +2,6 @@
 #define OPTION_HPP
 
 #include <iostream>
-#include <fstream>
 
 #include "utils/String.hpp"
 
@@ -30,8 +29,8 @@ public:
     float getPrice() const;
     void setPrice(float price);
 
-    void save(ofstream&) const;
-    void load(ifstream&);
+    void save(ostream&) const;
+    void load(istream&);
 
     Option& operator++();
     Option operator++(int);

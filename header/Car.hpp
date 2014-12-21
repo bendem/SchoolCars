@@ -2,6 +2,7 @@
 #define CAR_HPP
 
 #include <iostream>
+#include <fstream>
 #include <string>
 
 #include "Model.hpp"
@@ -9,6 +10,7 @@
 #include "exceptions/ElementNotFoundException.hpp"
 #include "exceptions/IOException.hpp"
 #include "exceptions/NotEnoughSpaceException.hpp"
+#include "utils/ArrayUtils.hpp"
 #include "utils/FileUtils.hpp"
 
 using namespace std;

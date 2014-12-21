@@ -1,9 +1,7 @@
 #include "Car.hpp"
 
 Car::Car(String name, const Model& model) : name(name), model(model) {
-    for(int i = 0; i < MAX_OPTION_COUNT; ++i) {
-        options[i] = NULL;
-    }
+    ArrayUtils::fill<Option*>(this->options, NULL, MAX_OPTION_COUNT);
 }
 
 Car::Car(Car const& param) : name(param.name), model(param.model) {
@@ -39,14 +37,18 @@ void Car::addOption(const Option& option) {
         }
     }
 
-    if(added == -1 && !fail) {
-        throw NotEnoughSpaceException();
+    // Found the same after adding it
+    if(fail) {
+        if(added != -1) {
+            delete this->options[added];
+            this->options[added] = NULL;
+        }
+        throw AssertionException();
     }
 
-    if(added != -1 && fail) {
-        delete this->options[added];
-        this->options[added] = NULL;
-        throw AssertionException();
+    // Not added
+    if(added == -1) {
+        throw NotEnoughSpaceException();
     }
 }
 

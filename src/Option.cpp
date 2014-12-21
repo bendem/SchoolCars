@@ -41,15 +41,15 @@ void Option::setPrice(float price) {
     this->price = price;
 }
 
-void Option::save(ofstream& os) const {
-    StreamUtils::write(os, this->name);
+void Option::save(ostream& os) const {
     StreamUtils::write(os, this->code);
+    StreamUtils::write(os, this->name);
     StreamUtils::write(os, this->price);
 }
 
-void Option::load(ifstream& is) {
-    this->name = StreamUtils::readString(is);
+void Option::load(istream& is) {
     this->code = StreamUtils::readString(is);
+    this->name = StreamUtils::readString(is);
     this->price = StreamUtils::readFloat(is);
 }
 
