@@ -117,13 +117,13 @@ void Car::save() const {
     StreamUtils::write(os, this->name);
     this->model.save(os);
 
-    // Save the position of the option count
-    long pos = os.tellp();
-
-    // Skip int size so we can write the count later
-    StreamUtils::write(os, 0);
-
+    // Counting before because tellp/seekp didn't work D:
     int count = 0;
+    for(int i = 0; i < MAX_OPTION_COUNT; ++i) {
+        if(this->options[i]) ++count;
+    }
+    StreamUtils::write(os, count);
+
     // Write  the options and count them
     for(int i = 0; i < MAX_OPTION_COUNT; ++i) {
         if(this->options[i]) {
@@ -131,10 +131,6 @@ void Car::save() const {
             ++count;
         }
     }
-
-    // Get back to the saved position and write option count
-    os.seekp(pos);
-    StreamUtils::write(os, count);
 }
 
 void Car::load(const String& filename) {
