@@ -16,7 +16,7 @@ private:
 
 public:
     Client(String surname = "", String firstname = "", int id = 0, String address = "") :
-        Person(firstname, surname), id(id), address(address) {}
+        Person(surname, firstname), id(id), address(address) {}
     Client(const Client&);
 
     int getId() const;

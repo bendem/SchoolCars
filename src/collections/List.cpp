@@ -24,16 +24,18 @@ template<class T>
 T List<T>::get(int index) const {
     Sanity::truthness(index >= 0 && index < this->nbElems, "Index out of bounds");
 
+    if(index == 0) {
+        return this->first->value;
+    }
+
     ConstIterator<T> it(*this);
     int i = 0;
-    while(i < index) {
-        ++i;
-        if(i == index) {
+    while(true) {
+        if(i++ == index) {
             return it;
         }
-        it++;
+        ++it;
     }
-    throw logic_error("Should not be possible to reach the end of this method");
 }
 
 template<class T>

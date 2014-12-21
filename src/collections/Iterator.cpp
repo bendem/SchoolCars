@@ -31,12 +31,13 @@ T Iterator<T>::remove() {
         this->list.first = this->current->next;
         delete this->current;
         this->current = this->list.first;
-        return elem;
+    } else {
+        this->prec->next = this->current->next;
+        delete this->current;
+        this->current = this->prec->next;
     }
 
-    this->prec->next = this->current->next;
-    delete this->current;
-    this->current = this->prec->next;
+    --this->list.nbElems;
     return elem;
 }
 

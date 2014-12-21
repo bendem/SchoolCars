@@ -1,6 +1,6 @@
 #include "Application.hpp"
 
-Application::Application() : optionTable(3), modelTable(4) {
+Application::Application() : optionTable(3), modelTable(5) {
     String optionHeaders[] = { "code", "name", "price" };
     this->optionTable.setHeader(optionHeaders);
 
@@ -217,18 +217,18 @@ bool Application::login() {
         String newPassword;
         String confirmation;
         while(true) {
-            cout << "    404 password not found, enter a new one: ";
+            cout << endl << "    404 password not found, enter a new one: ";
             cin >> newPassword;
             cout << "    Confirm your password: ";
             cin >> confirmation;
             if(newPassword != confirmation) {
-                cout << " > Passwords don't match!" << endl;
+                cout << " > Passwords don't match, try again" << endl;
                 continue;
             }
             try {
                 this->currentUser->setPassword(newPassword);
             } catch(InvalidPasswordException e) {
-                e.display();
+                cout << " > " << e.what() << ", try again" << endl;
                 continue;
             }
             break;
@@ -284,6 +284,7 @@ void Application::changePassword() {
         cout << e.what() << endl;
         return;
     }
+    cout << " > Password changed" << endl;
 }
 
 void Application::quit() {
@@ -329,7 +330,7 @@ void Application::displayUser() {
         cout << endl << "    = " << username << " =" << endl
             << "    Id: \t" << opt.get().getId() << endl
             << "    Login: \t" << opt.get().getLogin() << endl
-            << "    Password: \t" << String("*", opt.get().getPassword().length()) << endl
+            << "    Password: \t" << (opt.get().getPassword().length() == 0 ? "<empty>" : String('*', opt.get().getPassword().length())) << endl
             << "    Function: \t" << opt.get().getFunction() << endl
             << "    Firstname: \t" << opt.get().getFirstname() << endl
             << "    Surname: \t" << opt.get().getSurname() << endl;
@@ -359,7 +360,7 @@ void Application::createUser() {
     }
 
     this->users.add(Employee(surname, firstname, ++this->userId, login, bFunc ? Employee::ADMINISTRATIVE : Employee::SELLER));
-    cout << " > User successfuly added" << endl;
+    cout << " > User successfuly created" << endl;
 }
 
 void Application::resetPassword() {
@@ -374,7 +375,7 @@ void Application::resetPassword() {
     Optional<Employee> opt = this->users.getFirstMatching(LoginPredicate(username));
     if(opt.hasValue()) {
         opt.get().resetPassword();
-        cout << " > Password reset for " << username << endl;
+        cout << " > " << username << "'s password has been reset" << username << endl;
     } else {
         cout << " > User not found :(" << endl;
     }
@@ -555,6 +556,7 @@ void Application::createCar() {
             }
         }
         delete this->currentCar;
+        this->currentCar = NULL;
     }
 
     String carName;
@@ -576,7 +578,7 @@ void Application::createCar() {
         break;
     }
 
-    if(modelId >= this->models.size() || modelId < 0) {
+    if(modelId < 0 || modelId >= this->models.size()) {
         cout << " > Model not found";
         return;
     }
@@ -599,19 +601,19 @@ void Application::loadCar() {
     } else {
         this->currentCar = new Car();
     }
+    this->carDirty = false;
 
     String input;
     cout << "    Enter the name of the project to load: ";
     cin >> input;
     try {
-        this->currentCar->load(input);
+        this->currentCar->load(String("data/") + input + ".car");
     } catch(AssertionException e) {
         cout << " > " << e.what() << endl;
         delete this->currentCar;
         this->currentCar = NULL;
         return;
     }
-    this->carDirty = false;
     cout << " > Car loaded" << endl;
 }
 
