@@ -60,7 +60,7 @@ char StreamUtils::readChar(istream& is) {
 
 float StreamUtils::readFloat(istream& is) {
     float f;
-    is.read((char*) &f, sizeof(int));
+    is.read((char*) &f, sizeof(float));
     return f;
 }
 
