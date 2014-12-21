@@ -239,7 +239,7 @@ int String::toInt() const {
         ++s;
     }
 
-    if(*s == '\0') {
+    if(*s == END_OF_STRING) {
         throw invalid_argument("sign character only");
     }
 
@@ -269,7 +269,7 @@ float String::toFloat() const {
         ++s;
     }
 
-    if(*s == '\0') {
+    if(*s == END_OF_STRING) {
         throw invalid_argument("sign character only");
     }
 
