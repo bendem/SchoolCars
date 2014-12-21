@@ -3,6 +3,7 @@
 
 #include <iostream>
 
+#include "utils/StreamUtils.hpp"
 #include "utils/String.hpp"
 
 using namespace std;
