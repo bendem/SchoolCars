@@ -70,6 +70,16 @@ Option& Car::getOption(const String& code) {
     throw ElementNotFoundException();
 }
 
+List<Option> Car::getOptions() const {
+    List<Option> l;
+    for(int i = 0; i < MAX_OPTION_COUNT; ++i) {
+        if(this->options[i]) {
+            l.add(*this->options[i]);
+        }
+    }
+    return l;
+}
+
 float Car::getPrice() const {
     float price = 0;
     for(int i = 0; i < MAX_OPTION_COUNT; ++i) {

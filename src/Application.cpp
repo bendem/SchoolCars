@@ -622,7 +622,23 @@ void Application::displayCurrentCar() {
         cout << " > No car currently loaded" << endl;
         return;
     }
-    cout << "    " << *this->currentCar << endl;
+
+    cout << "    = " << this->currentCar->getName() << " =" << endl << endl
+        << "    Model" << endl
+        << "    | Name:     " << this->currentCar->getModel().getName() << endl
+        << "    | BaseCost: " << this->currentCar->getModel().getBaseCost() << endl
+        << "    | Diesel:   " << (this->currentCar->getModel().isDiesel() ? "yes" : "no") << endl
+        << "    | Power:    " << this->currentCar->getModel().getPower() << endl
+        ;
+    List<Option> options(this->currentCar->getOptions());
+    if(!options.isEmpty()) {
+        cout << endl << "    Options" << endl;
+    }
+    ConstIterator<Option> it(options);
+    while(!it.end()) {
+        cout << "    | [" << (&it).getCode() << "] " << (&it).getName() << ": " << (&it).getPrice() << endl;
+        ++it;
+    }
 }
 
 void Application::addOptionToCurrentCar() {
