@@ -2,10 +2,9 @@
 
 void StreamUtils::write(ostream& os, const String& str) {
     // Write string size
-    int n = str.length();
-    os.write((char*) &n, sizeof(int));
+    StreamUtils::write(os, str.length());
     // Write string
-    os.write(str, sizeof(char) * n);
+    os.write(str, sizeof(char) * str.length());
 }
 
 void StreamUtils::write(ostream& os, bool b) {
