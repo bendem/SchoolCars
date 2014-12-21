@@ -177,7 +177,7 @@ void Application::loadOptions(const String& file) {
         ConstIterator<String> it(l);
         String code = it++;
         String name = it++;
-        int price = (&it).toInt();
+        float price = (&it).toFloat();
 
         // Adding to list
         this->options.add(Option(code, name, price));
