@@ -10,12 +10,12 @@
 using namespace std;
 
 /**
- * Reprensents an date by its day, month and year.
+ * Represents a date by its day, month and year.
  */
 class Date {
 
 private:
-    static const unsigned int MONTHES[12];
+    static const unsigned int MONTHS[12];
 
     static bool validate(unsigned int, unsigned int, unsigned int);
     static bool isLeap(unsigned int);

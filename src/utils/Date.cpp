@@ -1,6 +1,6 @@
 #include "utils/Date.hpp"
 
-const unsigned int Date::MONTHES[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+const unsigned int Date::MONTHS[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
 Date::Date() {
     time_t t = time(0);
@@ -28,7 +28,7 @@ bool Date::validate(unsigned int day, unsigned int month, unsigned int year) {
     if(month < 1 || month > 12) {
         return false;
     }
-    unsigned int daysInMonth = Date::MONTHES[month - 1];
+    unsigned int daysInMonth = Date::MONTHS[month - 1];
     if(month == 1 && Date::isLeap(year)) {
         ++daysInMonth;
     }
