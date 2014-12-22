@@ -375,6 +375,18 @@ String String::operator+(const String& param) const {
     return *this + param.str;
 }
 
+String& String::operator+=(const String& param) {
+    if(param.stringSize == 0) {
+        return *this;
+    }
+
+    this->reallocate(this->stringSize + param.stringSize + 1);
+    String::copy(&this->str[this->stringSize], param.str, param.stringSize);
+    this->stringSize += param.stringSize;
+
+    return *this;
+}
+
 int String::compareTo(const String& param) const {
     if(!this->str) {
         return -1;

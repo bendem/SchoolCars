@@ -136,6 +136,7 @@ public:
     String operator+(float) const;
     String operator+(double) const;
     String operator+(const String&) const;
+    String& operator+=(const String&);
 
     // Comparisons
     int compareTo(const String&) const;
