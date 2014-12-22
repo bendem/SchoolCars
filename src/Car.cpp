@@ -89,7 +89,7 @@ float Car::getPrice() const {
             price += this->options[i]->getPrice();
         }
     }
-    return price;
+    return price + this->model.getBaseCost();
 }
 
 String Car::getName() const {

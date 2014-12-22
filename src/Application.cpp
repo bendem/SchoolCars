@@ -632,10 +632,17 @@ void Application::displayCurrentCar() {
         return;
     }
 
-    cout << "    = " << this->currentCar->getName() << " =" << endl << endl
+    String title("= Car project '");
+    title += this->currentCar->getName() + "' =";
+
+    cout
+        << "    " << String('=', title.length()) << endl
+        << "    " << title << endl
+        << "    " << String('=', title.length()) << endl << endl
+        << "    Price:      " << this->currentCar->getPrice() << " EUR" << endl << endl
         << "    Model" << endl
         << "    | Name:     " << this->currentCar->getModel().getName() << endl
-        << "    | BaseCost: " << this->currentCar->getModel().getBaseCost() << endl
+        << "    | BaseCost: " << this->currentCar->getModel().getBaseCost() << " EUR" << endl
         << "    | Diesel:   " << (this->currentCar->getModel().isDiesel() ? "yes" : "no") << endl
         << "    | Power:    " << this->currentCar->getModel().getPower() << endl
         ;
