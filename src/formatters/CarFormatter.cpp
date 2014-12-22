@@ -1,28 +1,29 @@
 #include "formatters/CarFormatter.hpp"
 
-String CarFormatter::format() const {
+String CarFormatter::format(int tabs) const {
+    String tab(' ', tabs);
     stringstream ss;
     String title("= Car project '");
     title += this->obj.getName() + "' =";
 
     ss
-        << "    " << String('=', title.length()) << endl
-        << "    " << title << endl
-        << "    " << String('=', title.length()) << endl << endl
-        << "    Price:      " << this->obj.getPrice() << " EUR" << endl << endl
-        << "    Model" << endl
-        << "    | Name:     " << this->obj.getModel().getName() << endl
-        << "    | BaseCost: " << this->obj.getModel().getBaseCost() << " EUR" << endl
-        << "    | Diesel:   " << (this->obj.getModel().isDiesel() ? "yes" : "no") << endl
-        << "    | Power:    " << this->obj.getModel().getPower() << endl
+        << tab << String('=', title.length()) << endl
+        << tab << title << endl
+        << tab << String('=', title.length()) << endl << endl
+        << tab << "Price:      " << this->obj.getPrice() << " EUR" << endl << endl
+        << tab << "Model" << endl
+        << tab << "| Name:     " << this->obj.getModel().getName() << endl
+        << tab << "| BaseCost: " << this->obj.getModel().getBaseCost() << " EUR" << endl
+        << tab << "| Diesel:   " << (this->obj.getModel().isDiesel() ? "yes" : "no") << endl
+        << tab << "| Power:    " << this->obj.getModel().getPower() << endl
         ;
     List<Option> options(this->obj.getOptions());
     if(!options.isEmpty()) {
-        ss << endl << "    Options" << endl;
+        ss << endl << tab << "Options" << endl;
     }
     ConstIterator<Option> it(options);
     while(!it.end()) {
-        ss << "    | [" << (&it).getCode() << "] " << (&it).getName() << ": " << (&it).getPrice() << " EUR" << endl;
+        ss << tab << "| [" << (&it).getCode() << "] " << (&it).getName() << ": " << (&it).getPrice() << " EUR" << endl;
         ++it;
     }
 

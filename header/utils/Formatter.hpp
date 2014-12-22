@@ -11,13 +11,8 @@ protected:
 
 public:
     Formatter(const T& p) : obj(p) {}
-    virtual String format() const = 0;
+    virtual String format(int) const = 0;
 
 };
-
-template<class T>
-ostream& operator<<(ostream& os, const Formatter<T>& formatter) {
-    return os << formatter.format();
-}
 
 #endif
