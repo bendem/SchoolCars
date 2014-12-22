@@ -582,7 +582,7 @@ void Application::createCar() {
         break;
     }
 
-    if(modelId < 0 || modelId >= this->models.size()) {
+    if(modelId >= this->models.size()) {
         cout << " > Model not found";
         return;
     }

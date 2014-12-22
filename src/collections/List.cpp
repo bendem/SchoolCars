@@ -22,7 +22,7 @@ void List<T>::add(const T& para) {
 
 template<class T>
 T List<T>::get(unsigned int index) const {
-    Sanity::truthness(index >= 0 && index < this->nbElems, "Index out of bounds");
+    Sanity::truthness(index < this->nbElems, "Index out of bounds");
 
     if(index == 0) {
         return this->first->value;

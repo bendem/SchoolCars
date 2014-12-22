@@ -25,7 +25,7 @@ Date::Date(const Date& param) {
 }
 
 bool Date::validate(unsigned int day, unsigned int month, unsigned int year) {
-    if(month < 1 || month > 12 || year < 0) {
+    if(month < 1 || month > 12) {
         return false;
     }
     unsigned int daysInMonth = Date::MONTHES[month - 1];

@@ -96,11 +96,6 @@ void String::reallocate(unsigned int size, bool constructing) {
         return;
     }
 
-    if(size < 0) {
-        // Invalid size, ignoring
-        return;
-    }
-
     if(size <= this->arraySize) {
         // Already the right size
         return;

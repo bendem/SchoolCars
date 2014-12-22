@@ -34,7 +34,7 @@ unsigned int BaseList<T>::size() const {
 
 template<class T>
 void BaseList<T>::remove(unsigned int index) {
-    Sanity::truthness(index < nbElems && index >= 0, "Index must be lower than the list's size");
+    Sanity::truthness(index < nbElems, "Index must be lower than the list's size");
 
     Iterator<T> it(*this);
 
