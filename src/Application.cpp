@@ -336,13 +336,7 @@ void Application::displayUser() {
 
     Optional<Employee> opt = this->users.getFirstMatching(LoginPredicate(username));
     if(opt.hasValue()) {
-        cout << endl << "    = " << username << " =" << endl
-            << "    Id: \t" << opt.get().getId() << endl
-            << "    Login: \t" << opt.get().getLogin() << endl
-            << "    Password: \t" << (opt.get().getPassword().length() == 0 ? "<empty>" : String('*', opt.get().getPassword().length())) << endl
-            << "    Function: \t" << opt.get().getFunction() << endl
-            << "    Firstname: \t" << opt.get().getFirstname() << endl
-            << "    Surname: \t" << opt.get().getSurname() << endl;
+        cout << endl << EmployeeFormatter(opt.get()).format(4) << endl;
     } else {
         cout << " > User not found :(" << endl;
     }
