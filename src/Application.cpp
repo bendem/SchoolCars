@@ -149,10 +149,10 @@ void Application::loadModels(const String& file) {
 
         // Adding to table
         String line[] = {
-            String() + i++,
+            String::valueOf(i++),
             name,
-            String() + baseCost,
-            String() + power,
+            String::valueOf(baseCost),
+            String::valueOf(power),
             String(diesel ? "yes" : "no")
         };
         this->modelTable.addLine(line);
@@ -186,7 +186,7 @@ void Application::loadOptions(const String& file) {
         String line[] = {
             code,
             name,
-            String() + price
+            String::valueOf(price)
         };
         this->optionTable.addLine(line);
     }
@@ -312,7 +312,7 @@ void Application::displayUsers() {
     ConstIterator<Employee> it(this->users);
     while(!it.end()) {
         String line[] = {
-            String() + (&it).getId(),
+            String::valueOf((&it).getId()),
             String((&it).getLogin()),
             String((&it).getFirstname()),
             String((&it).getSurname()),
@@ -396,12 +396,12 @@ void Application::displayContracts() {
     ConstIterator<Contract> it(this->contracts);
     while(!it.end()) {
         String line[] = {
-            String() + (&it).getId(),
-            String() + (&it).getSellerId(),
-            String() + (&it).getClientId(),
+            String::valueOf((&it).getId()),
+            String::valueOf((&it).getSellerId()),
+            String::valueOf((&it).getClientId()),
             (&it).getDate().format("%d-%m-%y"),
             (&it).getCar().getName(),
-            String() + (&it).getDiscount()
+            String::valueOf((&it).getDiscount())
         };
         table.addLine(line);
         ++it;
@@ -520,7 +520,7 @@ void Application::displayClients() {
     ConstIterator<Client> it(this->clients);
     while(!it.end()) {
         String line[] = {
-            String() + (&it).getId(),
+            String::valueOf((&it).getId()),
             String((&it).getAddress()),
             String((&it).getFirstname()),
             String((&it).getSurname())
@@ -759,12 +759,12 @@ void Application::displayContractsForCurrentUser() {
     while(!it.end()) {
         if((&it).getSellerId() == this->currentUser->getId()) {
             String line[] = {
-                String() + (&it).getId(),
-                String() + (&it).getSellerId(),
-                String() + (&it).getClientId(),
+                String::valueOf((&it).getId()),
+                String::valueOf((&it).getSellerId()),
+                String::valueOf((&it).getClientId()),
                 (&it).getDate().format("%d-%m-%y"),
                 (&it).getCar().getName(),
-                String() + (&it).getDiscount()
+                String::valueOf((&it).getDiscount())
             };
             table.addLine(line);
             displayedStuff = true;

@@ -71,9 +71,9 @@ void Date::setYear(int year) {
 
 String Date::format(String format) const {
     return format
-        .replace("%d", String() + this->day)
-        .replace("%m", String() + this->month)
-        .replace("%y", String() + this->year);
+        .replace("%d", String::valueOf(this->day))
+        .replace("%m", String::valueOf(this->month))
+        .replace("%y", String::valueOf(this->year));
 }
 
 Date& Date::operator=(const Date& param) {

@@ -141,6 +141,9 @@ public:
     // Comparisons
     int compareTo(const String&) const;
 
+    template<class T>
+    static String valueOf(const T& p) { stringstream ss; ss << p; return ss.str(); }
+
 };
 
 ostream& operator<<(ostream&, const String&);

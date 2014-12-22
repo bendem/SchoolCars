@@ -340,35 +340,23 @@ String String::operator+(char c) const {
 }
 
 String String::operator+(int i) const {
-    stringstream s;
-    s << i;
-
-    // rely on operator+(char*)
-    return *this + s.str().c_str();
+    // rely on operator+(String)
+    return *this + String::valueOf(i);
 }
 
 String String::operator+(long i) const {
-    stringstream s;
-    s << i;
-
-    // rely on operator+(char*)
-    return *this + s.str().c_str();
+    // rely on operator+(String)
+    return *this + String::valueOf(i);
 }
 
 String String::operator+(float i) const {
-    stringstream s;
-    s << i;
-
-    // rely on operator+(char*)
-    return *this + s.str().c_str();
+    // rely on operator+(String)
+    return *this + String::valueOf(i);
 }
 
 String String::operator+(double i) const {
-    stringstream s;
-    s << i;
-
-    // rely on operator+(char*)
-    return *this + s.str().c_str();
+    // rely on operator+(String)
+    return *this + String::valueOf(i);
 }
 
 String String::operator+(const String& param) const {
