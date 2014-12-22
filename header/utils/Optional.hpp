@@ -1,9 +1,7 @@
 #ifndef OPTIONAL_HPP
 #define OPTIONAL_HPP
 
-#include <iostream>
-
-using namespace std;
+#include <cstddef>
 
 /**
  * Represents an optional mutable value.
@@ -28,7 +26,7 @@ public:
      */
     T& get() { return *this->value; }
 
-    Optional<T>& operator=(const Optional<T> param) { this->value = param.value; }
+    Optional<T>& operator=(const Optional<T> param) { this->value = param.value; return *this; }
 
 };
 
