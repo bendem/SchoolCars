@@ -429,7 +429,7 @@ void Application::displayContract() {
 
     Optional<Contract> opt = this->contracts.getFirstMatching(IdPredicate<Contract>(id));
     if(opt.hasValue()) {
-        cout << ContractFormatter(opt.get()).format(4) << endl;
+        cout << endl << ContractFormatter(opt.get()).format(4) << endl;
     } else {
         cout << " > id not found" << endl;
     }
@@ -461,7 +461,7 @@ void Application::displaySellerContracts() {
     ConstIterator<Contract> contractIt(this->contracts);
     while(!contractIt.end()) {
         if((&contractIt).getSellerId() == id) {
-            cout << ContractFormatter(contractIt).format(4) << endl;
+            cout << endl << ContractFormatter(contractIt).format(4) << endl;
             stuffWasDisplayed = true;
         }
         ++contractIt;
