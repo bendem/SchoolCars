@@ -12,6 +12,8 @@
 #include "collections/List.hpp"
 #include "collections/SortedList.hpp"
 #include "exceptions/IOException.hpp"
+#include "formatters/CarFormatter.hpp"
+#include "formatters/ContractFormatter.hpp"
 #include "menu/Menu.hpp"
 #include "menu/MenuEntry.hpp"
 #include "predicates/ClientIdPredicate.hpp"

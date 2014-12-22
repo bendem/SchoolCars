@@ -429,7 +429,7 @@ void Application::displayContract() {
 
     Optional<Contract> opt = this->contracts.getFirstMatching(IdPredicate<Contract>(id));
     if(opt.hasValue()) {
-        cout << "    " << opt.get() << endl;
+        cout << "    " << ContractFormatter(opt.get()) << endl;
     } else {
         cout << " > id not found" << endl;
     }
@@ -461,9 +461,10 @@ void Application::displaySellerContracts() {
     ConstIterator<Contract> contractIt(this->contracts);
     while(!contractIt.end()) {
         if((&contractIt).getSellerId() == id) {
-            cout << "    " << contractIt << endl;
+            cout << "    " << ContractFormatter(contractIt) << endl;
             stuffWasDisplayed = true;
         }
+        ++contractIt;
     }
 
     if(!stuffWasDisplayed) {
@@ -632,29 +633,7 @@ void Application::displayCurrentCar() {
         return;
     }
 
-    String title("= Car project '");
-    title += this->currentCar->getName() + "' =";
-
-    cout
-        << "    " << String('=', title.length()) << endl
-        << "    " << title << endl
-        << "    " << String('=', title.length()) << endl << endl
-        << "    Price:      " << this->currentCar->getPrice() << " EUR" << endl << endl
-        << "    Model" << endl
-        << "    | Name:     " << this->currentCar->getModel().getName() << endl
-        << "    | BaseCost: " << this->currentCar->getModel().getBaseCost() << " EUR" << endl
-        << "    | Diesel:   " << (this->currentCar->getModel().isDiesel() ? "yes" : "no") << endl
-        << "    | Power:    " << this->currentCar->getModel().getPower() << endl
-        ;
-    List<Option> options(this->currentCar->getOptions());
-    if(!options.isEmpty()) {
-        cout << endl << "    Options" << endl;
-    }
-    ConstIterator<Option> it(options);
-    while(!it.end()) {
-        cout << "    | [" << (&it).getCode() << "] " << (&it).getName() << ": " << (&it).getPrice() << endl;
-        ++it;
-    }
+    cout << CarFormatter(*this->currentCar) << endl;
 }
 
 void Application::addOptionToCurrentCar() {
