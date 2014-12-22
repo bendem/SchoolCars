@@ -23,6 +23,11 @@ void Iterator<T>::reset() {
 }
 
 template<class T>
+T& Iterator<T>::get() {
+    return this->current->value;
+}
+
+template<class T>
 T Iterator<T>::remove() {
     T elem(this->current->value);
 

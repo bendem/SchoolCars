@@ -49,8 +49,7 @@ void Menu<T>::display() const {
 
     ConstIterator< MenuEntry<T> > it(*this->entries);
     while(!it.end()) {
-        cout << &it << endl;
-        ++it;
+        cout << it++.get() << endl;
     }
     cout << endl;
 }
@@ -64,9 +63,9 @@ void Menu<T>::choose(T& object) const {
 
     Iterator< MenuEntry<T> > it(*this->entries);
     while(!it.end()) {
-        if(&it == choice && (&it).hasMethod()) {
+        if(it.get() == choice && it.get().hasMethod()) {
             cout << endl;
-            (&it).callMethod(object);
+            it.get().callMethod(object);
             return;
         }
         ++it;

@@ -38,6 +38,9 @@ public:
      * Resets the position of the iterator in the list to the first element.
      */
     void reset();
+
+    const T& get() const;
+
     ConstIterator<T>& operator++();
     ConstIterator<T> operator++(int);
     operator T();

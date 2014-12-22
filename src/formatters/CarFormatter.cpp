@@ -23,7 +23,7 @@ String CarFormatter::format(int tabs) const {
     }
     ConstIterator<Option> it(options);
     while(!it.end()) {
-        ss << tab << "| [" << (&it).getCode() << "] " << (&it).getName() << ": " << (&it).getPrice() << " EUR" << endl;
+        ss << tab << "| [" << it.get().getCode() << "] " << it.get().getName() << ": " << it.get().getPrice() << " EUR" << endl;
         ++it;
     }
 

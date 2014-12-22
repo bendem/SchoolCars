@@ -27,11 +27,11 @@ template<class T>
 bool SortedList<T>::contains(const T& param) const {
     ConstIterator<T> it(*this);
     while(!it.end()) {
-        if((T) it == param) {
+        if(it.get() == param) {
             return true;
         }
         // Addition for sorted lists
-        if((T) it > param) {
+        if(it.get() > param) {
             return false;
         }
         ++it;

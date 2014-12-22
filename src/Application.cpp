@@ -56,7 +56,7 @@ void Application::saveUsers(const String& file) const {
 
     ConstIterator<Employee> it(this->users);
     while(!it.end()) {
-        ((Employee) it++).save(os);
+        it++.get().save(os);
     }
 }
 
@@ -87,7 +87,7 @@ void Application::saveClients(const String& file) const {
 
     ConstIterator<Client> it(this->clients);
     while(!it.end()) {
-        ((Client) it++).save(os);
+        it++.get().save(os);
     }
 }
 
@@ -118,7 +118,7 @@ void Application::saveContracts(const String& file) const {
 
     ConstIterator<Contract> it(this->contracts);
     while(!it.end()) {
-        ((Contract) it++).save(os);
+        it++.get().save(os);
     }
 }
 
@@ -139,10 +139,10 @@ void Application::loadModels(const String& file) {
         // Reading data
         l = StreamUtils::readCSVLine(is, 4);
         ConstIterator<String> it(l);
-        String name(&it++);
-        int power = (&it++).toInt();
-        bool diesel = (&it++).toBool();
-        float baseCost = (&it).toFloat();
+        String name(it++.get());
+        int power = it++.get().toInt();
+        bool diesel = it++.get().toBool();
+        float baseCost = it.get().toFloat();
 
         // Adding to list
         this->models.add(Model(name, power, diesel, baseCost));
@@ -177,7 +177,7 @@ void Application::loadOptions(const String& file) {
         ConstIterator<String> it(l);
         String code = it++;
         String name = it++;
-        float price = (&it).toFloat();
+        float price = it.get().toFloat();
 
         // Adding to list
         this->options.add(Option(code, name, price));
@@ -312,12 +312,12 @@ void Application::displayUsers() {
     ConstIterator<Employee> it(this->users);
     while(!it.end()) {
         String line[] = {
-            String::valueOf((&it).getId()),
-            String((&it).getLogin()),
-            String((&it).getFirstname()),
-            String((&it).getSurname()),
-            String((&it).getFunction()),
-            (&it).getPassword().length() == 0 ? "<empty>" : String('*', (&it).getPassword().length())
+            String::valueOf(it.get().getId()),
+            String(it.get().getLogin()),
+            String(it.get().getFirstname()),
+            String(it.get().getSurname()),
+            String(it.get().getFunction()),
+            it.get().getPassword().length() == 0 ? "<empty>" : String('*', it.get().getPassword().length())
         };
         table.addLine(line);
         ++it;
@@ -396,12 +396,12 @@ void Application::displayContracts() {
     ConstIterator<Contract> it(this->contracts);
     while(!it.end()) {
         String line[] = {
-            String::valueOf((&it).getId()),
-            String::valueOf((&it).getSellerId()),
-            String::valueOf((&it).getClientId()),
-            (&it).getDate().format("%d-%m-%y"),
-            (&it).getCar().getName(),
-            String::valueOf((&it).getDiscount())
+            String::valueOf(it.get().getId()),
+            String::valueOf(it.get().getSellerId()),
+            String::valueOf(it.get().getClientId()),
+            it.get().getDate().format("%d-%m-%y"),
+            it.get().getCar().getName(),
+            String::valueOf(it.get().getDiscount())
         };
         table.addLine(line);
         ++it;
@@ -454,7 +454,7 @@ void Application::displaySellerContracts() {
     bool stuffWasDisplayed = false;
     ConstIterator<Contract> contractIt(this->contracts);
     while(!contractIt.end()) {
-        if((&contractIt).getSellerId() == id) {
+        if(contractIt.get().getSellerId() == id) {
             cout << endl << ContractFormatter(contractIt).format(4) << endl;
             stuffWasDisplayed = true;
         }
@@ -498,7 +498,7 @@ void Application::removeClient() {
 
     Iterator<Client> clientIt(this->clients);
     while(!clientIt.end()) {
-        if((&clientIt).getId() == id) {
+        if(clientIt.get().getId() == id) {
             clientIt.remove();
             cout << " > Client removed" << endl;
             return;
@@ -520,10 +520,10 @@ void Application::displayClients() {
     ConstIterator<Client> it(this->clients);
     while(!it.end()) {
         String line[] = {
-            String::valueOf((&it).getId()),
-            String((&it).getAddress()),
-            String((&it).getFirstname()),
-            String((&it).getSurname())
+            String::valueOf(it.get().getId()),
+            String(it.get().getAddress()),
+            String(it.get().getFirstname()),
+            String(it.get().getSurname())
         };
         table.addLine(line);
         ++it;
@@ -757,14 +757,14 @@ void Application::displayContractsForCurrentUser() {
     table.setHeader(headers);
     ConstIterator<Contract> it(this->contracts);
     while(!it.end()) {
-        if((&it).getSellerId() == this->currentUser->getId()) {
+        if(it.get().getSellerId() == this->currentUser->getId()) {
             String line[] = {
-                String::valueOf((&it).getId()),
-                String::valueOf((&it).getSellerId()),
-                String::valueOf((&it).getClientId()),
-                (&it).getDate().format("%d-%m-%y"),
-                (&it).getCar().getName(),
-                String::valueOf((&it).getDiscount())
+                String::valueOf(it.get().getId()),
+                String::valueOf(it.get().getSellerId()),
+                String::valueOf(it.get().getClientId()),
+                it.get().getDate().format("%d-%m-%y"),
+                it.get().getCar().getName(),
+                String::valueOf(it.get().getDiscount())
             };
             table.addLine(line);
             displayedStuff = true;

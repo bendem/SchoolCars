@@ -20,6 +20,11 @@ void ConstIterator<T>::reset() {
 }
 
 template<class T>
+const T& ConstIterator<T>::get() const {
+    return this->current->value;
+}
+
+template<class T>
 ConstIterator<T>& ConstIterator<T>::operator++() {
     Sanity::nullness(this->current, "Outside of the list");
 

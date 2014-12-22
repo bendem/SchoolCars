@@ -95,10 +95,10 @@ String Table::toString() const {
 
         ss << " | ";
         int i = 0;
-        ConstIterator<String> it((&lineIterator).iterator());
+        ConstIterator<String> it(lineIterator.get().iterator());
         while(!it.end()) {
             ss << it;
-            ss << String(' ', this->charsInsideTheColumns[i] - (&it).length()); // Fills the end of the column
+            ss << String(' ', this->charsInsideTheColumns[i] - it.get().length()); // Fills the end of the column
             ss << " |";
             ++it;
             ++i;

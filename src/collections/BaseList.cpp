@@ -41,7 +41,7 @@ void BaseList<T>::remove(int index) {
     int i = 0;
     while(i < index) {
         ++i;
-        it++;
+        ++it;
     }
     it.remove();
 }
@@ -64,7 +64,7 @@ template<class T>
 void BaseList<T>::addAll(const BaseList& toAdd) {
     ConstIterator<T> it(toAdd);
     while(!it.end()) {
-        this->add(&it++);
+        this->add(it++.get());
     }
 }
 

@@ -43,6 +43,8 @@ public:
      */
     void reset();
 
+    T& get();
+
     /**
      * Removes the element currently pointed by the iterator from the list.
      */

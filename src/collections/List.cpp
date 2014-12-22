@@ -43,7 +43,7 @@ Optional<T> List<T>::getFirstMatching(const Predicate<T>& predicate) {
     Iterator<T> it(*this);
     while(!it.end()) {
         if(predicate.test(it)) {
-            return Optional<T>(&(&it));
+            return Optional<T>(&it.get());
         }
         ++it;
     }
