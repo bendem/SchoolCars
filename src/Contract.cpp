@@ -112,12 +112,13 @@ void Contract::load(istream& is) {
     this->id = StreamUtils::readInt(is);
     this->sellerId = StreamUtils::readInt(is);
     this->clientId = StreamUtils::readInt(is);
+    date.load(is);
     String carName = StreamUtils::readString(is);
     if(this->car) {
         delete this->car;
     }
     this->car = new Car();
-    this->car->load(carName);
+    this->car->load(String("data/") + carName + ".car");
     this->discount = StreamUtils::readFloat(is);
 }
 
