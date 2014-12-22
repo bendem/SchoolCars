@@ -760,13 +760,12 @@ void Application::newContract() {
     cout << "    Enter the name of the car project: ";
     cin >> carName;
 
-    Car* car;
+    Car car;
     if(this->currentCar && this->currentCar->getName() == carName) {
-        car = this->currentCar;
+        car = *this->currentCar;
     } else {
-        car = new Car();
         try {
-            car->load(String("data/") + carName + ".car");
+            car.load(String("data/") + carName + ".car");
         } catch(AssertionException e) {
             cout << e.what() << endl;
             return;

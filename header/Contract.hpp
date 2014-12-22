@@ -20,7 +20,8 @@ private:
 
 public:
     Contract();
-    Contract(int, int, int, const Date&, Car*, float = 0);
+    Contract(int, int, int, const Date&, const Car&, float = 0);
+    Contract(const Contract&);
     ~Contract();
 
     int getId() const;
@@ -39,6 +40,8 @@ public:
     bool operator<(const Contract&) const;
     bool operator>=(const Contract&) const;
     bool operator<=(const Contract&) const;
+
+    Contract& operator=(Contract);
 
     void save(ostream&) const;
     void load(istream&);

@@ -4,8 +4,17 @@ Contract::Contract() {
     this->car = NULL;
 }
 
-Contract::Contract(int id, int sellerId, int clientId, const Date& date, Car* car, float discount)
-    : id(id), sellerId(sellerId), clientId(clientId), date(date), car(new Car(*car)), discount(discount) {}
+Contract::Contract(int id, int sellerId, int clientId, const Date& date, const Car& car, float discount)
+    : id(id), sellerId(sellerId), clientId(clientId), date(date), car(new Car(car)), discount(discount) {}
+
+Contract::Contract(const Contract& p) {
+    this->id = p.id;
+    this->sellerId = p.sellerId;
+    this->clientId = p.clientId;
+    this->date = p.date;
+    this->car = new Car(*p.car);
+    this->discount = p.discount;
+}
 
 Contract::~Contract() {
     if(this->car) {
@@ -76,7 +85,20 @@ bool Contract::operator<=(const Contract& param) const {
     return this->date <= param.date;
 }
 
+Contract& Contract::operator=(Contract p) {
+    this->id = p.id;
+    this->sellerId = p.sellerId;
+    this->clientId = p.clientId;
+    this->date = p.date;
+    swap(this->car, p.car);
+    this->discount = p.discount;
+
+    return *this;
+}
+
 void Contract::save(ostream& os) const {
+    Sanity::nullness(this->car, "Can't save null car");
+
     StreamUtils::write(os, this->id);
     StreamUtils::write(os, this->sellerId);
     StreamUtils::write(os, this->clientId);
