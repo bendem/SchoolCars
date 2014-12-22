@@ -4,7 +4,7 @@ Contract::Contract() {
     this->car = NULL;
 }
 
-Contract::Contract(int id, int sellerId, int clientId, const Date& date, const Car& car, float discount)
+Contract::Contract(unsigned int id, unsigned int sellerId, unsigned int clientId, const Date& date, const Car& car, float discount)
     : id(id), sellerId(sellerId), clientId(clientId), date(date), car(new Car(car)), discount(discount) {}
 
 Contract::Contract(const Contract& p) {
@@ -22,15 +22,15 @@ Contract::~Contract() {
     }
 }
 
-int Contract::getId() const {
+unsigned int Contract::getId() const {
     return this->id;
 }
 
-int Contract::getSellerId() const {
+unsigned int Contract::getSellerId() const {
     return this->sellerId;
 }
 
-int Contract::getClientId() const {
+unsigned int Contract::getClientId() const {
     return this->clientId;
 }
 
@@ -117,9 +117,9 @@ void Contract::save(ostream& os) const {
 }
 
 void Contract::load(istream& is) {
-    this->id = StreamUtils::readInt(is);
-    this->sellerId = StreamUtils::readInt(is);
-    this->clientId = StreamUtils::readInt(is);
+    this->id = StreamUtils::read<unsigned int>(is);
+    this->sellerId = StreamUtils::read<unsigned int>(is);
+    this->clientId = StreamUtils::read<unsigned int>(is);
     date.load(is);
     String carName = StreamUtils::readString(is);
     if(this->car) {
@@ -127,7 +127,7 @@ void Contract::load(istream& is) {
     }
     this->car = new Car();
     this->car->load(String("data/") + carName + ".car");
-    this->discount = StreamUtils::readFloat(is);
+    this->discount = StreamUtils::read<float>(is);
 }
 
 ostream& operator<<(ostream& os, const Contract& param) {

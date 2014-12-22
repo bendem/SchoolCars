@@ -1,10 +1,10 @@
 #include "table/Table.hpp"
 
-Table::Table(int columnCount) {
+Table::Table(unsigned int columnCount) {
     this->headers = NULL;
     this->columnCount = columnCount;
-    this->charsInsideTheColumns = new int[columnCount];
-    ArrayUtils::fill<int>(this->charsInsideTheColumns, 0, columnCount);
+    this->charsInsideTheColumns = new unsigned int[columnCount];
+    ArrayUtils::fill<unsigned int>(this->charsInsideTheColumns, 0, columnCount);
     this->countOfTheCharInsideTheTable = 0;
 }
 
@@ -16,8 +16,8 @@ Table::Table(const Table& param) {
     this->headers = new String[this->columnCount];
     ArrayUtils::copy<String>(this->headers, param.headers, this->columnCount);
 
-    this->charsInsideTheColumns = new int[this->columnCount];
-    ArrayUtils::copy<int>(this->charsInsideTheColumns, param.charsInsideTheColumns, this->columnCount);
+    this->charsInsideTheColumns = new unsigned int[this->columnCount];
+    ArrayUtils::copy<unsigned int>(this->charsInsideTheColumns, param.charsInsideTheColumns, this->columnCount);
 }
 
 Table::~Table() {
@@ -28,7 +28,7 @@ Table::~Table() {
 }
 
 void Table::checkMaxLengths(const String array[]) {
-    for(int i = 0; i < this->columnCount; ++i) {
+    for(unsigned int i = 0; i < this->columnCount; ++i) {
         if(this->charsInsideTheColumns[i] < array[i].length()) {
             this->countOfTheCharInsideTheTable += array[i].length() - this->charsInsideTheColumns[i];
             this->charsInsideTheColumns[i] = array[i].length();
@@ -38,7 +38,7 @@ void Table::checkMaxLengths(const String array[]) {
 
 void Table::formatTableBorder(stringstream& ss) const {
     ss << " +";
-    for(int i = 0; i < this->columnCount; ++i) {
+    for(unsigned int i = 0; i < this->columnCount; ++i) {
         ss << String('-', this->charsInsideTheColumns[i]+2) << "+";
     }
     ss << endl;
@@ -46,7 +46,7 @@ void Table::formatTableBorder(stringstream& ss) const {
 
 void Table::formatHeader(stringstream& ss) const {
     ss << " | ";
-    for(int i = 0; i < this->columnCount; ++i) {
+    for(unsigned int i = 0; i < this->columnCount; ++i) {
         ss
             << this->headers[i]
             << String(' ', this->charsInsideTheColumns[i] - this->headers[i].length())
@@ -77,7 +77,7 @@ Table& Table::addLine(const String columns[]) {
 }
 
 void Table::clear() {
-    ArrayUtils::fill<int>(this->charsInsideTheColumns, 0, columnCount);
+    ArrayUtils::fill<unsigned int>(this->charsInsideTheColumns, 0, columnCount);
     this->countOfTheCharInsideTheTable = 0;
     this->entries.clear();
 }

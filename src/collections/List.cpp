@@ -21,7 +21,7 @@ void List<T>::add(const T& para) {
 }
 
 template<class T>
-T List<T>::get(int index) const {
+T List<T>::get(unsigned int index) const {
     Sanity::truthness(index >= 0 && index < this->nbElems, "Index out of bounds");
 
     if(index == 0) {
@@ -29,7 +29,7 @@ T List<T>::get(int index) const {
     }
 
     ConstIterator<T> it(*this);
-    int i = 0;
+    unsigned int i = 0;
     while(true) {
         if(i++ == index) {
             return it;

@@ -28,7 +28,7 @@ public:
     /**
      * Returns the element at the provided index in the list
      */
-    T get(int) const;
+    T get(unsigned int) const;
 
     /**
      * Returns an optional value continaing the first element of the list

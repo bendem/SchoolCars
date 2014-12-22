@@ -22,8 +22,8 @@ private:
     static const char END_OF_STRING;
 
     char* str;
-    int stringSize;
-    int arraySize;
+    unsigned int stringSize;
+    unsigned int arraySize;
 
     /**
      * Reallocates the internal array to match the provided size.
@@ -31,12 +31,12 @@ private:
      * bool parameter is so we don't reallocate, there is not null in
      * the field but it's ok (used in constructors).
      */
-    void reallocate(int, bool = false);
+    void reallocate(unsigned int, bool = false);
 
     /**
      * Copy a char array to another from index 0 to the provided index.
      */
-    static void copy(char*, const char*, int);
+    static void copy(char*, const char*, unsigned int);
 
     /**
      * Copy a char array to another from index the provided start to the provided end.
@@ -44,7 +44,7 @@ private:
      * bool parameter is required to be false if you don't want this method to ensure that the destination
      * ends with the string terminator character.
      */
-    static void copy(char*, const char*, int, int, bool = true);
+    static void copy(char*, const char*, unsigned int, unsigned int, bool = true);
 
 public:
 
@@ -56,12 +56,12 @@ public:
     /**
      * Constructs a String containing the provided char an certain amount of times.
      */
-    String(const char, int);
+    String(const char, unsigned int);
 
     /**
      * Constructs a String containing the provided String an certain amount of times.
      */
-    String(const String&, int);
+    String(const String&, unsigned int);
 
     /**
      * Constructs a String based on the provided C char* (allows to use char*
@@ -80,7 +80,7 @@ public:
     /**
      * Returns the length of the String.
      */
-    int length() const;
+    unsigned int length() const;
 
     /**
      * Transforms the String to have all its characters uppercased.
@@ -105,7 +105,7 @@ public:
     String& operator=(String);
     String& operator=(const char*);
 
-    char& operator[](int);
+    char& operator[](unsigned int);
 
     // Casts allowing to pass String's as parameters of functions/methods using string's or char*
     operator string() const { return string(this->str); }
@@ -116,6 +116,12 @@ public:
      * @throw invalid_argument if the String does not represent a valid integer
      */
     int toInt() const;
+
+    /**
+     * Parses the String and returns its integer representation on base 10.
+     * @throw invalid_argument if the String does not represent a valid integer
+     */
+    unsigned int toUnsignedInt() const;
 
     /**
      * Parses the String and returns its float representation.

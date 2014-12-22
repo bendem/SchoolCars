@@ -28,17 +28,17 @@ bool BaseList<T>::isEmpty() const {
 }
 
 template<class T>
-int BaseList<T>::size() const {
+unsigned int BaseList<T>::size() const {
     return this->nbElems;
 }
 
 template<class T>
-void BaseList<T>::remove(int index) {
+void BaseList<T>::remove(unsigned int index) {
     Sanity::truthness(index < nbElems && index >= 0, "Index must be lower than the list's size");
 
     Iterator<T> it(*this);
 
-    int i = 0;
+    unsigned int i = 0;
     while(i < index) {
         ++i;
         ++it;

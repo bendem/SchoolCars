@@ -27,11 +27,11 @@ void Application::loadUsers(const String& userfile) {
     Sanity::truthness(this->users.isEmpty(), "Users were already loaded");
 
     ifstream is(userfile, ios::in);
-    int count = StreamUtils::readInt(is);
-    this->userId = StreamUtils::readInt(is);
+    unsigned int count = StreamUtils::read<unsigned int>(is);
+    this->userId = StreamUtils::read<unsigned int>(is);
 
     Employee e;
-    for(int i = 0; i < count; ++i) {
+    for(unsigned int i = 0; i < count; ++i) {
         e.load(is);
         this->users.add(e);
     }
@@ -66,11 +66,11 @@ void Application::loadClients(const String& file) {
         throw IOException(String("Couldn't open ") + file);
     }
 
-    int count = StreamUtils::readInt(is);
-    this->clientId = StreamUtils::readInt(is);
+    unsigned int count = StreamUtils::read<unsigned int>(is);
+    this->clientId = StreamUtils::read<unsigned int>(is);
 
     Client c;
-    for(int i = 0; i < count; ++i) {
+    for(unsigned int i = 0; i < count; ++i) {
         c.load(is);
         this->clients.add(c);
     }
@@ -97,8 +97,8 @@ void Application::loadContracts(const String& file) {
         throw IOException(String("Couldn't open ") + file);
     }
 
-    int count = StreamUtils::readInt(is);
-    this->contractId = StreamUtils::readInt(is);
+    int count = StreamUtils::read<unsigned int>(is);
+    this->contractId = StreamUtils::read<unsigned int>(is);
 
     Contract c;
     for(int i = 0; i < count; ++i) {
@@ -431,11 +431,11 @@ void Application::displayContract() {
 
 void Application::displaySellerContracts() {
     String input;
-    int id;
+    unsigned int id;
     cout << "    Enter the seller id: ";
     cin >> input;
     try {
-        id = input.toInt();
+        id = input.toUnsignedInt();
     } catch(invalid_argument e) {
         cout << " > " << e.what() << endl;
         return;
@@ -481,11 +481,11 @@ void Application::createClient() {
 
 void Application::removeClient() {
     String input;
-    int id;
+    unsigned int id;
     cout << "    Enter the id of the client to remove: ";
     cin >> input;
     try {
-        id = input.toInt();
+        id = input.toUnsignedInt();
     } catch(invalid_argument e) {
         cout << " > " << e.what() << endl;
         return;
@@ -565,7 +565,7 @@ void Application::createCar() {
 
     String carName;
     String modelInput;
-    int modelId;
+    unsigned int modelId;
 
     cout << "    Enter the car project name: ";
     cin >> carName;
@@ -574,7 +574,7 @@ void Application::createCar() {
         cout << "    Enter the model id: ";
         cin >> modelInput;
         try {
-            modelId = modelInput.toInt();
+            modelId = modelInput.toUnsignedInt();
         } catch(invalid_argument e) {
             cout << " > " << e.what() << endl;
             continue;

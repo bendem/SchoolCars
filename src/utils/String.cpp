@@ -8,7 +8,7 @@ String::String() {
     this->stringSize = 0;
 }
 
-String::String(char const chr, int size) {
+String::String(char const chr, unsigned int size) {
     if(size == 0) {
         this->str = NULL;
         this->arraySize = 0;
@@ -18,13 +18,13 @@ String::String(char const chr, int size) {
 
     this->stringSize = size;
     this->reallocate(size + 1, true);
-    for(int i = 0; i < size; ++i) {
+    for(unsigned int i = 0; i < size; ++i) {
         this->str[i] = chr;
     }
     this->str[size] = END_OF_STRING;
 }
 
-String::String(const String& str, int size) {
+String::String(const String& str, unsigned int size) {
     if(str.length() == 0) {
         this->str = NULL;
         this->arraySize = 0;
@@ -34,8 +34,8 @@ String::String(const String& str, int size) {
 
     this->stringSize = size * str.length();
     this->reallocate(this->stringSize + 1, true);
-    for(int i = 0; i < size; ++i) {
-        for(int j = 0; j < str.length(); ++j) {
+    for(unsigned int i = 0; i < size; ++i) {
+        for(unsigned int j = 0; j < str.length(); ++j) {
             this->str[i * str.length() + j] = str[j];
         }
     }
@@ -87,7 +87,7 @@ String::~String() {
     }
 }
 
-void String::reallocate(int size, bool constructing) {
+void String::reallocate(unsigned int size, bool constructing) {
     if(constructing) {
         /* If we are currently constructing the char array,
          * we bypass all checks and just allocate the array */
@@ -126,12 +126,12 @@ void String::reallocate(int size, bool constructing) {
     this->arraySize = size;
 }
 
-void String::copy(char* dest, const char* source, int end) {
+void String::copy(char* dest, const char* source, unsigned int end) {
     copy(dest, source, 0, end);
 }
 
-void String::copy(char* dest, const char* source, int start, int end, bool ensureEOS) {
-    for(int i = 0, j = start; j < end; ++i, ++j) {
+void String::copy(char* dest, const char* source, unsigned int start, unsigned int end, bool ensureEOS) {
+    for(unsigned int i = 0, j = start; j < end; ++i, ++j) {
         dest[j] = source[i];
     }
     if(ensureEOS) {
@@ -139,17 +139,17 @@ void String::copy(char* dest, const char* source, int start, int end, bool ensur
     }
 }
 
-int String::length() const {
+unsigned int String::length() const {
     return this->stringSize;
 }
 void String::toUpper() {
-    for(int i = 0; i < this->stringSize; ++i) {
+    for(unsigned int i = 0; i < this->stringSize; ++i) {
         this->str[i] = toupper(this->str[i]);
     }
 }
 
 void String::toLower() {
-    for(int i = 0; i < this->stringSize; ++i) {
+    for(unsigned int i = 0; i < this->stringSize; ++i) {
         this->str[i] = tolower(this->str[i]);
     }
 }
@@ -171,26 +171,26 @@ String& String::replace(const String& search, const String& replace) {
                 this->reallocate(this->stringSize + addedSize);
             }
             // Backward copy preventing from overriding what is being written
-            for(int i = this->stringSize - 1; i >= index + search.length(); --i) {
+            for(unsigned int i = this->stringSize - 1; i >= index + search.length(); --i) {
                 this->str[i + addedSize] = this->str[i];
             }
         } else if(addedSize < 0) {
             // Move forward
-            for(int i = index + replace.length(); i < this->stringSize + addedSize; ++i) {
+            for(unsigned int i = index + replace.length(); i < this->stringSize + addedSize; ++i) {
                 this->str[i] = this->str[i - addedSize];
             }
             this->str[this->stringSize + addedSize] = END_OF_STRING;
         }
 
-        copy(this->str, replace, index, index + replace.length(), false);
+        copy(this->str, replace, (unsigned int) index, index + replace.length(), false);
     }
     return *this;
 }
 
 int String::indexOf(const String& search) const {
-    int found = 0;
+    unsigned int found = 0;
     int index;
-    for(int i = 0; i < this->stringSize; ++i) {
+    for(unsigned int i = 0; i < this->stringSize; ++i) {
         if(this->str[i] == search[found]) {
             if(found == 0) {
                 index = i;
@@ -220,7 +220,7 @@ String& String::operator=(const char* param) {
     return *this;
 }
 
-char& String::operator[](int i) {
+char& String::operator[](unsigned int i) {
     if(i > this->stringSize) {
         throw new range_error("String index out of bound");
     }
@@ -252,6 +252,32 @@ int String::toInt() const {
         ++s;
     }
     return negate ? -result : result;
+}
+
+unsigned int String::toUnsignedInt() const {
+    if(this->length() == 0) {
+        throw invalid_argument("empty string");
+    }
+
+    char* s = this->str;
+
+    if(*s == '+') {
+        ++s;
+    }
+
+    if(*s == END_OF_STRING) {
+        throw invalid_argument("sign character only");
+    }
+
+    unsigned int result = 0;
+    while(*s) {
+        if(*s < '0' || *s > '9') {
+            throw invalid_argument("the String is not an integer");
+        }
+        result = result * 10  + (*s - '0');
+        ++s;
+    }
+    return result;
 }
 
 float String::toFloat() const {
@@ -320,7 +346,7 @@ bool String::toBool() const {
 }
 
 String String::operator+(const char *append) const {
-    int totalSize = strlen(append) + this->stringSize;
+    unsigned int totalSize = strlen(append) + this->stringSize;
     String tmp;
     tmp.reallocate(totalSize + 1);
     copy(tmp.str, this->str, this->stringSize);

@@ -16,7 +16,7 @@ void Employee::checkPassword(const String& pass) const {
     }
 
     bool foundInt = false, foundLetter = false;
-    for(int i = 0; i < pass.length(); ++i) {
+    for(unsigned int i = 0; i < pass.length(); ++i) {
         if(pass[i] >= '0' && pass[i] <= '9') {
             foundInt = true;
         } else if(pass[i] >= 'a' && pass[i] <= 'z' || pass[i] >= 'A' && pass[i] <= 'Z') {
@@ -31,11 +31,11 @@ void Employee::checkPassword(const String& pass) const {
     throw InvalidPasswordException("Password should contain at least one digit and one letter");
 }
 
-int Employee::getId() const {
+unsigned int Employee::getId() const {
     return this->id;
 }
 
-void Employee::setId(int id) {
+void Employee::setId(unsigned int id) {
     this->id = id;
 }
 
@@ -81,7 +81,7 @@ void Employee::save(ofstream& os) const {
 }
 
 void Employee::load(ifstream& is) {
-    this->id = StreamUtils::readInt(is);
+    this->id = StreamUtils::read<unsigned int>(is);
     this->login = StreamUtils::readString(is);
     this->password = StreamUtils::readString(is);
     this->function = StreamUtils::readString(is);
@@ -107,7 +107,10 @@ Employee& Employee::operator=(const Employee& param) {
 }
 
 int Employee::compareTo(const Employee& p) const {
-    return this->id - p.id;
+    if(this->id == p.id) {
+        return 0;
+    }
+    return this->id > p.id ? 1 : -1;
 }
 
 istream& operator>>(istream& is, Employee& param) {

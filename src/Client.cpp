@@ -5,11 +5,11 @@ Client::Client(const Client& param) : Person(param) {
     this->address = param.address;
 }
 
-int Client::getId() const {
+unsigned int Client::getId() const {
     return this->id;
 }
 
-void Client::setId(int id) {
+void Client::setId(unsigned int id) {
     this->id = id;
 }
 
@@ -45,7 +45,7 @@ Client& Client::operator=(const Client& param) {
 }
 
 void Client::load(istream& is) {
-    this->id = StreamUtils::readInt(is);
+    this->id = StreamUtils::read<unsigned int>(is);
     this->address = StreamUtils::readString(is);
     Person::load(is);
 }

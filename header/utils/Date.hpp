@@ -15,27 +15,27 @@ using namespace std;
 class Date {
 
 private:
-    static const int MONTHES[12];
+    static const unsigned int MONTHES[12];
 
-    static bool validate(int, int, int);
-    static bool isLeap(int);
+    static bool validate(unsigned int, unsigned int, unsigned int);
+    static bool isLeap(unsigned int);
 
-    int day;
-    int month;
-    int year;
+    unsigned int day;
+    unsigned int month;
+    unsigned int year;
 
 public:
     Date();
-    Date(int, int, int);
+    Date(unsigned int, unsigned int, unsigned int);
     Date(const Date&);
     ~Date() {}
 
-    int getDay() const;
-    int getMonth() const;
-    int getYear() const;
-    void setDay(int);
-    void setMonth(int);
-    void setYear(int);
+    unsigned int getDay() const;
+    unsigned int getMonth() const;
+    unsigned int getYear() const;
+    void setDay(unsigned int);
+    void setMonth(unsigned int);
+    void setYear(unsigned int);
 
     String format(String) const;
 

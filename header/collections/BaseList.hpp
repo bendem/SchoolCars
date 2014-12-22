@@ -30,7 +30,7 @@ class BaseList {
 
 protected:
     Node<T>* first;
-    int nbElems;
+    unsigned int nbElems;
 
 public:
     BaseList();
@@ -45,12 +45,12 @@ public:
     /**
      * Returns the current size of the list.
      */
-    int size() const;
+    unsigned int size() const;
 
     /**
      * Removes the item at the provided position.
      */
-    void remove(int);
+    void remove(unsigned int);
 
     /**
      * Removes all items from the list.

@@ -28,9 +28,7 @@ void StreamUtils::write(ostream& os, float f) {
 }
 
 String StreamUtils::readString(istream& is) {
-    int n;
-    // Read string size
-    is.read((char*) &n, sizeof(int));
+    unsigned int n = StreamUtils::read<unsigned int>(is);
 
     // Create a buffer of the needed size
     char buff[n+1];
@@ -38,30 +36,6 @@ String StreamUtils::readString(istream& is) {
     buff[n] = '\0';
 
     return String(buff);
-}
-
-bool StreamUtils::readBool(istream& is) {
-    bool b;
-    is.read((char*) &b, sizeof(bool));
-    return b;
-}
-
-int StreamUtils::readInt(istream& is) {
-    int i;
-    is.read((char*) &i, sizeof(int));
-    return i;
-}
-
-char StreamUtils::readChar(istream& is) {
-    char c;
-    is.read(&c, sizeof(char));
-    return c;
-}
-
-float StreamUtils::readFloat(istream& is) {
-    float f;
-    is.read((char*) &f, sizeof(float));
-    return f;
 }
 
 List<String> StreamUtils::readCSVLine(istream& is, int elemCount) {

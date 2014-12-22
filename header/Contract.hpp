@@ -11,22 +11,22 @@ using namespace std;
 class Contract {
 
 private:
-    int id;
-    int sellerId;
-    int clientId;
+    unsigned int id;
+    unsigned int sellerId;
+    unsigned int clientId;
     Date date;
     Car* car;
     float discount;
 
 public:
     Contract();
-    Contract(int, int, int, const Date&, const Car&, float = 0);
+    Contract(unsigned int, unsigned int, unsigned int, const Date&, const Car&, float = 0);
     Contract(const Contract&);
     ~Contract();
 
-    int getId() const;
-    int getSellerId() const;
-    int getClientId() const;
+    unsigned int getId() const;
+    unsigned int getSellerId() const;
+    unsigned int getClientId() const;
     const Date& getDate() const;
     Date& getDate();
     const Car& getCar() const;

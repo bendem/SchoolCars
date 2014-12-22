@@ -11,16 +11,16 @@ using namespace std;
 
 class Client : public Person, public Comparable<Client> {
 private:
-    int id;
+    unsigned int id;
     String address;
 
 public:
-    Client(String surname = "", String firstname = "", int id = 0, String address = "") :
+    Client(String surname = "", String firstname = "", unsigned int id = 0, String address = "") :
         Person(surname, firstname), id(id), address(address) {}
     Client(const Client&);
 
-    int getId() const;
-    void setId(int id);
+    unsigned int getId() const;
+    void setId(unsigned int id);
 
     const String& getAddress() const;
     void setAddress(const String&);

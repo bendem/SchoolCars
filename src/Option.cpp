@@ -49,7 +49,7 @@ void Option::save(ostream& os) const {
 void Option::load(istream& is) {
     this->code = StreamUtils::readString(is);
     this->name = StreamUtils::readString(is);
-    this->price = StreamUtils::readFloat(is);
+    this->price = StreamUtils::read<float>(is);
 }
 
 Option& Option::operator++() {

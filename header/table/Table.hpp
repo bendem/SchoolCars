@@ -14,9 +14,9 @@ class Table {
 
 private:
     String* headers;
-    int columnCount;
-    int* charsInsideTheColumns; // it's an array!
-    int countOfTheCharInsideTheTable;
+    unsigned int columnCount;
+    unsigned int* charsInsideTheColumns; // it's an array!
+    unsigned int countOfTheCharInsideTheTable;
     List<TableLine> entries;
 
     void checkMaxLengths(const String[]);
@@ -24,7 +24,7 @@ private:
     void formatTableBorder(stringstream& ss) const;
 
 public:
-    Table(int);
+    Table(unsigned int);
     Table(const Table&);
     ~Table();
 

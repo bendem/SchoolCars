@@ -16,7 +16,7 @@ using namespace std;
 class Employee : public Person, public Comparable<Employee> {
 
 private:
-    int id;
+    unsigned int id;
     String login;
     String password;
     String function;
@@ -27,12 +27,12 @@ public:
     const static String SELLER;
     const static String ADMINISTRATIVE;
 
-    Employee(String surname = "", String firstname = "", int id = 0, String login = "", String function = "") :
+    Employee(String surname = "", String firstname = "", unsigned int id = 0, String login = "", String function = "") :
         Person(surname, firstname), id(id), login(login), password(""), function(function) {}
     Employee(const Employee&);
 
-    int getId() const;
-    void setId(int id);
+    unsigned int getId() const;
+    void setId(unsigned int id);
 
     const String& getLogin() const;
     void setLogin(const String& login);

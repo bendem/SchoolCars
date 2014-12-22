@@ -22,10 +22,13 @@ public:
     static void write(ostream&, float);
 
     static String readString(istream&);
-    static bool   readBool(istream&);
-    static int    readInt(istream&);
-    static char   readChar(istream&);
-    static float  readFloat(istream&);
+
+    template<class T>
+    static T read(istream& is) {
+        T var;
+        is.read((char*) &var, sizeof(T));
+        return var;
+    }
 
     /**
      * Returns a list of string containing the elements of a single line read in a csv file.

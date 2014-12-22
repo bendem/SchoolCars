@@ -7,10 +7,10 @@
 class ClientIdPredicate : public Predicate<Contract> {
 
 private:
-    int id;
+    unsigned int id;
 
 public:
-    ClientIdPredicate(int id) : id(id) {}
+    ClientIdPredicate(unsigned int id) : id(id) {}
     bool test(const Contract& param) const { return param.getClientId() == this->id; }
 
 };

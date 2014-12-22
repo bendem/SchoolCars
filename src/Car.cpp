@@ -144,8 +144,8 @@ void Car::load(const String& filename) {
     this->name = StreamUtils::readString(is);
     this->model.load(is);
 
-    int count = StreamUtils::readInt(is);
-    for(int i = 0; i < count; ++i) {
+    unsigned int count = StreamUtils::read<unsigned int>(is);
+    for(unsigned int i = 0; i < count; ++i) {
         if(!this->options[i]) {
             this->options[i] = new Option();
         }

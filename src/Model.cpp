@@ -64,9 +64,9 @@ void Model::save(ofstream& os) const {
 
 void Model::load(ifstream& is) {
     this->name = StreamUtils::readString(is);
-    this->power = StreamUtils::readInt(is);
-    this->diesel = StreamUtils::readBool(is);
-    this->baseCost = StreamUtils::readFloat(is);
+    this->power = StreamUtils::read<int>(is);
+    this->diesel = StreamUtils::read<bool>(is);
+    this->baseCost = StreamUtils::read<float>(is);
 }
 
 ostream& operator<<(ostream& os, const Model& model) {
