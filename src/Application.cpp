@@ -406,7 +406,7 @@ void Application::displayContracts() {
             String() + (&it).getSellerId(),
             String() + (&it).getClientId(),
             (&it).getDate().format("%d-%m-%y"),
-            (&it).getCar()->getName(),
+            (&it).getCar().getName(),
             String() + (&it).getDiscount()
         };
         table.addLine(line);
@@ -790,7 +790,7 @@ void Application::displayContractsForCurrentUser() {
                 String() + (&it).getSellerId(),
                 String() + (&it).getClientId(),
                 (&it).getDate().format("%d-%m-%y"),
-                (&it).getCar()->getName(),
+                (&it).getCar().getName(),
                 String() + (&it).getDiscount()
             };
             table.addLine(line);
@@ -829,7 +829,13 @@ void Application::modifyContract() {
 
     int choice;
     while(true) {
-        cout << "    What do you want to modify? (1=discount, 2=car, 0=done) ";
+        cout
+            << endl
+            << "    What do you want to modify?" << endl
+            << "    0. I'm done with this" << endl
+            << "    1. Contract discount" << endl
+            << "    2. Car project" << endl << endl
+            << "    Your choice: ";
         cin >> input;
 
         try {
@@ -843,7 +849,7 @@ void Application::modifyContract() {
             case 0:
                 return;
             case 1:
-                cout << "    Enter the new discount";
+                cout << "    Enter the new discount: ";
                 cin >> input;
                 float discount;
                 try {
@@ -853,22 +859,23 @@ void Application::modifyContract() {
                     continue;
                 }
                 opt.get().setDiscount(discount);
+                cout << " > new discount set" << endl;
                 break;
             case 2:
                 cout << "    Enter the name of the new car project: ";
                 cin >> input;
-                if(this->currentCar->getName() == input) {
-                    opt.get().setCar(this->currentCar);
+                if(this->currentCar && this->currentCar->getName() == input) {
+                    opt.get().setCar(*this->currentCar);
                 } else {
-                    Car* car = new Car();
                     try {
-                        car->load(String("data/") + input + ".car");
+                        opt.get().getCar().load(String("data/") + input + ".car");
                     } catch(AssertionException e) {
-                        cout << e.what() << endl;
+                        cout << " > " << e.what() << endl;
                         continue;
                     }
-                    opt.get().setCar(car);
                 }
+                cout << " > new car set" << endl;
+                break;
             default:
                 cout << " > Invalid choice" << endl;
         }

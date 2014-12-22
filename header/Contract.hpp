@@ -29,8 +29,9 @@ public:
     int getClientId() const;
     const Date& getDate() const;
     Date& getDate();
-    Car* getCar() const;
-    void setCar(Car*);
+    const Car& getCar() const;
+    Car& getCar();
+    void setCar(const Car&);
     float getDiscount() const;
     void setDiscount(float);
 

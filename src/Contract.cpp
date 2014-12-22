@@ -42,15 +42,23 @@ Date& Contract::getDate() {
     return this->date;
 }
 
-Car* Contract::getCar() const {
-    return this->car;
+const Car& Contract::getCar() const {
+    Sanity::nullness(this->car, "Car is null, can't dereference pointer");
+
+    return *this->car;
 }
 
-void Contract::setCar(Car* car) {
+Car& Contract::getCar() {
+    Sanity::nullness(this->car, "Car is null, can't dereference pointer");
+
+    return *this->car;
+}
+
+void Contract::setCar(const Car& car) {
     if(this->car) {
         delete this->car;
     }
-    this->car = new Car(*car);
+    this->car = new Car(car);
 }
 
 float Contract::getDiscount() const {
