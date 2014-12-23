@@ -13,7 +13,7 @@ rwildcard=$(wildcard $1$2) $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2))
 SRC=src
 OUT=target
 HDR=header
-FLA=-I$(HDR) #-std=c++11
+FLA=-I$(HDR) -Wall -Wextra
 CXX=g++ $(FLA)
 
 # Get all files from the header dir

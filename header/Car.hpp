@@ -11,13 +11,14 @@
 #include "exceptions/IOException.hpp"
 #include "exceptions/NotEnoughSpaceException.hpp"
 #include "utils/ArrayUtils.hpp"
+#include "utils/Comparable.hpp"
 #include "utils/FileUtils.hpp"
 
 using namespace std;
 
 #define MAX_OPTION_COUNT 10
 
-class Car {
+class Car : public Comparable<Car> {
 private:
     String name;
     Model model;
@@ -50,11 +51,10 @@ public:
     Car operator+(const Option&) const;
     Car operator-(const Option&) const;
     Car operator-(const String&) const;
-    bool operator>(const Car&);
-    bool operator<(const Car&);
-    bool operator==(const Car&);
+
+    int compareTo(const Car&) const;
+
     friend ostream& operator<<(ostream&, const Car&);
-    friend istream& operator>>(istream&, Car&);
 
 };
 

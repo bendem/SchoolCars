@@ -20,9 +20,6 @@ BaseList<T>::~BaseList() {
 }
 
 template<class T>
-void BaseList<T>::add(const T& param) { throw logic_error("That method is abstract"); }
-
-template<class T>
 bool BaseList<T>::isEmpty() const {
     return this->nbElems == 0;
 }

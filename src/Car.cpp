@@ -179,16 +179,11 @@ Car Car::operator-(const String& param) const {
     return tmp;
 }
 
-bool Car::operator>(const Car& param) {
-    return this->getPrice() > param.getPrice();
-}
-
-bool Car::operator<(const Car& param) {
-    return this->getPrice() < param.getPrice();
-}
-
-bool Car::operator==(const Car& param) {
-    return this->getPrice() == param.getPrice();
+int Car::compareTo(const Car& param) const {
+    if(this->getPrice() == param.getPrice()) {
+        return 0;
+    }
+    return this->getPrice() > param.getPrice() ? 1 : -1;
 }
 
 ostream& operator<<(ostream& os, const Car& car) {
@@ -199,8 +194,4 @@ ostream& operator<<(ostream& os, const Car& car) {
         }
     }
     return os << "]";
-}
-
-istream& operator>>(istream& is, Car& car) {
-    return is;
 }

@@ -19,7 +19,8 @@ void Employee::checkPassword(const String& pass) const {
     for(unsigned int i = 0; i < pass.length(); ++i) {
         if(pass[i] >= '0' && pass[i] <= '9') {
             foundInt = true;
-        } else if(pass[i] >= 'a' && pass[i] <= 'z' || pass[i] >= 'A' && pass[i] <= 'Z') {
+        } else if((pass[i] >= 'a' && pass[i] <= 'z')
+               || (pass[i] >= 'A' && pass[i] <= 'Z')) {
             foundLetter = true;
         }
 
