@@ -4,6 +4,7 @@
 #include <ctime>
 #include <iostream>
 
+#include "utils/Comparable.hpp"
 #include "utils/Sanity.hpp"
 #include "utils/StreamUtils.hpp"
 
@@ -12,7 +13,7 @@ using namespace std;
 /**
  * Represents a date by its day, month and year.
  */
-class Date {
+class Date : public Comparable<Date> {
 
 private:
     static const unsigned int MONTHS[12];
@@ -41,12 +42,7 @@ public:
 
     Date& operator=(const Date&);
 
-    bool operator==(const Date&) const;
-    bool operator!=(const Date&) const;
-    bool operator>(const Date&) const;
-    bool operator<(const Date&) const;
-    bool operator>=(const Date&) const;
-    bool operator<=(const Date&) const;
+    int compareTo(const Date&) const;
 
     void save(ostream&) const;
     void load(istream&);

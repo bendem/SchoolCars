@@ -83,54 +83,22 @@ Date& Date::operator=(const Date& param) {
     return *this;
 }
 
-bool Date::operator==(const Date& param) const {
-    return this->day == param.day
-        && this->month == param.month
-        && this->year == param.year;
-}
-
-bool Date::operator!=(const Date& param) const {
-    return this->day != param.day
-        || this->month != param.month
-        || this->year != param.year;
-}
-
-bool Date::operator>(const Date& param) const {
-    if(this->year > param.year) {
-        return true;
+int Date::compareTo(const Date& p) const {
+    if(this->year > p.year) {
+        return 1;
+    } else if(this->year < p.year) {
+        return -1;
+    } else if(this->month > p.month) {
+        return 1;
+    } else if(this->month < p.month) {
+        return -1;
+    } else if(this->day > p.day) {
+        return 1;
+    } else if(this->day < p.day) {
+        return -1;
+    } else {
+        return 0;
     }
-    if(this->year == param.year) {
-        if(this->month > param.month) {
-            return true;
-        }
-        if(this->month == param.month) {
-            return this->day > param.day;
-        }
-    }
-    return false;
-}
-
-bool Date::operator<(const Date& param) const {
-    if(this->year < param.year) {
-        return true;
-    }
-    if(this->year == param.year) {
-        if(this->month < param.month) {
-            return true;
-        }
-        if(this->month == param.month) {
-            return this->day < param.day;
-        }
-    }
-    return false;
-}
-
-bool Date::operator>=(const Date& param) const {
-    return *this > param || *this == param;
-}
-
-bool Date::operator<=(const Date& param) const {
-    return *this < param || *this == param;
 }
 
 void Date::save(ostream& os) const {
