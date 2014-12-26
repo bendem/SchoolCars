@@ -381,6 +381,7 @@ String String::operator+(double i) const {
 }
 
 String String::operator+(const String& param) const {
+    // rely on operator+(char*)
     return *this + param.str;
 }
 
@@ -405,6 +406,11 @@ int String::compareTo(const String& param) const {
     }
     return strcmp(this->str, param.str);
 }
+
+String operator+(const char* chars, const String& string) {
+    return String(chars) + string;
+}
+
 
 ostream& operator<<(ostream& os, const String& str) {
     if(str.length() > 0) {

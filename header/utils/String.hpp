@@ -152,6 +152,7 @@ public:
 
 };
 
+String operator+(const char*, const String&);
 ostream& operator<<(ostream&, const String&);
 istream& operator>>(istream&, String&);
 
