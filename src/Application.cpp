@@ -672,13 +672,13 @@ void Application::displayContractsForCurrentUser() {
 
 void Application::modifyContract() {
     String input;
-    int id;
+    unsigned int id;
 
     while(true) {
         cout << "    Enter the id of the contract you want to modify: ";
         cin >> input;
         try {
-            id = input.toInt();
+            id = input.toUnsignedInt();
         } catch(invalid_argument e) {
             cout << e.what() << endl;
             continue;
@@ -692,7 +692,7 @@ void Application::modifyContract() {
         return;
     }
 
-    int choice;
+    unsigned int choice;
     while(true) {
         cout
             << endl
@@ -704,7 +704,7 @@ void Application::modifyContract() {
         cin >> input;
 
         try {
-            choice = input.toInt();
+            choice = input.toUnsignedInt();
         } catch(invalid_argument e) {
             cout << " > Invalid choice" << endl;
             continue;
