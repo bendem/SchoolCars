@@ -131,7 +131,6 @@ Application::Application() : optionTable(3), modelTable(5) {
     String modelHeaders[] = { "id", "name", "base cost", "power", "diesel" };
     this->modelTable.setHeader(modelHeaders);
 
-    this->currentUser = NULL;
     this->currentCar = NULL;
     this->carDirty = false;
     this->quitFlag = false;
@@ -142,7 +141,6 @@ Application::Application() : optionTable(3), modelTable(5) {
 }
 
 Application::~Application() {
-    // Not removing this->currentUser as it points directly inside this->users and will be deleted with the list
     if(this->currentCar) {
         delete this->currentCar;
     }
@@ -185,72 +183,15 @@ void Application::save() {
 }
 
 bool Application::login(const String& providedLogin, const String& providedPassword) {
-    if(providedLogin.length() != 0 && providedPassword.length() != 0) {
-        // Quick arg login
-        Optional<Employee> opt = this->users.getFirstMatching(LoginPredicate(providedLogin));
-        if(opt.hasValue() && opt.get().getPassword() == providedPassword) {
-            this->currentUser = &opt.get();
-            return true;
-        }
-    }
-
-    String username, password;
-
-    cout << "    ========================" << endl;
-    cout << "    =        Login         =" << endl;
-    cout << "    ========================" << endl << endl;
-    cout << "    Entrez votre nom d'utilisateur: ";
-    cin >> username;
-    cout << endl;
-
-    Optional<Employee> optEmployee = this->users.getFirstMatching(LoginPredicate(username));
-    if(!optEmployee.hasValue()) {
-        cout << " > User not found" << endl;
-        return false;
-    }
-
-    // Password not set
-    if(optEmployee.get().getPassword().length() == 0) {
-        cerr << time("Application") << "Found user without password, logging in and asking password" << endl;
-        this->currentUser = &optEmployee.get();
-        String newPassword;
-        String confirmation;
-        while(true) {
-            cout << endl << "    404 password not found, enter a new one: ";
-            cin >> newPassword;
-            cout << "    Confirm your password: ";
-            cin >> confirmation;
-            if(newPassword != confirmation) {
-                cout << " > Passwords don't match, try again" << endl;
-                continue;
-            }
-            try {
-                this->currentUser->setPassword(newPassword);
-            } catch(InvalidPasswordException e) {
-                cout << " > " << e.what() << ", try again" << endl;
-                continue;
-            }
-            break;
-        }
+    if(this->authenticator.quickLogin(providedLogin, providedPassword, this->users)) {
         return true;
     }
 
-    cout << "    Entrez votre mot de passe: ";
-    cin >> password;
-
-    // Correct password
-    if(optEmployee.get().getPassword() == password) {
-        cerr << time("Application") << "Found correct user, logging in" << endl;
-        this->currentUser = &optEmployee.get();
-        return true;
-    }
-
-    cerr << time("Application") << "Found user (" << optEmployee.get().getLogin() << ") with wrong password" << endl;
-    return false;
+    return this->authenticator.login(this->users);
 }
 
-Employee& Application::getCurrentUser() const {
-    return *this->currentUser;
+Employee& Application::getCurrentUser() {
+    return this->authenticator.getCurrentUser();
 }
 
 bool Application::shouldQuit() const {
@@ -258,32 +199,7 @@ bool Application::shouldQuit() const {
 }
 
 void Application::changePassword() {
-    String current, newPassword, confirmation;
-
-    cout << "    Type your current password: ";
-    cin >> current;
-    if(this->currentUser->getPassword() != current) {
-        cout << " > Incorrect password" << endl;
-        return;
-    }
-
-    cout << "    Type your new password: ";
-    cin >> newPassword;
-    cout << "    Confirm your password: ";
-    cin >> confirmation;
-
-    if(newPassword != confirmation) {
-        cout << " > Passwords do not match!" << endl;
-        return;
-    }
-
-    try {
-        this->currentUser->setPassword(newPassword);
-    } catch(InvalidPasswordException e) {
-        cout << e.what() << endl;
-        return;
-    }
-    cout << " > Password changed" << endl;
+    this->authenticator.changePassword();
 }
 
 void Application::quit() {
@@ -357,21 +273,7 @@ void Application::createUser() {
 }
 
 void Application::resetPassword() {
-    String username;
-    cout << "    Enter the login of the user you want to reset the pwd for: ";
-    cin >> username;
-    if(username.length() == 0) {
-        cout << " > Bad username" << endl;
-        return;
-    }
-
-    Optional<Employee> opt = this->users.getFirstMatching(LoginPredicate(username));
-    if(opt.hasValue()) {
-        opt.get().resetPassword();
-        cout << " > " << username << "'s password has been reset" << username << endl;
-    } else {
-        cout << " > User not found :(" << endl;
-    }
+    this->authenticator.resetPassword(this->users);
 }
 
 void Application::displayContracts() {
@@ -735,7 +637,7 @@ void Application::newContract() {
         }
     }
 
-    this->contracts.add(Contract(++this->contractId, this->currentUser->getId(), clientId, Date(), car));
+    this->contracts.add(Contract(++this->contractId, this->getCurrentUser().getId(), clientId, Date(), car));
     cout << " > Contract added" << endl;
 }
 
@@ -747,7 +649,7 @@ void Application::displayContractsForCurrentUser() {
     table.setHeader(headers);
     ConstIterator<Contract> it(this->contracts);
     while(!it.end()) {
-        if(it.get().getSellerId() == this->currentUser->getId()) {
+        if(it.get().getSellerId() == this->getCurrentUser().getId()) {
             String line[] = {
                 String::valueOf(it.get().getId()),
                 String::valueOf(it.get().getSellerId()),

@@ -3,6 +3,7 @@
 
 #include <fstream>
 
+#include "auth/Authenticator.hpp"
 #include "Car.hpp"
 #include "Client.hpp"
 #include "Contract.hpp"
@@ -20,7 +21,6 @@
 #include "predicates/ClientIdPredicate.hpp"
 #include "predicates/CodePredicate.hpp"
 #include "predicates/IdPredicate.hpp"
-#include "predicates/LoginPredicate.hpp"
 #include "table/Table.hpp"
 #include "utils/Logging.hpp"
 #include "utils/StreamUtils.hpp"
@@ -45,8 +45,8 @@ private:
     Table optionTable;
     Table modelTable;
     SortedList<Contract> contracts;
-    Employee* currentUser;
     Car* currentCar;
+    Authenticator authenticator;
     bool carDirty;
     bool quitFlag;
     bool loaded;
@@ -72,7 +72,7 @@ public:
     void save();
 
     bool login(const String&, const String&);
-    Employee& getCurrentUser() const;
+    Employee& getCurrentUser();
     bool shouldQuit() const;
 
     // common menu actions
