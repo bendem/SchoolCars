@@ -322,7 +322,7 @@ void Application::displayContract() {
 }
 
 void Application::displaySellerContracts() {
-    String input, name;
+    String name;
     cout << "    Enter the seller name: ";
     cin >> name;
 
@@ -339,16 +339,20 @@ void Application::displaySellerContracts() {
     unsigned int sellerId = optEmployee.get().getId();
 
     bool stuffWasDisplayed = false;
+    float sales = 0;
     ConstIterator<Contract> contractIt(this->contracts);
     while(!contractIt.end()) {
         if(contractIt.get().getSellerId() == sellerId) {
             cout << endl << ContractFormatter(contractIt).format(4) << endl;
             stuffWasDisplayed = true;
+            sales += contractIt.get().getCar().getPrice() - contractIt.get().getDiscount();
         }
         ++contractIt;
     }
 
-    if(!stuffWasDisplayed) {
+    if(stuffWasDisplayed) {
+        cout << endl << "    Total sales: " << sales << " EUR" << endl;
+    } else {
         cout << " > No contracts for this seller" << endl;
     }
 }
