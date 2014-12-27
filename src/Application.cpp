@@ -1,37 +1,13 @@
 #include "Application.hpp"
 
-const String Application::USER_FILE = "data/userlist.dat";
-const String Application::CLIENT_FILE = "data/clients.dat";
-const String Application::OPTION_FILE = "data/Options.csv";
-const String Application::MODEL_FILE = "data/Modeles.csv";
-const String Application::CONTRACT_FILE = "data/contracts.dat";
-
-Application::Application() : optionTable(3), modelTable(5) {
-    String optionHeaders[] = { "code", "name", "price" };
-    this->optionTable.setHeader(optionHeaders);
-
-    String modelHeaders[] = { "id", "name", "base cost", "power", "diesel" };
-    this->modelTable.setHeader(modelHeaders);
-
-    this->currentUser = NULL;
-    this->currentCar = NULL;
-    this->carDirty = false;
-    this->quitFlag = false;
-    this->userId = 0;
-    this->clientId = 0;
-    this->contractId = 0;
-}
-
-Application::~Application() {
-    // Not removing this->currentUser as it points directly inside this->users and will be deleted with the list
-    if(this->currentCar) {
-        delete this->currentCar;
-    }
-}
+const String Application::DATA_FOLDER = "data/";
+const String Application::USER_FILE = DATA_FOLDER + "userlist.dat";
+const String Application::CLIENT_FILE = DATA_FOLDER + "clients.dat";
+const String Application::OPTION_FILE = DATA_FOLDER + "Options.csv";
+const String Application::MODEL_FILE = DATA_FOLDER + "Modeles.csv";
+const String Application::CONTRACT_FILE = DATA_FOLDER + "contracts.dat";
 
 void Application::loadUsers() {
-    Sanity::truthness(this->users.isEmpty(), "Users were already loaded");
-
     ifstream is(USER_FILE, ios::in);
     Sanity::streamness(is, "Failed to open " + USER_FILE);
 
@@ -40,8 +16,6 @@ void Application::loadUsers() {
 }
 
 void Application::defaultUsers() {
-    Sanity::truthness(this->users.isEmpty(), "Can't create default users, some already exist");
-
     Employee e("Placeholder", "Administrateur", ++this->userId, "admin", Employee::ADMINISTRATIVE);
     e.setPassword("admin000");
     this->users.add(e);
@@ -88,8 +62,6 @@ void Application::saveContracts() const {
 }
 
 void Application::loadModels() {
-    Sanity::truthness(this->models.isEmpty(), "Models are already loaded");
-
     ifstream is(MODEL_FILE, ios::in);
     Sanity::streamness(is, "Failed to open " + MODEL_FILE);
 
@@ -124,8 +96,6 @@ void Application::loadModels() {
 }
 
 void Application::loadOptions() {
-    Sanity::truthness(this->models.isEmpty(), "Options are already loaded");
-
     ifstream is(OPTION_FILE, ios::in);
     Sanity::streamness(is, "Failed to open " + OPTION_FILE);
 
@@ -154,6 +124,65 @@ void Application::loadOptions() {
     cerr << time("Application") << this->options.size() << " options loaded" << endl;
 }
 
+Application::Application() : optionTable(3), modelTable(5) {
+    String optionHeaders[] = { "code", "name", "price" };
+    this->optionTable.setHeader(optionHeaders);
+
+    String modelHeaders[] = { "id", "name", "base cost", "power", "diesel" };
+    this->modelTable.setHeader(modelHeaders);
+
+    this->currentUser = NULL;
+    this->currentCar = NULL;
+    this->carDirty = false;
+    this->quitFlag = false;
+    this->loaded = false;
+    this->userId = 0;
+    this->clientId = 0;
+    this->contractId = 0;
+}
+
+Application::~Application() {
+    // Not removing this->currentUser as it points directly inside this->users and will be deleted with the list
+    if(this->currentCar) {
+        delete this->currentCar;
+    }
+}
+
+void Application::load() {
+    Sanity::truthness(!this->loaded, "Application already loaded");
+
+    if(FileUtils::exists(USER_FILE)) {
+        cerr << time("Application::load") << "Loading users" << endl;
+        this->loadUsers();
+    } else {
+        cerr << time("Application::load") << "Default user" << endl;
+        this->defaultUsers();
+    }
+    if(FileUtils::exists(CLIENT_FILE)) {
+        cerr << time("Application::load") << "Loading clients" << endl;
+        this->loadClients();
+    }
+    if(FileUtils::exists(CONTRACT_FILE)) {
+        cerr << time("Application::load") << "Loading contracts" << endl;
+        this->loadContracts();
+    }
+
+    cerr << time("Application::load") << "Loading models" << endl;
+    this->loadModels();
+    cerr << time("Application::load") << "Loading options" << endl;
+    this->loadOptions();
+
+    this->loaded = true;
+}
+
+void Application::save() {
+    cerr << time("main") << "Saving users" << endl;
+    this->saveUsers();
+    cerr << time("main") << "Saving clients" << endl;
+    this->saveClients();
+    cerr << time("main") << "Saving contracts" << endl;
+    this->saveContracts();
+}
 
 bool Application::login(const String& providedLogin, const String& providedPassword) {
     if(providedLogin.length() != 0 && providedPassword.length() != 0) {
@@ -572,7 +601,7 @@ void Application::loadCar() {
     cout << "    Enter the name of the project to load: ";
     cin >> input;
     try {
-        this->currentCar->load("data/" + input + ".car");
+        this->currentCar->load(DATA_FOLDER + input + ".car");
     } catch(AssertionException e) {
         cout << " > " << e.what() << endl;
         delete this->currentCar;
@@ -699,7 +728,7 @@ void Application::newContract() {
         car = *this->currentCar;
     } else {
         try {
-            car.load("data/" + carName + ".car");
+            car.load(DATA_FOLDER + carName + ".car");
         } catch(AssertionException e) {
             cout << e.what() << endl;
             return;
@@ -802,7 +831,7 @@ void Application::modifyContract() {
                     opt.get().setCar(*this->currentCar);
                 } else {
                     try {
-                        opt.get().getCar().load("data/" + input + ".car");
+                        opt.get().getCar().load(DATA_FOLDER + input + ".car");
                     } catch(AssertionException e) {
                         cout << " > " << e.what() << endl;
                         continue;

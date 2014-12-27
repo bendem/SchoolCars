@@ -31,6 +31,7 @@ class Application {
 
 private:
 
+    static const String DATA_FOLDER;
     static const String USER_FILE;
     static const String CLIENT_FILE;
     static const String OPTION_FILE;
@@ -48,13 +49,10 @@ private:
     Car* currentCar;
     bool carDirty;
     bool quitFlag;
+    bool loaded;
     unsigned int userId;
     unsigned int clientId;
     unsigned int contractId;
-
-public:
-    Application();
-    ~Application();
 
     void loadUsers();
     void defaultUsers();
@@ -65,6 +63,14 @@ public:
     void saveContracts() const;
     void loadModels();
     void loadOptions();
+
+public:
+    Application();
+    ~Application();
+
+    void load();
+    void save();
+
     bool login(const String&, const String&);
     Employee& getCurrentUser() const;
     bool shouldQuit() const;

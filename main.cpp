@@ -8,11 +8,6 @@
 
 using namespace std;
 
-#define USER_FILE "data/userlist.dat"
-#define CLIENT_FILE "data/clients.dat"
-#define OPTIONS_FILE "data/Options.csv"
-#define MODELS_FILE "data/Modeles.csv"
-#define CONTRACTS_FILE "data/contracts.dat"
 #define APPLCATION_LOGS "application.log"
 
 int main(int argc, char** argv) {
@@ -70,30 +65,7 @@ int main(int argc, char** argv) {
         .addEntry("Q",  "Quitter l'application", &Application::quit);
 
     cerr << time("main") << "Application starting" << endl;
-    if(FileUtils::exists(USER_FILE)) {
-        cerr << time("main") << "Loading existing users" << endl;
-        app.loadUsers();
-    } else {
-        cerr << time("main") << "Creating default users" << endl;
-        app.defaultUsers();
-    }
-
-    if(FileUtils::exists(CLIENT_FILE)) {
-        cerr << time("main") << "Loading client file" << endl;
-        app.loadClients();
-    }
-
-    if(FileUtils::exists(CONTRACTS_FILE)) {
-        cerr << time("main") << "Loading contract file" << endl;
-        app.loadContracts();
-    }
-
-    cerr << time("main") << "Loading option file" << endl;
-    Sanity::truthness(FileUtils::exists(OPTIONS_FILE), "Option file not found");
-    app.loadOptions();
-    cerr << time("main") << "Loading model file" << endl;
-    Sanity::truthness(FileUtils::exists(MODELS_FILE), "Model file not found");
-    app.loadModels();
+    app.load();
 
     /* =================================================
      *            THE APPLICATION STARTS HERE
@@ -122,14 +94,7 @@ int main(int argc, char** argv) {
      * ================================================= */
 
     cerr << time("main") << "Application closing" << endl;
-    cerr << time("main") << "Saving users" << endl;
-    app.saveUsers();
-
-    cerr << time("main") << "Saving clients" << endl;
-    app.saveClients();
-
-    cerr << time("main") << "Saving contracts" << endl;
-    app.saveContracts();
+    app.save();
 
     cerr << time("main") << "Restoring cerr output" << endl;
     cerr.rdbuf(old);
