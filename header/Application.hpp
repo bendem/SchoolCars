@@ -20,6 +20,7 @@
 #include "menu/MenuEntry.hpp"
 #include "predicates/ClientIdPredicate.hpp"
 #include "predicates/CodePredicate.hpp"
+#include "predicates/FirstnamePredicate.hpp"
 #include "predicates/IdPredicate.hpp"
 #include "table/Table.hpp"
 #include "utils/Logging.hpp"

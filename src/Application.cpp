@@ -322,31 +322,26 @@ void Application::displayContract() {
 }
 
 void Application::displaySellerContracts() {
-    String input;
-    unsigned int id;
-    cout << "    Enter the seller id: ";
-    cin >> input;
-    try {
-        id = input.toUnsignedInt();
-    } catch(invalid_argument e) {
-        cout << " > " << e.what() << endl;
-        return;
-    }
+    String input, name;
+    cout << "    Enter the seller name: ";
+    cin >> name;
 
-    Optional<Employee> optEmployee = this->users.getFirstMatching(IdPredicate<Employee>(id));
+    // TODO Firstname isn't unique, maybe we should list them all?
+    Optional<Employee> optEmployee = this->users.getFirstMatching(FirstnamePredicate(name));
     if(!optEmployee.hasValue()) {
-        cout << " > There is no seller with this id" << endl;
+        cout << " > There is no seller with this name" << endl;
         return;
     }
     if(optEmployee.get().getFunction() == Employee::ADMINISTRATIVE) {
         cout << " > This employee is not a seller" << endl;
         return;
     }
+    unsigned int sellerId = optEmployee.get().getId();
 
     bool stuffWasDisplayed = false;
     ConstIterator<Contract> contractIt(this->contracts);
     while(!contractIt.end()) {
-        if(contractIt.get().getSellerId() == id) {
+        if(contractIt.get().getSellerId() == sellerId) {
             cout << endl << ContractFormatter(contractIt).format(4) << endl;
             stuffWasDisplayed = true;
         }
