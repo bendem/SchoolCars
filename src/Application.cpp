@@ -702,13 +702,13 @@ void Application::saveCurrentCar() {
 
 void Application::newContract() {
     String carName, input;
-    int clientId;
+    unsigned int clientId;
 
     while(true) {
         cout << "    Enter the client id: ";
         cin >> input;
         try {
-            clientId = input.toInt();
+            clientId = input.toUnsignedInt();
         } catch(invalid_argument e) {
             cout << e.what() << endl;
             continue;
