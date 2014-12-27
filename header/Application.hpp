@@ -30,6 +30,13 @@ using namespace std;
 class Application {
 
 private:
+
+    static const String USER_FILE;
+    static const String CLIENT_FILE;
+    static const String OPTION_FILE;
+    static const String MODEL_FILE;
+    static const String CONTRACT_FILE;
+
     SortedList<Employee> users;
     SortedList<Client> clients;
     List<Option> options;
@@ -49,15 +56,15 @@ public:
     Application();
     ~Application();
 
-    void loadUsers(const String&);
+    void loadUsers();
     void defaultUsers();
-    void saveUsers(const String&) const;
-    void loadClients(const String&);
-    void saveClients(const String&) const;
-    void loadContracts(const String&);
-    void saveContracts(const String&) const;
-    void loadModels(const String&);
-    void loadOptions(const String&);
+    void saveUsers() const;
+    void loadClients();
+    void saveClients() const;
+    void loadContracts();
+    void saveContracts() const;
+    void loadModels();
+    void loadOptions();
     bool login(const String&, const String&);
     Employee& getCurrentUser() const;
     bool shouldQuit() const;

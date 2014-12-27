@@ -109,10 +109,8 @@ void Car::setModel(const Model& model) {
 }
 
 void Car::save() const {
-    ofstream os(String("data/") + this->name + ".car", ios::out);
-    if(os.fail()) {
-        throw IOException(String("Couldn't open ") + this->name + ".car");
-    }
+    ofstream os("data/" + this->name + ".car", ios::out);
+    Sanity::streamness(os, "Couldn't open " + this->name + ".car");
 
     StreamUtils::write(os, this->name);
     this->model.save(os);
@@ -134,12 +132,10 @@ void Car::save() const {
 }
 
 void Car::load(const String& filename) {
-    Sanity::truthness(FileUtils::exists(filename), String("Can't load '") + filename + "', no corresponding file");
+    Sanity::truthness(FileUtils::exists(filename), "Can't load '" + filename + "', no corresponding file");
 
     ifstream is(filename, ios::in);
-    if(is.fail()) {
-        throw IOException(String("Couldn't open ") + filename);
-    }
+    Sanity::streamness(is, "Couldn't open " + filename);
 
     this->name = StreamUtils::readString(is);
     this->model.load(is);

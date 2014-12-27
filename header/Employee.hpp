@@ -1,7 +1,7 @@
 #ifndef EMPLOYEE_HPP
 #define EMPLOYEE_HPP
 
-#include <fstream>
+#include <iostream>
 #include <sstream>
 
 #include "Person.hpp"
@@ -44,8 +44,8 @@ public:
     const String& getFunction() const;
     void setFunction(const String& function);
 
-    void save(ofstream&) const;
-    void load(ifstream&);
+    void save(ostream&) const;
+    void load(istream&);
 
     String toString() const;
 

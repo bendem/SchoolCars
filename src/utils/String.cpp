@@ -411,7 +411,6 @@ String operator+(const char* chars, const String& string) {
     return String(chars) + string;
 }
 
-
 ostream& operator<<(ostream& os, const String& str) {
     if(str.length() > 0) {
         os << (const char*) str;

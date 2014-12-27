@@ -72,7 +72,7 @@ int main(int argc, char** argv) {
     cerr << time("main") << "Application starting" << endl;
     if(FileUtils::exists(USER_FILE)) {
         cerr << time("main") << "Loading existing users" << endl;
-        app.loadUsers(USER_FILE);
+        app.loadUsers();
     } else {
         cerr << time("main") << "Creating default users" << endl;
         app.defaultUsers();
@@ -80,20 +80,20 @@ int main(int argc, char** argv) {
 
     if(FileUtils::exists(CLIENT_FILE)) {
         cerr << time("main") << "Loading client file" << endl;
-        app.loadClients(CLIENT_FILE);
+        app.loadClients();
     }
 
     if(FileUtils::exists(CONTRACTS_FILE)) {
         cerr << time("main") << "Loading contract file" << endl;
-        app.loadContracts(CONTRACTS_FILE);
+        app.loadContracts();
     }
 
     cerr << time("main") << "Loading option file" << endl;
     Sanity::truthness(FileUtils::exists(OPTIONS_FILE), "Option file not found");
-    app.loadOptions(OPTIONS_FILE);
+    app.loadOptions();
     cerr << time("main") << "Loading model file" << endl;
     Sanity::truthness(FileUtils::exists(MODELS_FILE), "Model file not found");
-    app.loadModels(MODELS_FILE);
+    app.loadModels();
 
     /* =================================================
      *            THE APPLICATION STARTS HERE
@@ -123,13 +123,13 @@ int main(int argc, char** argv) {
 
     cerr << time("main") << "Application closing" << endl;
     cerr << time("main") << "Saving users" << endl;
-    app.saveUsers(USER_FILE);
+    app.saveUsers();
 
     cerr << time("main") << "Saving clients" << endl;
-    app.saveClients(CLIENT_FILE);
+    app.saveClients();
 
     cerr << time("main") << "Saving contracts" << endl;
-    app.saveContracts(CONTRACTS_FILE);
+    app.saveContracts();
 
     cerr << time("main") << "Restoring cerr output" << endl;
     cerr.rdbuf(old);

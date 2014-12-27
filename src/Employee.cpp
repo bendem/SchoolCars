@@ -73,7 +73,7 @@ void Employee::setFunction(const String& function) {
     }
 }
 
-void Employee::save(ofstream& os) const {
+void Employee::save(ostream& os) const {
     StreamUtils::write(os, this->id);
     StreamUtils::write(os, this->login);
     StreamUtils::write(os, this->password);
@@ -81,7 +81,7 @@ void Employee::save(ofstream& os) const {
     Person::save(os);
 }
 
-void Employee::load(ifstream& is) {
+void Employee::load(istream& is) {
     this->id = StreamUtils::read<unsigned int>(is);
     this->login = StreamUtils::readString(is);
     this->password = StreamUtils::readString(is);

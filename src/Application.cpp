@@ -1,5 +1,11 @@
 #include "Application.hpp"
 
+const String Application::USER_FILE = "data/userlist.dat";
+const String Application::CLIENT_FILE = "data/clients.dat";
+const String Application::OPTION_FILE = "data/Options.csv";
+const String Application::MODEL_FILE = "data/Modeles.csv";
+const String Application::CONTRACT_FILE = "data/contracts.dat";
+
 Application::Application() : optionTable(3), modelTable(5) {
     String optionHeaders[] = { "code", "name", "price" };
     this->optionTable.setHeader(optionHeaders);
@@ -23,18 +29,14 @@ Application::~Application() {
     }
 }
 
-void Application::loadUsers(const String& userfile) {
+void Application::loadUsers() {
     Sanity::truthness(this->users.isEmpty(), "Users were already loaded");
 
-    ifstream is(userfile, ios::in);
-    unsigned int count = StreamUtils::read<unsigned int>(is);
-    this->userId = StreamUtils::read<unsigned int>(is);
+    ifstream is(USER_FILE, ios::in);
+    Sanity::streamness(is, "Failed to open " + USER_FILE);
 
-    Employee e;
-    for(unsigned int i = 0; i < count; ++i) {
-        e.load(is);
-        this->users.add(e);
-    }
+    this->userId = StreamUtils::read<unsigned int>(is);
+    this->users.addAll(StreamUtils::readSortedList<Employee>(is));
 }
 
 void Application::defaultUsers() {
@@ -45,94 +47,55 @@ void Application::defaultUsers() {
     this->users.add(e);
 }
 
-void Application::saveUsers(const String& file) const {
-    ofstream os(file, ios::out | ios::trunc);
-    if(os.fail()) {
-        throw IOException(String("Couldn't open ") + file);
-    }
+void Application::saveUsers() const {
+    ofstream os(USER_FILE, ios::out | ios::trunc);
+    Sanity::streamness(os, "Failed to open " + USER_FILE);
 
-    StreamUtils::write(os, this->users.size());
     StreamUtils::write(os, this->userId);
-
-    ConstIterator<Employee> it(this->users);
-    while(!it.end()) {
-        it++.get().save(os);
-    }
+    StreamUtils::writeList<Employee>(os, this->users);
 }
 
-void Application::loadClients(const String& file) {
-    ifstream is(file, ios::in);
-    if(is.fail()) {
-        throw IOException(String("Couldn't open ") + file);
-    }
+void Application::loadClients() {
+    ifstream is(CLIENT_FILE, ios::in);
+    Sanity::streamness(is, "Failed to open " + CLIENT_FILE);
 
-    unsigned int count = StreamUtils::read<unsigned int>(is);
     this->clientId = StreamUtils::read<unsigned int>(is);
-
-    Client c;
-    for(unsigned int i = 0; i < count; ++i) {
-        c.load(is);
-        this->clients.add(c);
-    }
+    this->clients.addAll(StreamUtils::readSortedList<Client>(is));
 }
 
-void Application::saveClients(const String& file) const {
-    ofstream os(file, ios::out | ios::trunc);
-    if(os.fail()) {
-        throw IOException(String("Couldn't open ") + file);
-    }
+void Application::saveClients() const {
+    ofstream os(CLIENT_FILE, ios::out | ios::trunc);
+    Sanity::streamness(os, "Failed to open " + CLIENT_FILE);
 
-    StreamUtils::write(os, this->clients.size());
     StreamUtils::write(os, this->clientId);
-
-    ConstIterator<Client> it(this->clients);
-    while(!it.end()) {
-        it++.get().save(os);
-    }
+    StreamUtils::writeList<Client>(os, this->clients);
 }
 
-void Application::loadContracts(const String& file) {
-    ifstream is(file, ios::in);
-    if(is.fail()) {
-        throw IOException(String("Couldn't open ") + file);
-    }
+void Application::loadContracts() {
+    ifstream is(CONTRACT_FILE, ios::in);
+    Sanity::streamness(is, "Failed to open " + CONTRACT_FILE);
 
-    int count = StreamUtils::read<unsigned int>(is);
     this->contractId = StreamUtils::read<unsigned int>(is);
-
-    Contract c;
-    for(int i = 0; i < count; ++i) {
-        c.load(is);
-        this->contracts.add(c);
-    }
+    this->contracts.addAll(StreamUtils::readSortedList<Contract>(is));
 }
 
-void Application::saveContracts(const String& file) const {
-    ofstream os(file, ios::out | ios::trunc);
-    if(os.fail()) {
-        throw IOException(String("Couldn't open ") + file);
-    }
+void Application::saveContracts() const {
+    ofstream os(CONTRACT_FILE, ios::out | ios::trunc);
+    Sanity::streamness(os, "Failed to open " + CONTRACT_FILE);
 
-    StreamUtils::write(os, this->contracts.size());
     StreamUtils::write(os, this->contractId);
-
-    ConstIterator<Contract> it(this->contracts);
-    while(!it.end()) {
-        it++.get().save(os);
-    }
+    StreamUtils::writeList<Contract>(os, this->contracts);
 }
 
-void Application::loadModels(const String& file) {
+void Application::loadModels() {
     Sanity::truthness(this->models.isEmpty(), "Models are already loaded");
 
-    ifstream is(file, ios::in);
-    if(is.fail()) {
-        throw IOException(String("Couldn't open ") + file);
-    }
+    ifstream is(MODEL_FILE, ios::in);
+    Sanity::streamness(is, "Failed to open " + MODEL_FILE);
 
     List<String> l;
 
-    cerr << time("Application") << "Loading models from " << file << endl;
+    cerr << time("Application") << "Loading models from " << MODEL_FILE << endl;
     StreamUtils::skipLine(is); // Validate file format?
     int i = 0;
     while(is.peek() != EOF) {
@@ -153,24 +116,22 @@ void Application::loadModels(const String& file) {
             name,
             String::valueOf(baseCost),
             String::valueOf(power),
-            String(diesel ? "yes" : "no")
+            diesel ? "yes" : "no"
         };
         this->modelTable.addLine(line);
     }
     cerr << time("Application") << this->models.size() << " models loaded" << endl;
 }
 
-void Application::loadOptions(const String& file) {
+void Application::loadOptions() {
     Sanity::truthness(this->models.isEmpty(), "Options are already loaded");
 
-    ifstream is(file, ios::in);
-    if(is.fail()) {
-        throw IOException(String("Couldn't open ") + file);
-    }
+    ifstream is(OPTION_FILE, ios::in);
+    Sanity::streamness(is, "Failed to open " + OPTION_FILE);
 
     List<String> l;
 
-    cerr << time("Application") << "Loading options from " << file << endl;
+    cerr << time("Application") << "Loading options from " << OPTION_FILE << endl;
     StreamUtils::skipLine(is); // Validate file format?
     while(is.peek() != EOF) {
         l = StreamUtils::readCSVLine(is, 3);
@@ -611,7 +572,7 @@ void Application::loadCar() {
     cout << "    Enter the name of the project to load: ";
     cin >> input;
     try {
-        this->currentCar->load(String("data/") + input + ".car");
+        this->currentCar->load("data/" + input + ".car");
     } catch(AssertionException e) {
         cout << " > " << e.what() << endl;
         delete this->currentCar;
@@ -738,7 +699,7 @@ void Application::newContract() {
         car = *this->currentCar;
     } else {
         try {
-            car.load(String("data/") + carName + ".car");
+            car.load("data/" + carName + ".car");
         } catch(AssertionException e) {
             cout << e.what() << endl;
             return;
@@ -841,7 +802,7 @@ void Application::modifyContract() {
                     opt.get().setCar(*this->currentCar);
                 } else {
                     try {
-                        opt.get().getCar().load(String("data/") + input + ".car");
+                        opt.get().getCar().load("data/" + input + ".car");
                     } catch(AssertionException e) {
                         cout << " > " << e.what() << endl;
                         continue;

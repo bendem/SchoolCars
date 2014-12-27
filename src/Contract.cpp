@@ -126,7 +126,7 @@ void Contract::load(istream& is) {
         delete this->car;
     }
     this->car = new Car();
-    this->car->load(String("data/") + carName + ".car");
+    this->car->load("data/" + carName + ".car");
     this->discount = StreamUtils::read<float>(is);
 }
 

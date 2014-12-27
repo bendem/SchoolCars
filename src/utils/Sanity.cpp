@@ -11,3 +11,15 @@ void Sanity::nullness(const void* ptr, const String& error) {
         throw AssertionException(error);
     }
 }
+
+void Sanity::streamness(const istream& stream, const String& error) {
+    if(stream.fail()) {
+        throw IOException(error);
+    }
+}
+
+void Sanity::streamness(const ostream& stream, const String& error) {
+    if(stream.fail()) {
+        throw IOException(error);
+    }
+}
