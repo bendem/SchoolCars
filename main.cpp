@@ -19,7 +19,7 @@ int main(int argc, char** argv) {
     bool useArrowsForMenus = false;
     for (int i = 1; i < argc; ++i) {
         String param(argv[i]);
-        if(param == "-h") {
+        if(param == String("-h")) {
             cout
                 << endl
                 << " Parameters are" << endl
@@ -27,12 +27,12 @@ int main(int argc, char** argv) {
                 << " '-m <boolean:use arrows in menus>' to enable the arrow browsable menus" << endl
                 << endl;
             return 0;
-        } else if(param == "-u" && i+1 != argc) {
-            login = argv[i+1];
-        } else if(param == "-p" && i+1 != argc) {
-            password = argv[i+1];
-        } else if(param == "-m" && i+1 != argc) {
-            useArrowsForMenus = String(argv[i+1]).toBool();
+        } else if(param == String("-u") && i+1 != argc) {
+            login = argv[++i];
+        } else if(param == String("-p") && i+1 != argc) {
+            password = argv[++i];
+        } else if(param == String("-m") && i+1 != argc) {
+            useArrowsForMenus = String(argv[++i]).toBool();
         }
     }
 

@@ -105,10 +105,14 @@ MenuEntry<T> Menu<T>::chooseWithTyping() {
     String choice;
     cout << "    Your choice: ";
     cin >> choice;
+    if(choice.length() == 0) {
+        cout << " > Empty choice" << endl;
+        return this->chooseWithTyping();
+    }
     Optional< MenuEntry<T> > entry = this->entries.getFirstMatching(IdPredicate(choice));
     if(!entry.hasValue()) {
         cout << "> Invalid choice, try again :(" << endl << endl;
-        return this->chooseWithArrows();
+        return this->chooseWithTyping();
     }
     return entry.get();
 }
