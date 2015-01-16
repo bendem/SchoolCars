@@ -30,6 +30,7 @@ public:
     String toString() const;
     void callMethod(T&) const;
     bool hasMethod() const { return this->method != NULL; }
+    const String& getText() const { return this->text; }
 
     bool operator==(const MenuEntry&) const;
     bool operator==(const String&) const;

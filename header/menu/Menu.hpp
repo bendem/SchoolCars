@@ -16,13 +16,26 @@ template<class T>
 class Menu {
 
 private:
+    bool useArrows;
     String title;
-    List< MenuEntry<T> >* entries;
+    List< MenuEntry<T> > entries;
+
+    MenuEntry<T> chooseWithArrows();
+    MenuEntry<T> chooseWithTyping();
+
+    class IdPredicate : public Predicate< MenuEntry<T> > {
+    private:
+        String id;
+    public:
+        IdPredicate(String id) : id(id) {}
+        bool test(const MenuEntry<T>& entry) const {
+            return entry == this->id;
+        }
+    };
 
 public:
-    Menu(const String&);
+    Menu(const String&, bool = false);
     Menu(const Menu<T>&);
-    ~Menu();
 
     /**
      * Adds a MenuEntry to the current Menu.
@@ -44,7 +57,7 @@ public:
      * Prompts the user to make a choice based on the menu entries and call
      * the corresponding method on the provided object.
      */
-    void choose(T&) const;
+    void choose(T&);
 
 };
 

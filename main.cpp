@@ -25,7 +25,7 @@ int main(int argc, char** argv) {
 
     cerr << time("main") << "Creating admin menu" << endl;
     // Preparing menus
-    Menu<Application> adminMenu("Menu Admin");
+    Menu<Application> adminMenu("Menu Admin", true);
     adminMenu
         .addEntry("0", "Changer de mot de passe", &Application::changePassword)
         .addEntry("-", "Gestion des utilisateurs", NULL)
@@ -75,9 +75,13 @@ int main(int argc, char** argv) {
         cout << " > Bad login, try again..." << endl << endl;
     }
     cout << endl << endl << " > Welcome " << app.getCurrentUser().getFirstname() << "!" << endl;
+    {
+        cout << endl << " > Press <ENTER> to continue";
+        String throwItOnTheGround;
+        cin >> throwItOnTheGround;
+    }
 
     while(!app.shouldQuit()) {
-        cout << endl << endl << endl << endl << endl << endl << endl << endl << endl;
         if(app.getCurrentUser().getFunction() == Employee::ADMINISTRATIVE) {
             adminMenu.display();
             adminMenu.choose(app);
