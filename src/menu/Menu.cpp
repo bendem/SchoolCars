@@ -1,8 +1,9 @@
+#include <utils/TermUtils.hpp>
 #include "menu/Menu.hpp"
 
 template<class T>
-Menu<T>::Menu(const String& title) {
-    int width = title.length() + 20;
+Menu<T>::Menu(const String& title, bool useArrows) {
+    unsigned int width = title.length() + 20;
 
     // Constructing title
     stringstream ss;
@@ -16,38 +17,120 @@ Menu<T>::Menu(const String& title) {
         << "    " << String('=', width) << endl << endl;
 
     this->title = ss.str();
-
-    this->entries = new List< MenuEntry<T> >();
+    this->useArrows = useArrows;
 }
 
 template<class T>
 Menu<T>::Menu(const Menu<T>& param) {
     this->title = param.title;
-    this->entries = new List< MenuEntry<T> >(*param.entries);
+    this->entries = List< MenuEntry<T> >(param.entries);
 }
 
 template<class T>
-Menu<T>::~Menu() {
-    delete this->entries;
+MenuEntry<T> Menu<T>::chooseWithArrows() {
+    TermUtils::pushCursorPosition();
+    TermUtils::moveCursorUp(this->entries.size() + 1);
+    TermUtils::moveCursorRight(2);
+    TermUtils::setRawInput(true);
+
+    // First, let's get the first and last items in the menu
+    // This is useful if the first or the last element is not selectable
+    ConstIterator< MenuEntry<T> > it(this->entries);
+    unsigned int first = 0, last = 0;
+    bool foundFirst = false;
+    unsigned int i = 0;
+    while(!it.end()) {
+        if(it.get().hasMethod()) {
+            if(!foundFirst) {
+                foundFirst = true;
+                first = i;
+            }
+            last = i;
+        }
+        ++i;
+        ++it;
+    }
+    Sanity::truthness(first != last && last != 0, "No selectable entry on this menu");
+
+    // Now let's get the selection
+    unsigned int selection = first;
+    while(true) {
+        int c = getchar();
+        if(c == TermUtils::ENTER) {
+            // Entry selected
+            break;
+        }
+
+        // Sequence for arrows is ESCAPE, ARROW_ESCAPRE, ARROW_CODE
+        // let's ignore eveything else
+        if(c != TermUtils::ESCAPE) {
+            continue;
+        }
+        if(getchar() != TermUtils::ARROW_ESCAPE) {
+            continue;
+        }
+        switch(getchar()) {
+            case TermUtils::ARROW_UP:
+                // Prevents going before the first menu entry
+                if(selection != first) {
+                    TermUtils::moveCursorUp();
+                    // Skip menu separators
+                    while(!this->entries.get(--selection).hasMethod()) {
+                        TermUtils::moveCursorUp();
+                    }
+                }
+                break;
+            case TermUtils::ARROW_DOWN:
+                // Prevents going after the last menu entry
+                if(selection != last) {
+                    TermUtils::moveCursorDown();
+                    // Skip menu separators
+                    while(!this->entries.get(++selection).hasMethod()) {
+                        TermUtils::moveCursorDown();
+                    }
+                }
+                break;
+        }
+    }
+
+    // Reset the poor terminal
+    TermUtils::setRawInput(false);
+    TermUtils::popCursorPosition();
+
+    return this->entries.get(selection);
+}
+
+template<class T>
+MenuEntry<T> Menu<T>::chooseWithTyping() {
+    String choice;
+    cout << "    Your choice: ";
+    cin >> choice;
+    Optional< MenuEntry<T> > entry = this->entries.getFirstMatching(IdPredicate(choice));
+    if(!entry.hasValue()) {
+        cout << "> Invalid choice, try again :(" << endl << endl;
+        return this->chooseWithArrows();
+    }
+    return entry.get();
 }
 
 template<class T>
 Menu<T>& Menu<T>::addEntry(const MenuEntry<T>& entry) {
-    this->entries->add(entry);
+    this->entries.add(entry);
     return *this;
 }
 
 template<class T>
 Menu<T>& Menu<T>::addEntry(const String& id, const String& text, void(T::*method)(void)) {
-    this->entries->add(MenuEntry<T>(id, text, method));
+    this->entries.add(MenuEntry<T>(id, text, method));
     return *this;
 }
 
 template<class T>
 void Menu<T>::display() const {
+    TermUtils::clearScreen();
     cout << this->title;
 
-    ConstIterator< MenuEntry<T> > it(*this->entries);
+    ConstIterator< MenuEntry<T> > it(this->entries);
     while(!it.end()) {
         cout << it++.get() << endl;
     }
@@ -55,23 +138,16 @@ void Menu<T>::display() const {
 }
 
 template<class T>
-void Menu<T>::choose(T& object) const {
-    String choice;
-
-    cout << "    Your choice: ";
-    cin >> choice;
-
-    Iterator< MenuEntry<T> > it(*this->entries);
-    while(!it.end()) {
-        if(it.get() == choice && it.get().hasMethod()) {
-            cout << endl;
-            it.get().callMethod(object);
-            return;
-        }
-        ++it;
-    }
-    cout << "> Invalid choice, try again :(" << endl << endl;
-    this->choose(object);
+void Menu<T>::choose(T& object) {
+    MenuEntry<T> entry = this->useArrows
+            ? this->chooseWithArrows()
+            : this->chooseWithTyping();
+    TermUtils::clearScreen();
+    cout
+            << endl
+            << "    " << entry.getText() << endl
+            << "   " << String('=', entry.getText().length()+2) << endl << endl;
+    entry.callMethod(object);
 }
 
 #include "Application.hpp"

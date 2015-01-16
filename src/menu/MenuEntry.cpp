@@ -52,5 +52,4 @@ MenuEntry<T>& MenuEntry<T>::operator=(const MenuEntry& param) {
 }
 
 #include "Application.hpp"
-
 template class MenuEntry<Application>;

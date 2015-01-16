@@ -147,6 +147,14 @@ public:
     // Comparisons
     int compareTo(const String&) const;
 
+    // Comparisons
+    bool operator==(const char* p) const { return strcmp(*this, p) == 0; }
+    bool operator!=(const char* p) const { return strcmp(*this, p) != 0; }
+    bool operator> (const char* p) const { return strcmp(*this, p) >  0; }
+    bool operator< (const char* p) const { return strcmp(*this, p) <  0; }
+    bool operator>=(const char* p) const { return strcmp(*this, p) >= 0; }
+    bool operator<=(const char* p) const { return strcmp(*this, p) <= 0; }
+
     template<class T>
     static String valueOf(const T& p) { stringstream ss; ss << p; return ss.str(); }
 

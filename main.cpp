@@ -16,16 +16,31 @@ int main(int argc, char** argv) {
     cerr << time("main") << "Output redirected to " << APPLCATION_LOGS << endl;
 
     String login, password;
-    if(argc == 3) {
-        login = argv[1];
-        password = argv[2];
+    bool useArrowsForMenus = false;
+    for (int i = 1; i < argc; ++i) {
+        String param(argv[i]);
+        if(param == "-h") {
+            cout
+                << endl
+                << " Parameters are" << endl
+                << " '-u <string:username>' used with '-p <string:password>' to use the autologin feature" << endl
+                << " '-m <boolean:use arrows in menus>' to enable the arrow browsable menus" << endl
+                << endl;
+            return 0;
+        } else if(param == "-u" && i+1 != argc) {
+            login = argv[i+1];
+        } else if(param == "-p" && i+1 != argc) {
+            password = argv[i+1];
+        } else if(param == "-m" && i+1 != argc) {
+            useArrowsForMenus = String(argv[i+1]).toBool();
+        }
     }
 
     Application app;
 
     cerr << time("main") << "Creating admin menu" << endl;
     // Preparing menus
-    Menu<Application> adminMenu("Menu Admin");
+    Menu<Application> adminMenu("Menu Admin", useArrowsForMenus);
     adminMenu
         .addEntry("0", "Changer de mot de passe", &Application::changePassword)
         .addEntry("-", "Gestion des utilisateurs", NULL)
@@ -40,7 +55,7 @@ int main(int argc, char** argv) {
         .addEntry("Q", "Quitter l'application", &Application::quit);
 
     cerr << time("main") << "Creating seller menu" << endl;
-    Menu<Application> sellerMenu("Menu Vendeur");
+    Menu<Application> sellerMenu("Menu Vendeur", useArrowsForMenus);
     sellerMenu
         .addEntry("0",  "Changer de mot de passe", &Application::changePassword)
         .addEntry("-",  "Gerer les clients", NULL)
@@ -75,9 +90,13 @@ int main(int argc, char** argv) {
         cout << " > Bad login, try again..." << endl << endl;
     }
     cout << endl << endl << " > Welcome " << app.getCurrentUser().getFirstname() << "!" << endl;
+    {
+        cout << endl << " > Press <ENTER> to continue";
+        String throwItOnTheGround;
+        cin >> throwItOnTheGround;
+    }
 
     while(!app.shouldQuit()) {
-        cout << endl << endl << endl << endl << endl << endl << endl << endl << endl;
         if(app.getCurrentUser().getFunction() == Employee::ADMINISTRATIVE) {
             adminMenu.display();
             adminMenu.choose(app);
@@ -88,6 +107,7 @@ int main(int argc, char** argv) {
         cout << endl << " > Press <ENTER> to continue";
         String throwItOnTheGround;
         cin >> throwItOnTheGround;
+        cout << endl;
     }
     /* =================================================
      *            THE APPLICATION ENDS HERE
