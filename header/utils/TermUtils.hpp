@@ -26,7 +26,7 @@ public:
 
     static void setRawInput(bool isRaw);
 
-    enum Keys {
+    enum Key {
         ESCAPE = 27,
         ARROW_ESCAPE = 91,
         ARROW_UP = 65,
