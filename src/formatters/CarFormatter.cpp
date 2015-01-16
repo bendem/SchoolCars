@@ -1,6 +1,6 @@
 #include "formatters/CarFormatter.hpp"
 
-String CarFormatter::format(int tabs) const {
+String CarFormatter::format(unsigned int tabs) const {
     String tab(' ', tabs);
     stringstream ss;
     String title("= Car project '");

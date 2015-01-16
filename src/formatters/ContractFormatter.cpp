@@ -1,7 +1,6 @@
-#include <formatters/CarFormatter.hpp>
 #include "formatters/ContractFormatter.hpp"
 
-String ContractFormatter::format(int tabs) const {
+String ContractFormatter::format(unsigned int tabs) const {
     String tab(' ', tabs);
     stringstream ss;
 

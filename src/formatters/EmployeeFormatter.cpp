@@ -1,6 +1,6 @@
 #include "formatters/EmployeeFormatter.hpp"
 
-String EmployeeFormatter::format(int tabs) const {
+String EmployeeFormatter::format(unsigned int tabs) const {
     String tab(' ', tabs);
     stringstream ss;
 
