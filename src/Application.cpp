@@ -180,6 +180,14 @@ void Application::save() {
     this->saveClients();
     cerr << time("main") << "Saving contracts" << endl;
     this->saveContracts();
+    if(this->currentCar && this->carDirty) {
+        String input;
+        cout << " Current car is dirty, would you like to save it? ";
+        cin >> input;
+        if(input.toBool()) {
+            this->saveCurrentCar();
+        }
+    }
 }
 
 bool Application::login(const String& providedLogin, const String& providedPassword) {
