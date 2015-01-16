@@ -28,16 +28,41 @@ Menu<T>::Menu(const Menu<T>& param) {
 
 template<class T>
 MenuEntry<T> Menu<T>::chooseWithArrows() {
-    unsigned int selected = 0;
     TermUtils::pushCursorPosition();
     TermUtils::moveCursorUp(this->entries.size() + 1);
     TermUtils::moveCursorRight(2);
     TermUtils::setRawInput(true);
+
+    // First, let's get the first and last items in the menu
+    // This is useful if the first or the last element is not selectable
+    ConstIterator< MenuEntry<T> > it(this->entries);
+    unsigned int first = 0, last = 0;
+    bool foundFirst = false;
+    unsigned int i = 0;
+    while(!it.end()) {
+        if(it.get().hasMethod()) {
+            if(!foundFirst) {
+                foundFirst = true;
+                first = i;
+            }
+            last = i;
+        }
+        ++i;
+        ++it;
+    }
+    Sanity::truthness(first != last && last != 0, "No selectable entry on this menu");
+
+    // Now let's get the selection
+    unsigned int selection = first;
     while(true) {
         int c = getchar();
         if(c == TermUtils::ENTER) {
+            // Entry selected
             break;
         }
+
+        // Sequence for arrows is ESCAPE, ARROW_ESCAPRE, ARROW_CODE
+        // let's ignore eveything else
         if(c != TermUtils::ESCAPE) {
             continue;
         }
@@ -45,31 +70,34 @@ MenuEntry<T> Menu<T>::chooseWithArrows() {
             continue;
         }
         switch(getchar()) {
-            // TODO Checks if first or last entry has no method
             case TermUtils::ARROW_UP:
-                if(selected != 0) {
+                // Prevents going before the first menu entry
+                if(selection != first) {
                     TermUtils::moveCursorUp();
-                    while(!this->entries.get(--selected).hasMethod()) {
+                    // Skip menu separators
+                    while(!this->entries.get(--selection).hasMethod()) {
                         TermUtils::moveCursorUp();
                     }
                 }
                 break;
             case TermUtils::ARROW_DOWN:
-                if(selected != this->entries.size()-1) {
+                // Prevents going after the last menu entry
+                if(selection != last) {
                     TermUtils::moveCursorDown();
-                    while(!this->entries.get(++selected).hasMethod()) {
+                    // Skip menu separators
+                    while(!this->entries.get(++selection).hasMethod()) {
                         TermUtils::moveCursorDown();
                     }
                 }
                 break;
-            default:
-                // ignore
-                break;
         }
     }
+
+    // Reset the poor terminal
     TermUtils::setRawInput(false);
     TermUtils::popCursorPosition();
-    return this->entries.get(selected);
+
+    return this->entries.get(selection);
 }
 
 template<class T>

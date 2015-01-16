@@ -107,6 +107,7 @@ int main(int argc, char** argv) {
         cout << endl << " > Press <ENTER> to continue";
         String throwItOnTheGround;
         cin >> throwItOnTheGround;
+        cout << endl;
     }
     /* =================================================
      *            THE APPLICATION ENDS HERE
