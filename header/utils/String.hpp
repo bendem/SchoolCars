@@ -102,15 +102,6 @@ public:
      */
     int indexOf(const String&) const;
 
-    String& operator=(String);
-    String& operator=(const char*);
-
-    char& operator[](unsigned int);
-
-    // Casts allowing to pass String's as parameters of functions/methods using string's or char*
-    operator string() const { return string(this->str); }
-    operator const char*() const { return this->str; }
-
     /**
      * Parses the String and returns its integer representation on base 10.
      * @throw invalid_argument if the String does not represent a valid integer
@@ -134,6 +125,9 @@ public:
      */
     bool toBool() const;
 
+    // Comparisons
+    int compareTo(const String&) const;
+
     // Appending
     String operator+(const char*) const;
     String operator+(char) const;
@@ -144,8 +138,14 @@ public:
     String operator+(const String&) const;
     String& operator+=(const String&);
 
-    // Comparisons
-    int compareTo(const String&) const;
+    String& operator=(String);
+    String& operator=(const char*);
+
+    char& operator[](unsigned int);
+
+    // Casts allowing to pass String's as parameters of functions/methods using string's or char*
+    operator string() const { return string(this->str); }
+    operator const char*() const { return this->str; }
 
     template<class T>
     static String valueOf(const T& p) { stringstream ss; ss << p; return ss.str(); }

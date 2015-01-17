@@ -206,27 +206,6 @@ int String::indexOf(const String& search) const {
     return -1;
 }
 
-String& String::operator=(String param) {
-    swap(this->stringSize, param.stringSize);
-    swap(this->arraySize, param.arraySize);
-    swap(this->str, param.str);
-    return *this;
-}
-
-String& String::operator=(const char* param) {
-    this->stringSize = strlen(param);
-    this->reallocate(this->stringSize + 1);
-    copy(this->str, param, this->stringSize);
-    return *this;
-}
-
-char& String::operator[](unsigned int i) {
-    if(i > this->stringSize) {
-        throw new range_error("String index out of bound");
-    }
-    return this->str[i];
-}
-
 int String::toInt() const {
     if(this->length() == 0) {
         throw invalid_argument("empty string");
@@ -344,6 +323,16 @@ bool String::toBool() const {
         ;
 }
 
+int String::compareTo(const String& param) const {
+    if(!this->str) {
+        return -1;
+    }
+    if(!param.str) {
+        return 1;
+    }
+    return strcmp(this->str, param.str);
+}
+
 String String::operator+(const char *append) const {
     unsigned int totalSize = strlen(append) + this->stringSize;
     String tmp;
@@ -401,18 +390,29 @@ String& String::operator+=(const String& param) {
     return *this;
 }
 
-int String::compareTo(const String& param) const {
-    if(!this->str) {
-        return -1;
-    }
-    if(!param.str) {
-        return 1;
-    }
-    return strcmp(this->str, param.str);
-}
-
 String operator+(const char* chars, const String& string) {
     return String(chars) + string;
+}
+
+String& String::operator=(String param) {
+    swap(this->stringSize, param.stringSize);
+    swap(this->arraySize, param.arraySize);
+    swap(this->str, param.str);
+    return *this;
+}
+
+String& String::operator=(const char* param) {
+    this->stringSize = strlen(param);
+    this->reallocate(this->stringSize + 1);
+    copy(this->str, param, this->stringSize);
+    return *this;
+}
+
+char& String::operator[](unsigned int i) {
+    if(i > this->stringSize) {
+        throw new range_error("String index out of bound");
+    }
+    return this->str[i];
 }
 
 ostream& operator<<(ostream& os, const String& str) {
