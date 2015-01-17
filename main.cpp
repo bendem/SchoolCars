@@ -15,6 +15,7 @@ int main(int argc, char** argv) {
     streambuf* old = cerr.rdbuf(x.rdbuf());
     cerr << time("main") << "Output redirected to " << APPLCATION_LOGS << endl;
 
+    cerr << time("main") << "Parsing arguments" << endl;
     String login, password;
     bool useArrowsForMenus = false;
     for (int i = 1; i < argc; ++i) {
@@ -35,6 +36,10 @@ int main(int argc, char** argv) {
             useArrowsForMenus = String(argv[++i]).toBool();
         }
     }
+    cerr << time("main") << "Running application with "
+        << "user: '" << login << "', "
+        << "password: '" << String('*', password.length()) << "', "
+        << "useArrowsForMenus: " << useArrowsForMenus << endl;
 
     Application app;
 

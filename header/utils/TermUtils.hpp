@@ -13,6 +13,7 @@ class TermUtils {
 public:
     static const String ESCAPE_SEQUENCE;
 
+    static void setEchoInput(bool echo);
     static void setRawInput(bool isRaw);
 
     enum Key {

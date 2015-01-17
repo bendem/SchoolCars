@@ -1,3 +1,4 @@
+#include <utils/TermUtils.hpp>
 #include "auth/Authenticator.hpp"
 
 Authenticator::Authenticator() {
@@ -59,7 +60,10 @@ bool Authenticator::login(List<Employee>& users) {
     }
 
     cout << "    Entrez votre mot de passe: ";
+    TermUtils::setEchoInput(false);
     cin >> password;
+    cout << endl;
+    TermUtils::setEchoInput(true);
 
     // Correct password
     if(optEmployee.get().getPassword() == password) {
@@ -76,16 +80,23 @@ void Authenticator::changePassword() {
     String current, newPassword, confirmation;
 
     cout << "    Type your current password: ";
+    TermUtils::setEchoInput(false);
     cin >> current;
+    cout << endl;
+    TermUtils::setEchoInput(true);
     if(this->currentUser->getPassword() != current) {
         cout << " > Incorrect password" << endl;
         return;
     }
 
+    TermUtils::setEchoInput(false);
     cout << "    Type your new password: ";
     cin >> newPassword;
+    cout << endl;
     cout << "    Confirm your password: ";
     cin >> confirmation;
+    cout << endl;
+    TermUtils::setEchoInput(true);
 
     if(newPassword != confirmation) {
         cout << " > Passwords do not match!" << endl;

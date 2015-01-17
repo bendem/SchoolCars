@@ -2,10 +2,25 @@
 
 const String TermUtils::ESCAPE_SEQUENCE = "\033[";
 
-void TermUtils::setRawInput(bool isRaw) {
-    termios settings;
-
+void TermUtils::setEchoInput(bool echo) {
     // Get current settings
+    termios settings;
+    tcgetattr(STDIN_FILENO, &settings);
+
+    // Change ICANON flag
+    if (echo) {
+        settings.c_lflag |= ECHO;
+    } else {
+        settings.c_lflag &= ~(ECHO);
+    }
+
+    // Apply new settings
+    tcsetattr(STDIN_FILENO, TCSANOW, &settings);
+}
+
+void TermUtils::setRawInput(bool isRaw) {
+    // Get current settings
+    termios settings;
     tcgetattr(STDIN_FILENO, &settings);
 
     // Change ICANON flag
