@@ -17,11 +17,13 @@ MenuEntry<T>::MenuEntry(const MenuEntry& param) {
 template<class T>
 String MenuEntry<T>::toString() const {
     ostringstream os;
+    os << "  ";
     if(this->method) {
-        os << "    " << this->id << ".\t" << this->text;
+        os << "  " << this->id << '.';
     } else {
-        os << "  " << String(this->id, 5) << '\t' << this->text;
+        os << String(this->id, 5);
     }
+    os << '\t' << this->text;
     return os.str();
 }
 
