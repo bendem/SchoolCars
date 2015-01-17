@@ -137,16 +137,21 @@ void String::copy(char* dest, const char* source, unsigned int start, unsigned i
 unsigned int String::length() const {
     return this->stringSize;
 }
-void String::toUpper() {
+
+String String::toUpper() const {
+    String tmp(*this);
     for(unsigned int i = 0; i < this->stringSize; ++i) {
-        this->str[i] = toupper(this->str[i]);
+        tmp.str[i] = toupper(this->str[i]);
     }
+    return tmp;
 }
 
-void String::toLower() {
+String String::toLower() const {
+    String tmp(*this);
     for(unsigned int i = 0; i < this->stringSize; ++i) {
-        this->str[i] = tolower(this->str[i]);
+        tmp.str[i] = tolower(this->str[i]);
     }
+    return tmp;
 }
 
 String& String::replace(const String& search, const String& replace) {
@@ -327,8 +332,7 @@ float String::toFloat() const {
 }
 
 bool String::toBool() const {
-    String tmp(*this);
-    tmp.toLower();
+    String tmp = this->toLower();
     return tmp != (String) "false"
         && tmp != (String) "faux"
         && tmp != (String) "0"

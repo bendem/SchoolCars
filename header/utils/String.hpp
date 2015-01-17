@@ -85,12 +85,12 @@ public:
     /**
      * Transforms the String to have all its characters uppercased.
      */
-    void toUpper();
+    String toUpper() const;
 
     /**
      * Transforms the String to have all its characters lowercased.
      */
-    void toLower();
+    String toLower() const;
 
     /**
      * Replaces all the occurences of the String with the provided replacement.
