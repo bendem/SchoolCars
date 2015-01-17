@@ -89,6 +89,12 @@ int main(int argc, char** argv) {
     while(!app.login(login, password)) {
         cout << " > Bad login, try again..." << endl << endl;
     }
+    cout << endl << endl
+        << "               _____\n"
+        << "      _-_-  _/\\______\\\\__\n"
+        << "   _-_-__  / ,-. -|-  ,-.`-.\n"
+        << "      _-_- `( o )----( o )-'\n"
+        << "             `-'      `-'";
     cout << endl << endl << " > Welcome " << green << app.getCurrentUser().getFirstname() << reset << "!" << endl;
     {
         cout << endl << " > Press <ENTER> to continue";
