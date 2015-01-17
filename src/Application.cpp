@@ -174,17 +174,18 @@ void Application::load() {
 }
 
 void Application::save() {
-    cerr << time("main") << "Saving users" << endl;
+    cerr << time("Application::save") << "Saving users" << endl;
     this->saveUsers();
-    cerr << time("main") << "Saving clients" << endl;
+    cerr << time("Application::save") << "Saving clients" << endl;
     this->saveClients();
-    cerr << time("main") << "Saving contracts" << endl;
+    cerr << time("Application::save") << "Saving contracts" << endl;
     this->saveContracts();
     if(this->currentCar && this->carDirty) {
         String input;
         cout << " Current car is dirty, would you like to save it? ";
         cin >> input;
         if(input.toBool()) {
+            cerr << time("Application::save") << "Saving dirty car" << endl;
             this->saveCurrentCar();
         }
     }
