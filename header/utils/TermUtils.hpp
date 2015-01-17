@@ -10,19 +10,8 @@
 
 class TermUtils {
 
-private:
-    static const String ESCAPE_SEQUENCE;
-
 public:
-    static void clearScreen(bool = true);
-
-    static void pushCursorPosition();
-    static void popCursorPosition();
-    static void setCursorPosition(unsigned int, unsigned int);
-    static void moveCursorUp(unsigned int = 1);
-    static void moveCursorDown(unsigned int = 1);
-    static void moveCursorLeft(unsigned int = 1);
-    static void moveCursorRight(unsigned int = 1);
+    static const String ESCAPE_SEQUENCE;
 
     static void setRawInput(bool isRaw);
 
@@ -37,5 +26,47 @@ public:
     };
 
 };
+
+// Manipulators without args
+ostream& saveCursorPosition(ostream&);
+ostream& restoreCursorPosition(ostream&);
+ostream& clear(ostream&);
+ostream& cursorUp(ostream& );
+ostream& cursorDown(ostream& );
+ostream& cursorLeft(ostream& );
+ostream& cursorRight(ostream& );
+
+// Manipulators with args
+class ClearManip {
+private:
+    bool resetPosition;
+public:
+    explicit ClearManip(bool resetPos) : resetPosition(resetPos) {}
+    friend ostream& operator<<(ostream&, const ClearManip&);
+};
+ClearManip clear(bool);
+
+class CursorMoveManip {
+private:
+    unsigned int nb;
+    char c;
+public:
+    explicit CursorMoveManip(unsigned int nb, char c) : nb(nb), c(c) {}
+    friend ostream& operator<<(ostream&, const CursorMoveManip&);
+};
+CursorMoveManip cursorUp(unsigned int nb);
+CursorMoveManip cursorDown(unsigned int nb);
+CursorMoveManip cursorLeft(unsigned int nb);
+CursorMoveManip cursorRight(unsigned int nb);
+
+class CursorSetPosManip {
+private:
+    unsigned int x;
+    unsigned int y;
+public:
+    explicit CursorSetPosManip(unsigned int x, unsigned int y) : x(x), y(y) {}
+    friend ostream& operator<<(ostream&, const CursorSetPosManip&);
+};
+CursorSetPosManip cursorPosition(unsigned int x, unsigned int y);
 
 #endif

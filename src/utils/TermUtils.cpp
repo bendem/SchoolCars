@@ -2,34 +2,6 @@
 
 const String TermUtils::ESCAPE_SEQUENCE = "\033[";
 
-void TermUtils::clearScreen(bool resetPosition) {
-    std::cout << ESCAPE_SEQUENCE << 2 << 'J';
-    if(resetPosition) {
-        setCursorPosition(1, 1);
-    }
-}
-void TermUtils::pushCursorPosition() {
-    std::cout << ESCAPE_SEQUENCE << 's';
-}
-void TermUtils::popCursorPosition() {
-    std::cout << ESCAPE_SEQUENCE << 'u';
-}
-void TermUtils::setCursorPosition(unsigned int x, unsigned int y) {
-    std::cout << ESCAPE_SEQUENCE << y << ';' << x << 'H';
-}
-void TermUtils::moveCursorUp(unsigned int nb) {
-    std::cout << ESCAPE_SEQUENCE << nb << 'A';
-}
-void TermUtils::moveCursorDown(unsigned int nb) {
-    std::cout << ESCAPE_SEQUENCE << nb << 'B';
-}
-void TermUtils::moveCursorLeft(unsigned int nb) {
-    std::cout << ESCAPE_SEQUENCE << nb << 'D';
-}
-void TermUtils::moveCursorRight(unsigned int nb) {
-    std::cout << ESCAPE_SEQUENCE << nb << 'C';
-}
-
 void TermUtils::setRawInput(bool isRaw) {
     termios settings;
 
@@ -48,3 +20,34 @@ void TermUtils::setRawInput(bool isRaw) {
     // Apply new settings
     tcsetattr(STDIN_FILENO, TCSANOW, &settings);
 }
+
+// Manipulators without args
+ostream& saveCursorPosition(ostream& os) { return os << TermUtils::ESCAPE_SEQUENCE << 's'; }
+ostream& restoreCursorPosition(ostream& os) { return os << TermUtils::ESCAPE_SEQUENCE << 's'; }
+ostream& clear(ostream& os) { return os << ClearManip(true); }
+ostream& cursorUp(ostream& os) { return os << CursorMoveManip(1, 'A'); }
+ostream& cursorDown(ostream& os) { return os << CursorMoveManip(1, 'B'); }
+ostream& cursorLeft(ostream& os) { return os << CursorMoveManip(1, 'D'); }
+ostream& cursorRight(ostream& os) { return os << CursorMoveManip(1, 'C'); }
+
+ostream& operator<<(ostream& os, const ClearManip& m) {
+    os << TermUtils::ESCAPE_SEQUENCE << 2 << 'J';
+    if(m.resetPosition) {
+        os << cursorPosition(1, 1);
+    }
+    return os;
+}
+ClearManip clear(bool resetPos) { return ClearManip(resetPos); }
+
+ostream& operator<<(ostream& os, const CursorMoveManip& m) {
+    return os << TermUtils::ESCAPE_SEQUENCE << m.nb << m.c;
+}
+CursorMoveManip cursorUp(unsigned int nb = 1) { return CursorMoveManip(nb, 'A'); }
+CursorMoveManip cursorDown(unsigned int nb = 1) { return CursorMoveManip(nb, 'B'); }
+CursorMoveManip cursorLeft(unsigned int nb = 1) { return CursorMoveManip(nb, 'D'); }
+CursorMoveManip cursorRight(unsigned int nb = 1) { return CursorMoveManip(nb, 'C'); }
+
+ostream& operator<<(ostream& os, const CursorSetPosManip& m) {
+    return os << TermUtils::ESCAPE_SEQUENCE << m.y << ';' << m.x << 'H';
+}
+CursorSetPosManip cursorPosition(unsigned int x, unsigned int y) { return CursorSetPosManip(x, y); }

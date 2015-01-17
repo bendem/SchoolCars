@@ -28,9 +28,10 @@ Menu<T>::Menu(const Menu<T>& param) {
 
 template<class T>
 MenuEntry<T> Menu<T>::chooseWithArrows() {
-    TermUtils::pushCursorPosition();
-    TermUtils::moveCursorUp(this->entries.size() + 1);
-    TermUtils::moveCursorRight(2);
+    cout
+        << saveCursorPosition
+        << cursorUp(this->entries.size() + 1)
+        << cursorRight(2);
     TermUtils::setRawInput(true);
 
     // First, let's get the first and last items in the menu
@@ -73,20 +74,20 @@ MenuEntry<T> Menu<T>::chooseWithArrows() {
             case TermUtils::ARROW_UP:
                 // Prevents going before the first menu entry
                 if(selection != first) {
-                    TermUtils::moveCursorUp();
+                    cout << cursorUp;
                     // Skip menu separators
                     while(!this->entries.get(--selection).hasMethod()) {
-                        TermUtils::moveCursorUp();
+                        cout << cursorUp;
                     }
                 }
                 break;
             case TermUtils::ARROW_DOWN:
                 // Prevents going after the last menu entry
                 if(selection != last) {
-                    TermUtils::moveCursorDown();
+                    cout << cursorDown;
                     // Skip menu separators
                     while(!this->entries.get(++selection).hasMethod()) {
-                        TermUtils::moveCursorDown();
+                        cout << cursorDown;
                     }
                 }
                 break;
@@ -95,7 +96,7 @@ MenuEntry<T> Menu<T>::chooseWithArrows() {
 
     // Reset the poor terminal
     TermUtils::setRawInput(false);
-    TermUtils::popCursorPosition();
+    cout << restoreCursorPosition;
 
     return this->entries.get(selection);
 }
@@ -131,8 +132,7 @@ Menu<T>& Menu<T>::addEntry(const String& id, const String& text, void(T::*method
 
 template<class T>
 void Menu<T>::display() const {
-    TermUtils::clearScreen();
-    cout << this->title;
+    cout << clear << this->title;
 
     ConstIterator< MenuEntry<T> > it(this->entries);
     while(!it.end()) {
@@ -146,11 +146,11 @@ void Menu<T>::choose(T& object) {
     MenuEntry<T> entry = this->useArrows
             ? this->chooseWithArrows()
             : this->chooseWithTyping();
-    TermUtils::clearScreen();
     cout
-            << endl
-            << "    " << entry.getText() << endl
-            << "   " << String('=', entry.getText().length()+2) << endl << endl;
+        << clear
+        << endl
+        << "    " << entry.getText() << endl
+        << "   " << String('=', entry.getText().length()+2) << endl << endl;
     entry.callMethod(object);
 }
 
