@@ -10,7 +10,7 @@ Menu<T>::Menu(const String& title, bool useArrows) {
     ss << "    " << String('=', width) << endl
         << "    ="
         << String(' ', (width - title.length()) / 2 - 1)
-        << title
+        << blue << title << reset
         << String(' ', (width - title.length()) / 2 - (title.length() % 2 ? 0 : 1))
         << "="
         << endl
@@ -149,7 +149,7 @@ void Menu<T>::choose(T& object) {
     cout
         << clear
         << endl
-        << "    " << entry.getText() << endl
+        << "    " << blue << entry.getText() << reset << endl
         << "   " << String('=', entry.getText().length()+2) << endl << endl;
     entry.callMethod(object);
 }

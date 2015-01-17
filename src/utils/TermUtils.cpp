@@ -22,13 +22,22 @@ void TermUtils::setRawInput(bool isRaw) {
 }
 
 // Manipulators without args
-ostream& saveCursorPosition(ostream& os) { return os << TermUtils::ESCAPE_SEQUENCE << 's'; }
+ostream& saveCursorPosition(ostream& os)    { return os << TermUtils::ESCAPE_SEQUENCE << 's'; }
 ostream& restoreCursorPosition(ostream& os) { return os << TermUtils::ESCAPE_SEQUENCE << 's'; }
 ostream& clear(ostream& os) { return os << ClearManip(true); }
-ostream& cursorUp(ostream& os) { return os << CursorMoveManip(1, 'A'); }
-ostream& cursorDown(ostream& os) { return os << CursorMoveManip(1, 'B'); }
-ostream& cursorLeft(ostream& os) { return os << CursorMoveManip(1, 'D'); }
+ostream& cursorUp(ostream& os)    { return os << CursorMoveManip(1, 'A'); }
+ostream& cursorDown(ostream& os)  { return os << CursorMoveManip(1, 'B'); }
+ostream& cursorLeft(ostream& os)  { return os << CursorMoveManip(1, 'D'); }
 ostream& cursorRight(ostream& os) { return os << CursorMoveManip(1, 'C'); }
+ostream& black(ostream& os)   { return os << TermUtils::ESCAPE_SEQUENCE << "30m"; }
+ostream& red(ostream& os)     { return os << TermUtils::ESCAPE_SEQUENCE << "31m"; }
+ostream& green(ostream& os)   { return os << TermUtils::ESCAPE_SEQUENCE << "32m"; }
+ostream& yellow(ostream& os)  { return os << TermUtils::ESCAPE_SEQUENCE << "33m"; }
+ostream& blue(ostream& os)    { return os << TermUtils::ESCAPE_SEQUENCE << "34m"; }
+ostream& magenta(ostream& os) { return os << TermUtils::ESCAPE_SEQUENCE << "35m"; }
+ostream& cyan(ostream& os)    { return os << TermUtils::ESCAPE_SEQUENCE << "36m"; }
+ostream& white(ostream& os)   { return os << TermUtils::ESCAPE_SEQUENCE << "37m"; }
+ostream& reset(ostream& os)   { return os << TermUtils::ESCAPE_SEQUENCE << "0m"; }
 
 ostream& operator<<(ostream& os, const ClearManip& m) {
     os << TermUtils::ESCAPE_SEQUENCE << 2 << 'J';

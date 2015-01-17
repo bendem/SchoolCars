@@ -89,7 +89,7 @@ int main(int argc, char** argv) {
     while(!app.login(login, password)) {
         cout << " > Bad login, try again..." << endl << endl;
     }
-    cout << endl << endl << " > Welcome " << app.getCurrentUser().getFirstname() << "!" << endl;
+    cout << endl << endl << " > Welcome " << green << app.getCurrentUser().getFirstname() << reset << "!" << endl;
     {
         cout << endl << " > Press <ENTER> to continue";
         String throwItOnTheGround;

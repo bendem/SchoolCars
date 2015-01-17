@@ -31,10 +31,20 @@ public:
 ostream& saveCursorPosition(ostream&);
 ostream& restoreCursorPosition(ostream&);
 ostream& clear(ostream&);
-ostream& cursorUp(ostream& );
-ostream& cursorDown(ostream& );
-ostream& cursorLeft(ostream& );
-ostream& cursorRight(ostream& );
+ostream& cursorUp(ostream&);
+ostream& cursorDown(ostream&);
+ostream& cursorLeft(ostream&);
+ostream& cursorRight(ostream&);
+// Colors
+ostream& black(ostream&);
+ostream& red(ostream&);
+ostream& green(ostream&);
+ostream& yellow(ostream&);
+ostream& blue(ostream&);
+ostream& magenta(ostream&);
+ostream& cyan(ostream&);
+ostream& white(ostream&);
+ostream& reset(ostream&);
 
 // Manipulators with args
 class ClearManip {

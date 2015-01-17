@@ -4,6 +4,7 @@
 #include <sstream>
 
 #include "utils/String.hpp"
+#include "utils/TermUtils.hpp"
 
 /**
  * Represents an entry for a Menu.

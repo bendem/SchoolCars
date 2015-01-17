@@ -19,7 +19,7 @@ String MenuEntry<T>::toString() const {
     ostringstream os;
     os << "  ";
     if(this->method) {
-        os << "  " << this->id << '.';
+        os << "  " << yellow << this->id << reset << '.';
     } else {
         os << String(this->id, 5);
     }
