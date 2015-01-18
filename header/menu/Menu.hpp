@@ -19,6 +19,7 @@ private:
     bool useArrows;
     String title;
     List< MenuEntry<T> > entries;
+    unsigned int lastSelection;
 
     MenuEntry<T> chooseWithArrows();
     MenuEntry<T> chooseWithTyping();

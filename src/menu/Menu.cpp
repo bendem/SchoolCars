@@ -18,19 +18,22 @@ Menu<T>::Menu(const String& title, bool useArrows) {
 
     this->title = ss.str();
     this->useArrows = useArrows;
+    this->lastSelection = 0;
 }
 
 template<class T>
 Menu<T>::Menu(const Menu<T>& param) {
     this->title = param.title;
     this->entries = List< MenuEntry<T> >(param.entries);
+    this->useArrows = param.useArrows;
+    this->lastSelection = param.lastSelection;
 }
 
 template<class T>
 MenuEntry<T> Menu<T>::chooseWithArrows() {
     cout
         << saveCursorPosition
-        << cursorUp(this->entries.size() + 1)
+        << cursorUp(this->entries.size() + 1 - this->lastSelection)
         << cursorRight(2);
     TermUtils::setRawInput(true);
 
@@ -54,7 +57,7 @@ MenuEntry<T> Menu<T>::chooseWithArrows() {
     Sanity::truthness(first != last && last != 0, "No selectable entry on this menu");
 
     // Now let's get the selection
-    unsigned int selection = first;
+    unsigned int selection = this->lastSelection == 0 ? first : this->lastSelection;
     while(true) {
         int c = getchar();
         if(c == TermUtils::ENTER) {
@@ -98,6 +101,7 @@ MenuEntry<T> Menu<T>::chooseWithArrows() {
     TermUtils::setRawInput(false);
     cout << restoreCursorPosition;
 
+    this->lastSelection = selection;
     return this->entries.get(selection);
 }
 
