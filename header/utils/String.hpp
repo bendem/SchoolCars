@@ -93,9 +93,14 @@ public:
     String toLower() const;
 
     /**
+     * Replaces the first occurence of the String with the provided replacement.
+     */
+    String replaceFirst(const String&, const String&) const;
+
+    /**
      * Replaces all the occurences of the String with the provided replacement.
      */
-    String& replace(const String&, const String&);
+    String replace(const String&, const String&) const;
 
     /**
      * Returns the index of the first occurence of the provided String in this one or -1 if not found.
