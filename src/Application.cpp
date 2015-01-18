@@ -591,7 +591,12 @@ void Application::applyDiscountToCurrentCar() {
     cin >> input;
 
     try {
-        --this->currentCar->getOption(input);
+        Option& option = this->currentCar->getOption(input);
+        if(option.getPrice() == 0) {
+            cout << " > Option is already free, we ain't going lower..." << endl;
+            return;
+        }
+        --option;
     } catch(ElementNotFoundException e) {
         cout << " > The car doesn't have this option" << endl;
         return;
@@ -735,6 +740,10 @@ void Application::modifyContract() {
                     discount = input.toFloat();
                 } catch(invalid_argument e) {
                     cout << " > " << e.what() << endl;
+                    continue;
+                }
+                if(discount >= opt.get().getCar().getModel().getBaseCost()) {
+                    cout << " > Discount is greater than the car price, we're not paying you to get a car ._." << endl;
                     continue;
                 }
                 opt.get().setDiscount(discount);
