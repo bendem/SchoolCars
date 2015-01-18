@@ -606,6 +606,10 @@ void Application::saveCurrentCar() {
         return;
     }
     this->currentCar->save();
+    Optional<Contract> opt = this->contracts.getFirstMatching(NamePredicate(this->currentCar->getName()));
+    if(opt.hasValue()) {
+        opt.get().setCar(*this->currentCar);
+    }
     cout << " > Car saved" << endl;
     this->carDirty = false;
 }

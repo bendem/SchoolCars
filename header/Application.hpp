@@ -22,6 +22,7 @@
 #include "predicates/CodePredicate.hpp"
 #include "predicates/FirstnamePredicate.hpp"
 #include "predicates/IdPredicate.hpp"
+#include "predicates/NamePredicate.hpp"
 #include "table/Table.hpp"
 #include "utils/Logging.hpp"
 #include "utils/StreamUtils.hpp"
