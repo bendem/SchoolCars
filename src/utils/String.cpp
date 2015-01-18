@@ -219,7 +219,7 @@ int String::toInt() const {
     }
 
     if(*s == END_OF_STRING) {
-        throw invalid_argument("sign character only");
+        throw invalid_argument("invalid integer, sign character only");
     }
 
     int result = 0;
@@ -245,7 +245,7 @@ unsigned int String::toUnsignedInt() const {
     }
 
     if(*s == END_OF_STRING) {
-        throw invalid_argument("sign character only");
+        throw invalid_argument("invalid integer, sign character only");
     }
 
     unsigned int result = 0;
@@ -275,13 +275,13 @@ float String::toFloat() const {
     }
 
     if(*s == END_OF_STRING) {
-        throw invalid_argument("sign character only");
+        throw invalid_argument("not a valid float, sign character only");
     }
 
     while(*s) {
         if(*s == '.') {
             if(dec) {
-                throw invalid_argument("multiple points");
+                throw invalid_argument("not a valid float, multiple points found");
             }
             dec = true;
             ++s;
@@ -289,7 +289,7 @@ float String::toFloat() const {
         }
 
         if(*s < '0' || *s > '9') {
-            throw invalid_argument("the String is not an integer");
+            throw invalid_argument("not a valid float, found non decimal characters");
         }
 
         if(dec) {
