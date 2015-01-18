@@ -332,11 +332,11 @@ void Application::displayContract() {
 
 void Application::displaySellerContracts() {
     String name;
-    cout << "    Enter the seller name: ";
+    cout << "    Enter the seller login: "; // Should be firstname (as per teacher's instructions)
     cin >> name;
 
-    // TODO Firstname isn't unique, maybe we should list them all?
-    Optional<Employee> optEmployee = this->users.getFirstMatching(FirstnamePredicate(name));
+    // Should use FirstnamePredicate, but firstname isn't unique, maybe we should list them all?
+    Optional<Employee> optEmployee = this->users.getFirstMatching(LoginPredicate(name));
     if(!optEmployee.hasValue()) {
         cout << " > There is no seller with this name" << endl;
         return;
