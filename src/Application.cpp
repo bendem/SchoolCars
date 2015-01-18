@@ -312,11 +312,11 @@ void Application::displayContracts() {
 
 void Application::displayContract() {
     String input;
-    int id;
+    unsigned int id;
     cout << "    Enter the id of the contract: ";
     cin >> input;
     try {
-        id = input.toInt();
+        id = input.toUnsignedInt();
     } catch(invalid_argument e) {
         cout << " > Not a valid integer" << endl;
         return;
@@ -636,6 +636,8 @@ void Application::newContract() {
     Car car;
     if(this->currentCar && this->currentCar->getName() == carName) {
         car = *this->currentCar;
+        // If the car was never saved before, the contract could be linked to a non existing car
+        this->currentCar->save();
     } else {
         try {
             car.load(DATA_FOLDER + carName + ".car");
