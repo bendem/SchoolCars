@@ -41,9 +41,11 @@ bool Authenticator::login(List<Employee>& users) {
         String confirmation;
         while(true) {
             cout << endl << "    404 password not found, enter a new one: ";
+            TermUtils::setEchoInput(false);
             cin >> newPassword;
             cout << "    Confirm your password: ";
             cin >> confirmation;
+            TermUtils::setEchoInput(true);
             if(newPassword != confirmation) {
                 cout << " > Passwords don't match, try again" << endl;
                 continue;
@@ -124,7 +126,7 @@ void Authenticator::resetPassword(List<Employee>& users) {
     Optional<Employee> opt = users.getFirstMatching(LoginPredicate(username));
     if(opt.hasValue()) {
         opt.get().resetPassword();
-        cout << " > " << username << "'s password has been reset" << username << endl;
+        cout << " > " << username << "'s password has been reset" << endl;
     } else {
         cout << " > User not found :(" << endl;
     }
