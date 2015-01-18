@@ -26,6 +26,7 @@
 #include "table/Table.hpp"
 #include "utils/Logging.hpp"
 #include "utils/StreamUtils.hpp"
+#include "utils/TermUtils.hpp"
 
 using namespace std;
 

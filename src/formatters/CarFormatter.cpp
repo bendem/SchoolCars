@@ -2,14 +2,15 @@
 
 String CarFormatter::format(unsigned int tabs) const {
     String tab(' ', tabs);
-    stringstream ss;
-    String title("= Car project '");
-    title += this->obj.getName() + "' =";
+    ostringstream ss;
+    ostringstream titlestream;
+    titlestream << "= Car project '" << green << this->obj.getName() << reset << "' =";
+    String title = titlestream.str();
 
     ss
-        << tab << String('=', title.length()) << endl
+        << tab << String('=', title.length() - 9) << endl // -4 for reset, -5 for the color
         << tab << title << endl
-        << tab << String('=', title.length()) << endl << endl
+        << tab << String('=', title.length() - 9) << endl << endl
         << tab << "Price:      " << this->obj.getPrice() << " EUR" << endl << endl
         << tab << "Model" << endl
         << tab << "| Name:     " << this->obj.getModel().getName() << endl

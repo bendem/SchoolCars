@@ -6,7 +6,7 @@ String EmployeeFormatter::format(unsigned int tabs) const {
 
     ss
         << tab << String('=', this->obj.getLogin().length() + 4) << endl
-        << tab << "= " << this->obj.getLogin() << " =" << endl
+        << tab << "= " << green << this->obj.getLogin() << reset << " =" << endl
         << tab << String('=', this->obj.getLogin().length() + 4) << endl << endl
         << tab << "Id:        " << this->obj.getId() << endl
         << tab << "Login:     " << this->obj.getLogin() << endl

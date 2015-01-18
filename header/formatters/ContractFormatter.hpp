@@ -4,6 +4,7 @@
 #include "Contract.hpp"
 #include "formatters/CarFormatter.hpp"
 #include "utils/Formatter.hpp"
+#include "utils/TermUtils.hpp"
 
 class ContractFormatter : public Formatter<Contract> {
 

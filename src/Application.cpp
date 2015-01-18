@@ -278,7 +278,7 @@ void Application::createUser() {
     }
 
     this->users.add(Employee(surname, firstname, ++this->userId, login, bFunc ? Employee::ADMINISTRATIVE : Employee::SELLER));
-    cout << " > User successfuly created" << endl;
+    cout << " > User " << green << login << reset << " successfuly created" << endl;
 }
 
 void Application::resetPassword() {
@@ -377,6 +377,7 @@ void Application::createClient() {
     cin >> surname;
 
     this->clients.add(Client(surname, firstname, ++this->clientId, address));
+    cout << " > Client " << green << firstname << ' ' << surname << reset << " created." << endl;
 }
 
 void Application::removeClient() {

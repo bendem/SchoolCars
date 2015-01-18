@@ -3,6 +3,7 @@
 
 #include "Employee.hpp"
 #include "utils/Formatter.hpp"
+#include "utils/TermUtils.hpp"
 
 class EmployeeFormatter : public Formatter<Employee> {
 

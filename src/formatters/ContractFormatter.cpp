@@ -6,15 +6,15 @@ String ContractFormatter::format(unsigned int tabs) const {
 
     stringstream titleStream;
     titleStream
-        << "= Contract #" << this->obj.getId()
-        << " (" << this->obj.getDate().format("%d-%m-%y") << ") =";
+        << "= Contract " << green << '#' << this->obj.getId() << reset
+        << " (" << yellow << this->obj.getDate().format("%d-%m-%y") << reset << ") =";
 
     String title = titleStream.str();
 
     ss
-        << tab << String('=', title.length()) << endl
+        << tab << String('=', title.length() - 18) << endl
         << tab << title << endl
-        << tab << String('=', title.length()) << endl << endl
+        << tab << String('=', title.length() - 18) << endl << endl
         << tab << "Seller ID: " << this->obj.getSellerId() << endl
         << tab << "Client ID: " << this->obj.getClientId() << endl
         << tab << "Car:       " << endl
