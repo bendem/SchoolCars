@@ -3,12 +3,16 @@
 
 using namespace std;
 
+void stringLengthTest();
 void stringReplaceFirstTest();
 void stringReplaceTest();
 void stringIndexOfTest();
+void stringEmptyCtorTest();
 
 int main(int /*argc*/, char** /*argv*/) {
     void (*tests[])(void) = {
+        &stringEmptyCtorTest,
+        &stringLengthTest,
         &stringIndexOfTest,
         &stringReplaceFirstTest,
         &stringReplaceTest,
@@ -16,6 +20,25 @@ int main(int /*argc*/, char** /*argv*/) {
     run(tests, sizeof(tests) / sizeof(*tests));
 
     return 0;
+}
+
+void stringEmptyCtorTest() {
+    String s;
+    assertEquals<unsigned int>(0, s.length());
+    assertTrue(s == String(""));
+    assertTrue(s == String());
+}
+
+void stringLengthTest() {
+    assertEquals<unsigned int>(0, String().length());
+    assertEquals<unsigned int>(0, String("").length());
+    assertEquals<unsigned int>(1, String("a").length());
+    assertEquals<unsigned int>(2, String("aa").length());
+    String tmp;
+    tmp = "";
+    assertEquals<unsigned int>(0, tmp.length());
+    tmp = "a";
+    assertEquals<unsigned int>(1, tmp.length());
 }
 
 void stringIndexOfTest() {

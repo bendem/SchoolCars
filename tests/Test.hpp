@@ -14,23 +14,19 @@ public:
 static int assertionCount = 0;
 
 template<class T>
-void assertEquals(const T& expected, const T& value) {
+void assertEquals(const T& expected, const T& value, const char* file = "?", int line = -1) {
     ++assertionCount;
     if(expected != value) {
         std::ostringstream ss;
-        ss << "Expected <" << expected << ">, got <" << value << "> instead";
+        ss << "Expected <" << expected << ">, got <" << value << "> instead (" << file << ':' << line << ')';
         throw AssertionFail(ss.str());
     }
 }
-template<class T, class C>
-void assertEquals(const T& expected, const T& value, const C& comparator) {
-    ++assertionCount;
-    if(comparator.equals(expected, value)) {
-        std::ostringstream ss;
-        ss << "Expected <" << expected << ">, got <" << value << "> instead";
-        throw AssertionFail(ss.str());
-    }
-}
+
+void assertTrue(bool b, const char* file, int line)  { assertEquals(true,  b, file, line); }
+void assertFalse(bool b, const char* file, int line) { assertEquals(false, b, file, line); }
+#define assertTrue(x) assertTrue((x), __FILE__, __LINE__)
+#define assertFalse(x) assertFalse((x), __FILE__, __LINE__)
 
 void run(void (*tests[])(void), unsigned int count) {
     unsigned int fails = 0;

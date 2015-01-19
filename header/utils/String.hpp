@@ -158,9 +158,14 @@ public:
     operator const char*() const { return this->str; }
 
     template<class T>
-    static String valueOf(const T& p) { stringstream ss; ss << p; return ss.str(); }
+    static String valueOf(const T&);
 
 };
+
+template<class T>
+String String::valueOf(const T& p) { stringstream ss; ss << p; return ss.str(); }
+template<>
+inline String String::valueOf<bool>(const bool& b) { return b ? "true" : "false"; }
 
 String operator+(const char*, const String&);
 ostream& operator<<(ostream&, const String&);

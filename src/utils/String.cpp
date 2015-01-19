@@ -344,10 +344,13 @@ bool String::toBool() const {
 }
 
 int String::compareTo(const String& param) const {
-    if(!this->str) {
+    if(this->isEmpty() && param.isEmpty()) {
+        return 0;
+    }
+    if(this->isEmpty()) {
         return -1;
     }
-    if(!param.str) {
+    if(param.isEmpty()) {
         return 1;
     }
     return strcmp(this->str, param.str);
