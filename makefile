@@ -26,12 +26,15 @@ SRC_DIRS:=$(sort $(rwildcard $(HDR)/*/))
 # Transform tree structure to out dir
 OUT_DIRS:=$(SRC_DIRS:$(HDR)%=$(OUT)%)
 
-.PHONY: build clean debug mkdir
+.PHONY: build clean debug mkdir test build-test
 .SILENT:
 
 build: $(OUT)/main
 
-build-tests: $(OUT)/tests/StringTest
+test: build-test
+	find $(OUT)/tests/* | bash
+
+build-test: $(OUT)/tests/StringTest
 
 $(OUT)/tests/%: tests/%.cpp $(OBJ) tests/Test.hpp
 	echo Compiling test $@...
