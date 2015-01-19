@@ -15,7 +15,7 @@ String CarFormatter::format(unsigned int tabs) const {
         << tab << "Model" << endl
         << tab << "| Name:     " << this->obj.getModel().getName() << endl
         << tab << "| BaseCost: " << this->obj.getModel().getBaseCost() << " EUR" << endl
-        << tab << "| Diesel:   " << (this->obj.getModel().isDiesel() ? "yes" : "no") << endl
+        << tab << "| Diesel:   " << String::valueOf(this->obj.getModel().isDiesel()) << endl
         << tab << "| Power:    " << this->obj.getModel().getPower() << endl
         ;
     List<Option> options(this->obj.getOptions());

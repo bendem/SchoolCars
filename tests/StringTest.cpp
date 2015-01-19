@@ -8,10 +8,16 @@ void stringReplaceFirstTest();
 void stringReplaceTest();
 void stringIndexOfTest();
 void stringEmptyCtorTest();
+void stringCharIntCtorTest();
+void stringStringIntCtorTest();
+void stringCharCtorTest();
 
 int main(int /*argc*/, char** /*argv*/) {
     void (*tests[])(void) = {
         &stringEmptyCtorTest,
+        &stringCharIntCtorTest,
+        &stringStringIntCtorTest,
+        &stringCharCtorTest,
         &stringLengthTest,
         &stringIndexOfTest,
         &stringReplaceFirstTest,
@@ -27,6 +33,31 @@ void stringEmptyCtorTest() {
     assertEquals<unsigned int>(0, s.length());
     assertTrue(s == String(""));
     assertTrue(s == String());
+    assertTrue(s.isEmpty());
+}
+
+void stringCharIntCtorTest() {
+    String empty('c', 0);
+    String ccc('c', 3);
+    assertTrue(empty.isEmpty());
+    assertEquals(String("ccc"), ccc);
+}
+
+void stringStringIntCtorTest() {
+    String empty("a", 0);
+    String ccc("c", 3);
+    String acacac("ac", 3);
+    assertTrue(empty.isEmpty());
+    assertEquals(String("ccc"), ccc);
+    assertEquals(String("acacac"), acacac);
+}
+
+void stringCharCtorTest() {
+    String a("a");
+    assertEquals(0, strcmp("a", a));
+    String ab("ab");
+    assertEquals(0, strcmp("ab", ab));
+    assertFalse(strcmp(a, ab) == 0);
 }
 
 void stringLengthTest() {
