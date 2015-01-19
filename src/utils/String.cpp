@@ -25,7 +25,7 @@ String::String(char const chr, unsigned int size) {
 }
 
 String::String(const String& str, unsigned int size) {
-    if(str.length() == 0) {
+    if(str.isEmpty()) {
         this->str = NULL;
         this->arraySize = 0;
         this->stringSize = 0;
@@ -56,7 +56,7 @@ String::String(char const *chars) {
 }
 
 String::String(const string& str) {
-    if(str.length() == 0) {
+    if(str.empty()) {
         this->str = NULL;
         this->arraySize = 0;
         this->stringSize = 0;
@@ -69,7 +69,7 @@ String::String(const string& str) {
 }
 
 String::String(const String& param) {
-    if(param.stringSize == 0) {
+    if(param.isEmpty()) {
         this->str = NULL;
         this->stringSize = 0;
         this->arraySize = 0;
@@ -138,6 +138,10 @@ unsigned int String::length() const {
     return this->stringSize;
 }
 
+bool String::isEmpty() const {
+    return this->stringSize == 0;
+}
+
 String String::toUpper() const {
     String tmp(*this);
     for(unsigned int i = 0; i < this->stringSize; ++i) {
@@ -155,16 +159,13 @@ String String::toLower() const {
 }
 
 String String::replaceFirst(const String& search, const String& replace) const {
-    if(search.length() == 0) {
-        return String(*this);
+    int index = this->indexOf(search);
+    if(index == -1) {
+        return *this;
     }
     String tmp(*this);
 
-    int index;
     int addedSize = replace.length() - search.length();
-    if ((index = this->indexOf(search)) == -1) {
-        return tmp;
-    }
     tmp.stringSize += addedSize;
     if(addedSize > 0) {
         // Move towards the end
@@ -189,20 +190,23 @@ String String::replaceFirst(const String& search, const String& replace) const {
 }
 
 String String::replace(const String& search, const String& replace) const {
-    if(search.length() == 0) {
+    if(search.indexOf(search) == -1) {
         return *this;
     }
 
     String tmp(*this);
     while(tmp.indexOf(search) != -1) {
-        tmp = this->replaceFirst(search, replace);
+        tmp = tmp.replaceFirst(search, replace);
     }
     return tmp;
 }
 
 int String::indexOf(const String& search) const {
+    if(this->isEmpty()) {
+        return -1;
+    }
     unsigned int found = 0;
-    int index;
+    unsigned int index;
     for(unsigned int i = 0; i < this->stringSize; ++i) {
         if(this->str[i] == search[found]) {
             if(found == 0) {
@@ -213,14 +217,17 @@ int String::indexOf(const String& search) const {
                 return index;
             }
         } else {
-            found = 0;
+            if(found != 0) {
+                --i;
+                found = 0;
+            }
         }
     }
     return -1;
 }
 
 int String::toInt() const {
-    if(this->length() == 0) {
+    if(this->isEmpty()) {
         throw invalid_argument("empty string");
     }
 
@@ -247,7 +254,7 @@ int String::toInt() const {
 }
 
 unsigned int String::toUnsignedInt() const {
-    if(this->length() == 0) {
+    if(this->isEmpty()) {
         throw invalid_argument("empty string");
     }
 
@@ -273,7 +280,7 @@ unsigned int String::toUnsignedInt() const {
 }
 
 float String::toFloat() const {
-    if(this->length() == 0) {
+    if(this->isEmpty()) {
         throw invalid_argument("empty String");
     }
 
@@ -392,7 +399,7 @@ String String::operator+(const String& param) const {
 }
 
 String& String::operator+=(const String& param) {
-    if(param.stringSize == 0) {
+    if(param.isEmpty()) {
         return *this;
     }
 
@@ -416,6 +423,16 @@ String& String::operator=(String param) {
 
 String& String::operator=(const char* param) {
     this->stringSize = strlen(param);
+
+    // Handle empty String
+    if(this->stringSize == 0) {
+        if(this->str) {
+            delete this->str;
+            this->arraySize = 0;
+        }
+        return *this;
+    }
+
     this->reallocate(this->stringSize + 1);
     copy(this->str, param, this->stringSize);
     return *this;
@@ -429,7 +446,7 @@ char& String::operator[](unsigned int i) {
 }
 
 ostream& operator<<(ostream& os, const String& str) {
-    if(str.length() > 0) {
+    if(!str.isEmpty()) {
         os << (const char*) str;
     }
     return os;

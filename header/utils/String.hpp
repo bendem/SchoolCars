@@ -83,6 +83,11 @@ public:
     unsigned int length() const;
 
     /**
+     * Returns wether the String is empty or not
+     */
+    bool isEmpty() const;
+
+    /**
      * Transforms the String to have all its characters uppercased.
      */
     String toUpper() const;

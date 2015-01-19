@@ -31,6 +31,12 @@ OUT_DIRS:=$(SRC_DIRS:$(HDR)%=$(OUT)%)
 
 build: $(OUT)/main
 
+build-tests: $(OUT)/tests/StringTest
+
+$(OUT)/tests/%: tests/%.cpp $(OBJ) tests/Test.hpp
+	echo Compiling test $@...
+	$(CXX) -o $@ $^
+
 $(OUT)/main: main.cpp $(OBJ)
 	echo Compiling $@...
 	$(CXX) -o $@ $^
