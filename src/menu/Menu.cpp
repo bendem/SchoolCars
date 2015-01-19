@@ -110,7 +110,7 @@ MenuEntry<T> Menu<T>::chooseWithTyping() {
     String choice;
     cout << "    Your choice: ";
     cin >> choice;
-    if(choice.length() == 0) {
+    if(choice.isEmpty()) {
         cout << " > Empty choice" << endl;
         return this->chooseWithTyping();
     }

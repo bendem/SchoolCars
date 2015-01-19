@@ -34,7 +34,7 @@ bool Authenticator::login(List<Employee>& users) {
     }
 
     // Password not set
-    if(optEmployee.get().getPassword().length() == 0) {
+    if(optEmployee.get().getPassword().isEmpty()) {
         cerr << time("Authenticator::login") << "Found user without password, logging in and asking password" << endl;
         this->currentUser = &optEmployee.get();
         String newPassword;
@@ -118,7 +118,7 @@ void Authenticator::resetPassword(List<Employee>& users) {
     String username;
     cout << "    Enter the login of the user you want to reset the pwd for: ";
     cin >> username;
-    if(username.length() == 0) {
+    if(username.isEmpty()) {
         cout << " > Bad username" << endl;
         return;
     }

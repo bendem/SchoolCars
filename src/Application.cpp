@@ -232,7 +232,7 @@ void Application::displayUsers() {
             String(it.get().getFirstname()),
             String(it.get().getSurname()),
             String(it.get().getFunction()),
-            it.get().getPassword().length() == 0 ? "<empty>" : String('*', it.get().getPassword().length())
+            it.get().getPassword().isEmpty() ? "<empty>" : String('*', it.get().getPassword().length())
         };
         table.addLine(line);
         ++it;
@@ -244,7 +244,7 @@ void Application::displayUser() {
     String username;
     cout << "    Enter the login of the user you're looking for: ";
     cin >> username;
-    if(username.length() == 0) {
+    if(username.isEmpty()) {
         cout << " > Bad username" << endl;
         return;
     }
