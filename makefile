@@ -31,7 +31,7 @@ OUT_DIRS:=$(SRC_DIRS:$(HDR)%=$(OUT)%)
 
 build: $(OUT)/main
 
-test: build-test
+test: | mkdir build-test
 	find $(OUT)/tests/* | bash
 
 build-test: $(OUT)/tests/StringTest

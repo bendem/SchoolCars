@@ -10,6 +10,9 @@ sources="src"
 out="target"
 headers="header"
 
+testOutDir = os.path.join(out, "tests")
+if not os.path.isdir(testOutDir):
+    os.makedirs(testOutDir)
 for root, dirs, files in os.walk(os.path.join(dir, headers), topdown=True):
     # Copying folder structure
     for dirname in dirs:
