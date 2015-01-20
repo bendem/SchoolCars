@@ -37,5 +37,6 @@ for root, dirs, files in os.walk(os.path.join(dir, headers), topdown=True):
         if not os.path.isfile(in_src_file):
             to_include = os.path.join(root.replace(os.path.join(dir, headers), ""), name).replace("\\", "/").strip("/")
             print("Creating %s file..." % in_src_file)
-            with open(in_src_file, "w") as f:
-                f.write('#include "%s"\n' % to_include)
+            f = open(in_src_file, "w")
+            #with open(in_src_file, "w") as f:
+            f.write('#include "%s"\n' % to_include)

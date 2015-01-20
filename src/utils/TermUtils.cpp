@@ -38,7 +38,7 @@ void TermUtils::setRawInput(bool isRaw) {
 
 // Manipulators without args
 ostream& saveCursorPosition(ostream& os)    { return os << TermUtils::ESCAPE_SEQUENCE << 's'; }
-ostream& restoreCursorPosition(ostream& os) { return os << TermUtils::ESCAPE_SEQUENCE << 's'; }
+ostream& restoreCursorPosition(ostream& os) { return os << TermUtils::ESCAPE_SEQUENCE << 'u'; }
 ostream& clear(ostream& os) { return os << ClearManip(true); }
 ostream& cursorUp(ostream& os)    { return os << CursorMoveManip(1, 'A'); }
 ostream& cursorDown(ostream& os)  { return os << CursorMoveManip(1, 'B'); }

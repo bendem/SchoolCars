@@ -4,7 +4,7 @@ Exception::Exception(const String& message) {
     this->message = message;
 }
 
-Exception::Exception(const Exception& param) {
+Exception::Exception(const Exception& param) : exception() {
     this-> message = param.message;
 }
 

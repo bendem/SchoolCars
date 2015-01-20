@@ -18,7 +18,7 @@ Date::Date(unsigned int day, unsigned int month, unsigned int year) {
     this->year = year;
 }
 
-Date::Date(const Date& param) {
+Date::Date(const Date& param) : Comparable<Date>() {
     this->day = param.day;
     this->month = param.month;
     this->year = param.year;

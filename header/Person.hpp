@@ -17,6 +17,7 @@ protected:
 public:
     Person(const String& surname = "", const String& firstname = "") : firstname(firstname), surname(surname) {}
     Person(const Person&);
+    virtual ~Person() {}
 
     const String& getFirstname() const;
     void setFirstname(const String& firstname);

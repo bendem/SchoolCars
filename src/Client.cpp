@@ -1,6 +1,6 @@
 #include "Client.hpp"
 
-Client::Client(const Client& param) : Person(param) {
+Client::Client(const Client& param) : Person(param), Comparable<Client>() {
     this->id = param.id;
     this->address = param.address;
 }

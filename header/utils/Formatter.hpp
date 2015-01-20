@@ -11,6 +11,7 @@ protected:
 
 public:
     Formatter(const T& p) : obj(p) {}
+    virtual ~Formatter() {}
     virtual String format(unsigned int indent) const = 0;
 
 };

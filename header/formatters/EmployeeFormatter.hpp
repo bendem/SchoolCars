@@ -8,7 +8,7 @@
 class EmployeeFormatter : public Formatter<Employee> {
 
 public:
-    EmployeeFormatter(const Employee& p) : Formatter(p) {}
+    EmployeeFormatter(const Employee& p) : Formatter<Employee>(p) {}
     String format(unsigned int) const;
 
 };

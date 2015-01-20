@@ -9,7 +9,7 @@
 class ContractFormatter : public Formatter<Contract> {
 
 public:
-    ContractFormatter(const Contract& p) : Formatter(p) {}
+    ContractFormatter(const Contract& p) : Formatter<Contract>(p) {}
     String format(unsigned int) const;
 
 };

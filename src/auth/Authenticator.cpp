@@ -43,7 +43,7 @@ bool Authenticator::login(List<Employee>& users) {
             cout << endl << "    404 password not found, enter a new one: ";
             TermUtils::setEchoInput(false);
             cin >> newPassword;
-            cout << "    Confirm your password: ";
+            cout << endl << "    Confirm your password: ";
             cin >> confirmation;
             TermUtils::setEchoInput(true);
             if(newPassword != confirmation) {

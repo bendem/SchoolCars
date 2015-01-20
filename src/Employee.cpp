@@ -3,7 +3,7 @@
 const String Employee::SELLER = "Vendeur";
 const String Employee::ADMINISTRATIVE = "Administratif";
 
-Employee::Employee(const Employee& param) : Person(param) {
+Employee::Employee(const Employee& param) : Person(param), Comparable<Employee>() {
     this->id = param.id;
     this->login = param.login;
     this->password = param.password;

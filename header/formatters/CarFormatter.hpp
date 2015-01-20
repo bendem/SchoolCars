@@ -9,7 +9,7 @@
 class CarFormatter : public Formatter<Car> {
 
 public:
-    CarFormatter(Car const& p) : Formatter(p) {}
+    CarFormatter(Car const& p) : Formatter<Car>(p) {}
     String format(unsigned int) const;
 
 };

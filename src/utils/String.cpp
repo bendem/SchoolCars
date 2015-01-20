@@ -68,7 +68,7 @@ String::String(const string& str) {
     copy(this->str, str.c_str(), str.length());
 }
 
-String::String(const String& param) {
+String::String(const String& param) : Comparable<String>() {
     if(param.isEmpty()) {
         this->str = NULL;
         this->stringSize = 0;

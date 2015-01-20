@@ -1,10 +1,12 @@
 #include "Car.hpp"
 
 Car::Car(String name, const Model& model) : name(name), model(model) {
+    this->options = new Option*[MAX_OPTION_COUNT];
     ArrayUtils::fill<Option*>(this->options, NULL, MAX_OPTION_COUNT);
 }
 
-Car::Car(Car const& param) : name(param.name), model(param.model) {
+Car::Car(const Car& param) : Comparable<Car>(), name(param.name), model(param.model) {
+    this->options = new Option*[MAX_OPTION_COUNT];
     for(int i = 0; i < MAX_OPTION_COUNT; ++i) {
         this->options[i] = param.options[i] ? new Option(*param.options[i]) : (Option*) NULL;
     }
@@ -16,6 +18,7 @@ Car::~Car() {
             delete this->options[i];
         }
     }
+    delete this->options;
 }
 
 void Car::display() const {

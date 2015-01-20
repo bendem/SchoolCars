@@ -22,7 +22,7 @@ class Car : public Comparable<Car> {
 private:
     String name;
     Model model;
-    Option* options[MAX_OPTION_COUNT];
+    Option** options;
 
 public:
     Car(String = "", const Model& = Model());
