@@ -1,6 +1,8 @@
 #ifndef CONTRACTFORMATTER_HPP
 #define CONTRACTFORMATTER_HPP
 
+#include <iomanip>
+
 #include "Contract.hpp"
 #include "formatters/CarFormatter.hpp"
 #include "utils/Formatter.hpp"

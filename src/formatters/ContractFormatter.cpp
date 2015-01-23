@@ -19,10 +19,10 @@ String ContractFormatter::format(unsigned int tabs) const {
         << tab << "Client ID: " << this->obj.getClientId() << endl
         << tab << "Car:       " << endl
         << CarFormatter(this->obj.getCar()).format(tabs + 4) << endl
-        << tab << "Price:     " << this->obj.getCar().getPrice() << " EUR" << endl
-        << tab << "Discount:  -" << this->obj.getDiscount() << " EUR" << endl
+        << tab << "Price     " << setw(8) << this->obj.getCar().getPrice() << " EUR" << endl
+        << tab << "Discount  -" << setw(7) << this->obj.getDiscount() << " EUR" << endl
         << tab << "-------------------------------" << endl
-        << tab << "Total:     " << this->obj.getCar().getPrice() - this->obj.getDiscount() << " EUR" << endl
+        << tab << "Total     " << setw(8) << this->obj.getCar().getPrice() - this->obj.getDiscount() << " EUR" << endl
         ;
 
     return ss.str();
